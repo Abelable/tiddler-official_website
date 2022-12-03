@@ -10,7 +10,17 @@ class RoomService extends BaseService {
   }
 
   async getMsgHistory(room_id) {
-    return await this.post(`${this.liveUrl}?r=lv/room/get-chat-message`, { room_id })
+    const { list = [] } = await this.get({ 
+      url: `${this.liveUrl}/live-stream/get-chat-message`, 
+      data: { room_id, page: 1, page_size: 100, reverse: 1, order: 'desc' }
+    }) || {}
+    list.forEach((item) => {
+      item.tag = item.tag ? JSON.parse(item.tag) : []
+    })
+    const liveChatReminder = '友情提示：直播间严谨出现违法违规，低俗血暴、吸烟醺酒、造谣诈骗等不良内容。'
+    const warnTips = { message: liveChatReminder }
+    const msgHistory = [...list, warnTips]
+    return msgHistory
   }
 }
 

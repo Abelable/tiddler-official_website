@@ -8,7 +8,6 @@
 import Vue from 'vue'
 import { mapState } from 'vuex'
 import TWebLive from 'tweblive'
-import { ROOM_STATUS_LIVE, ROOM_STATUS_PLAYBACK } from '../utils/roomStatus'
 import RoomService from '../../../service/roomService'
 
 let roomService = new RoomService()
@@ -20,8 +19,6 @@ export default {
 
   data() {
     return {
-      ROOM_STATUS_LIVE,
-      ROOM_STATUS_PLAYBACK,
       options:{
         domID: 'live-player',
         autoplay: true,
@@ -50,37 +47,26 @@ export default {
 
   mounted() {
     this.initPlayer()
-    if (this.roomInfo.status === ROOM_STATUS_LIVE) {
-      this.loginIm()
-      this.enterRoom()
-    }
+    this.loginIm()
+    this.enterRoom()
   },
 
   destroyed() {
-    if (this.roomInfo.status === ROOM_STATUS_LIVE) {
-      this.logoutIm()
-      this.exitRoom()
-    }
+    this.logoutIm()
+    this.exitRoom()
   },
 
   methods: {
     async setMsgHistory() {
-      let msgLists = await roomService.getMsgHistory(this.roomInfo.id)
-      const warnTips = { message: '平台依法对直播内容进行24小时巡查，倡导绿色直播，维护网络文明健康。切勿与他人私下交易，非官方活动谨慎参与，避免上当受骗。'}
-      if (this.roomInfo.status === ROOM_STATUS_LIVE) msgLists.push(warnTips)
-      this.$store.commit('pushCurrentMessageList', msgLists)
+      const msgList = await roomService.getMsgHistory(this.roomInfo.id)
+      this.$store.commit('pushCurrentMessageList', msgList)
     },
 
     initPlayer() {
       let m3u8, flv
-      if (this.roomInfo.status === ROOM_STATUS_LIVE) {
-        let src = this.roomInfo.definition[0].replace("rtmp", "http")
-        m3u8 = `${src}.m3u8`
-        flv = `${src}.flv`
-      } else {
-        m3u8 = this.roomInfo.definition[0]
-        flv = this.roomInfo.definition[0].replace("m3u8", "flv")
-      }
+      let src = this.roomInfo.definition[0].replace("rtmp", "http")
+      m3u8 = `${src}.m3u8`
+      flv = `${src}.flv`
       let tweblive = new TWebLive({
         SDKAppID: this.sdkAppID,
         m3u8,
