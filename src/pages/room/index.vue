@@ -32,6 +32,7 @@ export default {
       const imInfo = await roomService.getImInfo()
       this.$store.commit('setImInfo', imInfo)
     },
+
     async setRoomInfo() {
       this.roomInfo = await roomService.getRoomInfo(this.$route.query.id)
     },

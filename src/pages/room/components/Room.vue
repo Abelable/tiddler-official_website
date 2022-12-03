@@ -53,9 +53,7 @@
 </template>
 
 <script>
-import RoomService from '../../../service/roomService'
-let roomService = new RoomService()
-
+import RoomService from '@/service/roomService'
 import Player from './Player'
 import AuchorCapsule from './AuchorCapsule'
 import IntimacyCapsule from './IntimacyCapsule'
@@ -65,6 +63,8 @@ import AudienceActionTip from './AudienceActionTip'
 import Dialog from './Dialog'
 import GoodsModal from './GoodsModal'
 import SkuModal from './SkuModal'
+
+const roomService = new RoomService()
 
 export default {
   components: {
