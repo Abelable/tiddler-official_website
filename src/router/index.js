@@ -12,8 +12,8 @@ const router = new Router({
       }
     },
     {
-      name: 'room',
-      path: '/room',
+      name: 'live_play',
+      path: '/live_play',
       component: () => import('../pages/room/index'),
       meta: {
         title: '直播间',

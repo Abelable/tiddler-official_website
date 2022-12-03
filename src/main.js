@@ -7,8 +7,6 @@ import { Swipe, SwipeItem, Lazyload, Toast, Dialog, ImagePreview, Popup, List } 
 import { judgeHost } from './utils/bridge'
 import './utils/remConfig'
 import './assets/style/index.styl'
-import TimeCalibrator from './utils/timeCalibrator'
-new TimeCalibrator().setDiffTime()
 Vue.prototype.$host = judgeHost()
 Vue.config.productionTip = false
 

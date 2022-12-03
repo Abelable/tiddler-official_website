@@ -21,7 +21,7 @@ export default {
   },
 
   created() {
-    this.setRedPacketInfo()
+    // this.setRedPacketInfo()
   },
 
   methods: {

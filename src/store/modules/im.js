@@ -21,12 +21,12 @@ const user = {
       state.isSDKReady = typeof isSDKReady === 'undefined' ? !state.isSDKReady : isSDKReady
     },
     setImInfo(state, imInfo) {
-      let { userID, userSig, sdkAppID, userName, userAvatar } = imInfo
-      state.userID = userID
-      state.userSig = userSig
-      state.sdkAppID = sdkAppID
-      state.userName = userName
-      state.userAvatar = userAvatar
+      const { app_id, user_id, user_sig, user_name, user_avatar } = imInfo
+      state.sdkAppID = +app_id
+      state.userID = `${user_id}`
+      state.userSig = user_sig
+      state.userName = user_name
+      state.userAvatar = user_avatar
     },
     pushCurrentMessageList(state, data) {
       if (Array.isArray(data)) {

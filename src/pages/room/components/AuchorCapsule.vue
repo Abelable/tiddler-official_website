@@ -1,14 +1,14 @@
 <template>
   <div class="anchor-capsule" @click.stop="showAnchorModal">
-    <img class="anchor-avatar" :src="roomInfo.anchorAvatar" >
+    <img class="anchor-avatar" :src="roomInfo.userInfo.head_img" >
     <div class="anchor-capsule-content">
-      <div class="anchor-name">{{roomInfo.anchorName | sliceStr}}</div>
+      <div class="anchor-name">{{roomInfo.userInfo.head_img | sliceStr}}</div>
       <div>
-        <span>{{roomInfo.audienceCount}}人 </span>
+        <span>{{roomInfo.user_watch_num}}人 </span>
         <span v-if="roomInfo.position">{{'| ' + roomInfo.position | sliceStr}}</span>
       </div>
     </div>
-    <div class="follow-icon" v-if="!roomInfo.isFollow" @click.stop="toggleFollow">关注</div>
+    <div class="follow-icon" v-if="!roomInfo.is_follow" @click.stop="toggleFollow">关注</div>
   </div>
 </template>
 

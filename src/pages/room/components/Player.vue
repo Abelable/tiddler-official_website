@@ -41,11 +41,8 @@ export default {
     })
   },
 
-  async created() {
-    await this.setMsgHistory()
-  },
-
   mounted() {
+    this.setMsgHistory()
     this.initPlayer()
     this.loginIm()
     this.enterRoom()
@@ -64,7 +61,7 @@ export default {
 
     initPlayer() {
       let m3u8, flv
-      let src = this.roomInfo.definition[0].replace("rtmp", "http")
+      let src = this.roomInfo.url.replace("rtmp", "http")
       m3u8 = `${src}.m3u8`
       flv = `${src}.flv`
       let tweblive = new TWebLive({
@@ -120,11 +117,11 @@ export default {
     },
 
     enterRoom() {
-      this.tweblive.enterRoom(this.roomInfo.groupId)
+      this.tweblive.enterRoom(this.roomInfo.group_id)
     },
 
     exitRoom() {
-      this.tweblive.exitRoom(this.roomInfo.groupId)
+      this.tweblive.exitRoom(this.roomInfo.group_id)
     }
   }
 }

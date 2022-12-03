@@ -25,15 +25,8 @@ export default {
     }
   },
 
-  created() {
-    this.setShowcaseList()
-  },
 
   methods: {
-    async setShowcaseList() {
-      this.showcaseList = await roomService.getShowcase(this.roomId)
-    },
-
     showSkuModal(id) {
       this.$emit('showSkuModal', id)
     }

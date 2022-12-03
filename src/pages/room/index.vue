@@ -1,7 +1,7 @@
 <template>
   <div class="container">
-    <img class="bg" v-lazy="item.cover + '?x-oss-process=image/resize,w_10'">
-    <Room :roomInfo="roomInfo" />
+    <img class="bg" v-if="roomInfo" v-lazy="roomInfo.cover + '?x-oss-process=image/resize,w_10'">
+    <Room v-if="roomInfo" :roomInfo="roomInfo" />
   </div>
 </template>
 
@@ -23,7 +23,7 @@ export default {
   },
 
   async created() {
-    await this.setImInfo()
+    this.setImInfo()
     this.setRoomInfo()
   },
 

@@ -101,16 +101,7 @@ export default {
     }
   },
 
-  created() {
-    this.updateGoods()
-  },
-
   methods: {
-    async updateGoods() {
-      let { goods } = await roomService.getGoodsList(this.roomInfo.id)
-      this.goodsList = goods
-    },
-
     showGoodsModal() {
       this.goodsModalVisible = true
       this.toggleSwipeTouchable(false)

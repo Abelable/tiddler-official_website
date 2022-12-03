@@ -40,7 +40,7 @@ class Base {
 
     if (res) {
       if ([200, 201, 204].includes(res.status)) {
-        if (res.data.code === 1001) {
+        if ([200, 1001].includes(res.data.code)) {
           return res.data.data
         } else {
           Toast(res.data.message)
