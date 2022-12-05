@@ -23,7 +23,7 @@ export default {
   },
 
   async created() {
-    this.setImInfo()
+    await this.setImInfo()
     this.setRoomInfo()
   },
 
@@ -43,13 +43,12 @@ export default {
 <style lang="stylus" scoped>
 .container
   position relative
-  overflow hidden
   .bg
     position absolute
     top 0
     left 0
-    width 100%
-    height 100%
+    width 100vw
+    height 100vh
     filter blur(20px)
     transform scale(1.2)
     z-index -1  

@@ -1,18 +1,35 @@
 <template>
   <div class="container" :class="{ horizontal: roomInfo.isHorizontal, connectting: roomInfo.isConnectting }">
-    <div class="player" id="live-player"></div>
+    <!-- <video class="player" autoplay>
+      <source :src="`${roomInfo.url.replace('rtmp', 'https')}.m3u8`" type="application/x-mpegURL">
+    </video> -->
+    <LivePlayer 
+      class="player" 
+      :videoUrl="`${roomInfo.url.replace('rtmp', 'https')}.m3u8`" 
+      aspect='fullscreen' 
+      :controls="false"
+      fluent 
+      autoplay 
+      live 
+      hide-big-play-button
+    />
   </div>
 </template>
 
 <script>
+import LivePlayer from '@liveqing/liveplayer'
 import Vue from 'vue'
 import { mapState } from 'vuex'
-import TWebLive from 'tweblive'
+// import TWebLive from 'tweblive'
 import RoomService from '../../../service/roomService'
 
 let roomService = new RoomService()
 
 export default {
+  components: {
+    LivePlayer,
+  },
+
   props: {
     roomInfo: Object
   },
@@ -42,10 +59,10 @@ export default {
   },
 
   mounted() {
-    this.setMsgHistory()
-    this.initPlayer()
-    this.loginIm()
-    this.enterRoom()
+    // this.setMsgHistory()
+    // this.initPlayer()
+    // this.loginIm()
+    // this.enterRoom()
   },
 
   destroyed() {
@@ -54,32 +71,43 @@ export default {
   },
 
   methods: {
+    onMessage(e) {
+      console.log(e)
+    },
     async setMsgHistory() {
       const msgList = await roomService.getMsgHistory(this.roomInfo.id)
       this.$store.commit('pushCurrentMessageList', msgList)
     },
 
     initPlayer() {
-      let m3u8, flv
-      let src = this.roomInfo.url.replace("rtmp", "http")
-      m3u8 = `${src}.m3u8`
-      flv = `${src}.flv`
-      let tweblive = new TWebLive({
-        SDKAppID: this.sdkAppID,
-        m3u8,
-        flv,
-        ...this.options
-      })
-      this.tweblive = tweblive
-      Vue.prototype.tweblive = tweblive
+      // const player = TWebLive.createPlayer()
+      // player.setCustomConfig({
+      //   autoplay: true
+      // })
+      // player.setRenderView({ elementID: 'live-player' })
+      // const flv = encodeURIComponent(`${this.roomInfo.url.replace('rtmp', 'https')}.flv`)
+      // const hls = encodeURIComponent(`${this.roomInfo.url.replace('rtmp', 'https')}.m3u8`)
+      // player.startPlay(`https://flv=${flv}&hls=${hls}`).then(() => {
+      //   console.log('player | startPlay | ok');
+      // }).catch((error) => {
+      //   console.error('player | startPlay | failed', error);
+      // })
+
+      // let tweblive = new TWebLive({
+      //   SDKAppID: this.sdkAppID,
+      //   flv: this.roomInfo.url,
+      //   ...this.options
+      // })
+      // this.tweblive = tweblive
+      // Vue.prototype.tweblive = tweblive
     },
 
     loginIm() {
-      this.tweblive.login({ userID: this.userID, userSig: this.userSig }).then(() => {
-        this.$store.commit('toggleIsLogin', true)
-      })
-      this.tweblive.on(TWebLive.EVENT.IM_READY, this.onIMReady)
-      this.tweblive.on(TWebLive.EVENT.TEXT_MESSAGE_RECEIVED, this.onTextMessageReceived)
+      // this.tweblive.login({ userID: this.userID, userSig: this.userSig }).then(() => {
+      //   this.$store.commit('toggleIsLogin', true)
+      // })
+      // this.tweblive.on(TWebLive.EVENT.IM_READY, this.onIMReady)
+      // this.tweblive.on(TWebLive.EVENT.TEXT_MESSAGE_RECEIVED, this.onTextMessageReceived)
     },
 
     onIMReady() {
@@ -111,8 +139,8 @@ export default {
       this.tweblive.logout().then(() => {
         this.$store.commit('toggleIsLogin', false)
       })
-      this.tweblive.off(TWebLive.EVENT.IM_READY, this.onIMReady)
-      this.tweblive.off(TWebLive.EVENT.TEXT_MESSAGE_RECEIVED, this.onTextMessageReceived)
+      // this.tweblive.off(TWebLive.EVENT.IM_READY, this.onIMReady)
+      // this.tweblive.off(TWebLive.EVENT.TEXT_MESSAGE_RECEIVED, this.onTextMessageReceived)
       this.$store.commit('reset')
     },
 
@@ -131,15 +159,14 @@ export default {
 .container
   position absolute
   top 0
-  left 0
-  width 100%
+  left 50%
+  transform: translateX(-50%)
+  width 124vw
   height 100vh
   &.horizontal
     top 2.3rem
+    width 100vw
     height 4.26rem
-  &.connectting
-    top 2.3rem
-    height 6.5rem
   .player
     width 100%
     height 100%

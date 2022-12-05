@@ -2,53 +2,53 @@
   <div class="room-wrap" @click="hideModal">
     <Player :roomInfo="roomInfo" />
     <div class="top-part">
-      <div class="top-part-left">
+      <div class="row center between">
         <AuchorCapsule :roomInfo="roomInfo" />
-        <IntimacyCapsule :roomInfo="roomInfo" />
-        <Showcase :roomId="roomInfo.id" @showSkuModal="showSkuModal"/>
-      </div>
-      <div class="top-part-rigit">
-        <div class="room-id-capsule">
-          <div class="brand">有播ID</div>
-          <div>{{roomInfo.id}}</div>
+        <div class="user-count-wrap" @click.stop="roomInfo.type_name ? 'showUsersManagementPopup' : ''">
+          <img class="users-icon" src="../../../assets/images/live/user.png" >
+          <div class="user-count">{{0}}</div>
         </div>
-        <RebPacket :roomId="roomInfo.id" />
+      </div>
+      <div class="row between">
+        <div class="recommend-goods">
+          <div class="recommend-goods-title">热门推荐</div>
+          <img class="recommend-goods-pic" src="" >
+        </div>
+        <div class="rolling-caption">
+          <div class="rolling-caption-content-wrap">
+            <div class="rolling-caption-content">这里是公告</div>
+          </div>
+          <img class="open-arrow" src="../../../assets/images/live/open-arrow.png" >
+        </div>
       </div>
     </div>
+
+    <div class="shortcut-btns">
+      <img class="shortcut-btn" src="../../../assets/images/live/refresh.png" >
+      <img class="shortcut-btn" src="../../../assets/images/live/short.png" >
+      <img class="shortcut-btn" src="../../../assets/images/live/users.png" >
+      <img class="shortcut-btn" src="../../../assets/images/live/add-user-icon.png" >
+      <img class="shortcut-btn" src="../../../assets/images/live/animation.png" >
+    </div>
+
     <div class="bottom-part">
       <AudienceActionTip />
       <Dialog :roomId="roomInfo.id" :fansName="roomInfo.fansName" @toggleSwipeTouchable="toggleSwipeTouchable" />
       <div class="interactive-area">
-        <div class="goods-bag-wrap" @click.stop="showGoodsModal">
-          <img class="goods-bag" src="../../../assets/images/goods-bag.png" >
-          <div class="icon-desc">宝贝库</div>
-          <div class="goods-count">{{goodsList.length}}</div>
+        <div class="chat-btn" catchtap="showInputModal">
+          <img class="ban-icon" src="../../../assets/images/live/ban.png" >
+          <div>说点什么......</div>
         </div>
-        <input class="chat-input" type="text" placeholder="跟主播聊点什么？">
         <div class="btns">
-          <div class="btn" @click.stop="toggleFeaturesPop">
-            <img style="width: .46rem; height: .46rem;" src="../../../assets/images/more-features-icon.png">
-            <div class="icon-desc">更多</div>
-            <div class="features-pop" v-if="featuresPopVisible">
-              <div class="features-tip" @click.stop="report">举报</div>
-              <div class="features-tip" @click.stop="showDefinitionModal">清晰度</div>
-              <div class="features-tip" @click.stop="showDownloadModal">下载APP</div>
-            </div>
-          </div>
-          <div class="btn" @click.stop="showPosterModal">
-            <img style="width: .46rem; height: .46rem;" src="../../../assets/images/share-icon.png">
-            <div class="icon-desc">分享</div>
-          </div>
-          <div class="btn" ontap="clickHandler">
-            <img style="width: .46rem; height: .46rem;" src="../../../assets/images/praise-icon.png">
-            <div class="icon-desc">点赞</div>
-            <div class="praise-count" v-if="praiseCount">{{praiseCount | numOverflow}}</div>
+          <img class="btn" src="../../../assets/images/live/cart.png" >
+          <img class="btn" src="https://img.ubo.vip/mp/sass/live-push/share.png" >
+          <div class="btn">
+            <img class="icon" src="https://img.ubo.vip/mp/index/room/praise-icon.png" >
+            <div class="praise-count">1</div>
           </div>
         </div>
       </div>
     </div>
-    <GoodsModal :goodsList="goodsList" :show="goodsModalVisible" @showSkuModal="showSkuModal" />
-    <SkuModal :show="skuModalVisible" :goodsInfo="skuGoodsInfo" :roomId="roomInfo.id" :groupId="roomInfo.groupId" @hideSkuModal="hideSkuModal"/>
   </div>
 </template>
 
@@ -56,13 +56,8 @@
 import RoomService from '@/service/roomService'
 import Player from './Player'
 import AuchorCapsule from './AuchorCapsule'
-import IntimacyCapsule from './IntimacyCapsule'
-import Showcase from './Showcase'
-import RebPacket from './RebPacket'
 import AudienceActionTip from './AudienceActionTip'
 import Dialog from './Dialog'
-import GoodsModal from './GoodsModal'
-import SkuModal from './SkuModal'
 
 const roomService = new RoomService()
 
@@ -70,13 +65,8 @@ export default {
   components: {
     Player,
     AuchorCapsule,
-    IntimacyCapsule,
-    Showcase,
-    RebPacket,
     AudienceActionTip,
     Dialog,
-    GoodsModal,
-    SkuModal
   },
 
   props: {
@@ -102,18 +92,6 @@ export default {
   },
 
   methods: {
-    showGoodsModal() {
-      this.goodsModalVisible = true
-      this.toggleSwipeTouchable(false)
-      this.updateGoods()
-    },
-
-    showSkuModal(id) {
-      this.skuGoodsInfo = this.goodsList.filter(item => item.goods_id == id)[0] 
-      this.skuModalVisible = true
-      this.toggleSwipeTouchable(false)
-    },
-
     toggleFeaturesPop() {
       this.featuresPopVisible = !this.featuresPopVisible
     },
@@ -139,112 +117,145 @@ export default {
 </script>
 
 <style lang="stylus" scoped>
+@keyframes wordsLoop {
+  0% {
+    transform: translateX(3.2rem);
+  }
+  100% {
+    transform: translateX(-100%);
+  }
+}
+.row
+  display flex
+  margin-bottom: .3rem
+  &.between
+    justify-content space-between
+  &.center
+    align-items: center
 .room-wrap
-  position absolute
-  top 0
-  left 0
-  width 100%
-  height 100%
+  position relative
+  width: 100vw
+  height: 100vh
   .top-part
     position absolute
     top 0
     left 0
-    display flex
-    justify-content space-between
-    padding .16rem
+    padding .24rem
     width 100%
-    .top-part-rigit
-      display flex
-      flex-direction column
-      align-items flex-end
-      .room-id-capsule
-        width 1.3rem
-        height .64rem
-        color #fff
-        font-size .22rem
-        text-align center
-        border-radius .12rem
-        background-color rgba(0, 0, 0, 0.3)
-        border .01rem solid rgba(255,255,255,0.3)
-        overflow hidden
-        .brand
-          height .32rem
-          background-color #000
+    .user-count-wrap
+      display: flex
+      align-items: center
+      padding: 0 .16rem
+      width: fit-content
+      height: .44rem
+      background: rgba(0,0,0,0.3)
+      border-radius: .22rem
+      border: 0.5px solid rgba(255, 255, 255, 0.3)
+      .users-icon
+        width: .28rem
+        height: .28rem
+      .user-count
+        margin-left: .04rem
+        color: #fff
+        font-size: .24rem
+    .recommend-goods
+      display: flex
+      flex-direction: column
+      align-items: center
+      width: 1.24rem
+      height: 1.64rem
+      background-image: url('https://img.ubo.vip/youbo_plus/live/recommend-goods-bg.png')
+      background-size: 100%
+      background-repeat: no-repeat
+      .recommend-goods-title
+        margin-top: .03rem
+        color: #FFE5BD
+        font-size: .2rem
+        line-height: .3rem
+      .recommend-goods-pic
+        margin-top: .12rem
+        width: 1.14rem
+        height: 1.14rem
+        border-radius: .18rem
+    .rolling-caption
+      display: flex
+      align-items: center
+      padding-left: .18rem
+      width: 3.68rem
+      height: .44rem
+      background: rgba(0,0,0,0.3)
+      border-radius: .36rem
+      border: 0.5px solid rgba(255, 255, 255, 0.3)
+      .rolling-caption-content-wrap
+        flex: 1
+        overflow: hidden
+        .rolling-caption-content
+          width: fit-content
+          color: #FDDF6A
+          font-size: .22rem
+          white-space: nowrap
+          animation: wordsLoop 16s linear infinite
+      .open-arrow
+        margin: 0 .08rem
+        width: .4rem
+        height: .4rem
+  .shortcut-btns
+    position: absolute
+    top 50%
+    transform: translateY(-50%)
+    right: .24rem
+    z-index: 100
+    .shortcut-btn
+      display: block
+      margin-top: .16rem
+      width: .7rem
+      height: .7rem
   .bottom-part
     position absolute
     left 0
     bottom 0
-    padding-bottom .3rem
+    padding .24rem
     width 100%
     .interactive-area
       display flex
       align-items center
-      .goods-bag-wrap
-        position relative
-        margin-left .16rem
-        font-size 0
-        .goods-bag
-          width .74rem
-          height .74rem
-        .icon-desc
-          font-size .18rem
-          color #fff
-          text-align center
-        .goods-count
-          position absolute
-          top 30%
-          left 50%
-          transform translateX(-50%)
-          color #fff
-          font-size .26rem
-      .chat-input
-        margin 0 .12rem
-        flex 1
-        height .68rem
-        font-size .3rem
-        color #fff
-        border-bottom .01rem solid #fff
-        &::-webkit-input-placeholder
-          color #fff
+      .chat-btn
+        display: flex
+        align-items: center
+        padding-left: .24rem
+        flex: 1
+        height: .7rem
+        color: #fff
+        font-size: .26rem
+        border-radius: .35rem
+        background: rgba(0, 0, 0, 0.3)
+        .ban-icon
+          margin-right: .1rem
+          width: .4rem
+          height: .4rem
       .btns
         display flex
-        margin-top .26rem
-        width 2.48rem
         .btn
           position relative
-          text-align center
-          overflow initial
-          flex 1
-          font-size 0
-          .icon-desc
-            font-size .18rem
-            color #fff
-            text-align center
-          .features-pop
-            position absolute
-            top -2.5rem
-            left 50%
-            transform translateX(-50%)
-            width 1.3rem
-            height fit-content
-            border-radius .2rem
-            background #fff
-            &::after
-              position absolute
-              bottom -0.1rem
-              right .55rem
-              width 0
-              height 0
-              content ''
-              border-left .1rem solid rgba(0,0,0,0)
-              border-right .1rem solid rgba(0,0,0,0)
-              border-top .1rem solid #fff
-            .features-tip
-              font-size .24rem
-              color #333
-              text-align center
-              line-height .8rem
-              border-bottom .01rem solid rgba(0,0,0,0.6)
-              &:last-child
-                border-bottom none
+          margin-left: .16rem
+          width: .7rem
+          height: .7rem
+          font-size: 0
+          overflow: initial
+          .icon
+            width: .7rem
+            height: .7rem
+          .praise-count
+            position: absolute
+            top: -0.28rem
+            left: 50%
+            transform: translateX(-50%)
+            padding: 0 .1rem
+            font-size: .18rem
+            color: #F94950
+            height: .28rem
+            line-height: .28rem
+            border-radius: .14rem
+            background: #fff
+            white-space: nowrap
 </style>

@@ -22,6 +22,10 @@ class RoomService extends BaseService {
     const msgHistory = [...list, warnTips]
     return msgHistory
   }
+
+  async handleUser({ studio_id, user_id, is_ban = 0, is_white = 0, is_black = 0, is_focus = 0 }) {
+    return await this.post(`${this.liveUrl}/live-studio/live-user-update`, { studio_id, user_id, is_ban, is_white, is_black, is_focus })
+  }
 }
 
 export default RoomService

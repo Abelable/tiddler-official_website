@@ -1,18 +1,14 @@
 <template>
-  <div class="anchor-capsule" @click.stop="showAnchorModal">
-    <img class="anchor-avatar" :src="roomInfo.userInfo.head_img" >
-    <div class="anchor-capsule-content">
-      <div class="anchor-name">{{roomInfo.userInfo.head_img | sliceStr}}</div>
-      <div>
-        <span>{{roomInfo.user_watch_num}}人 </span>
-        <span v-if="roomInfo.position">{{'| ' + roomInfo.position | sliceStr}}</span>
-      </div>
-    </div>
-    <div class="follow-icon" v-if="!roomInfo.is_follow" @click.stop="toggleFollow">关注</div>
+  <div class="anchor-capsule">
+    <img class="anchor-avatar" :src="roomInfo.studio_head_img" >
+    <div class="anchor-name">{{roomInfo.studio_title | sliceStr}}</div>
+    <div class="follow-icon" v-if="roomInfo.is_focus == 1" @click.stop="followAnchor">关注</div>
   </div>
 </template>
 
 <script>
+import RoomService from '@/service/roomService'
+
 export default {
   props: {
     roomInfo: Object
@@ -26,11 +22,13 @@ export default {
   },
 
   methods: {
-    showAnchorModal() {
-      this.$emit('showAnchorModal')
-    },
-
-    followAnchor() {}
+    followAnchor() {
+      new RoomService().handleUser({ 
+        studio_id: this.roomInfo.studio_id, 
+        user_id: this.$store.state.im.userID, 
+        is_focus: 1 
+      })
+    }
   }
 }
 </script>
@@ -52,24 +50,21 @@ export default {
     height .54rem
     flex-shrink 0
     border-radius 50%
-  .anchor-capsule-content
-    display flex
-    flex-direction column
-    justify-content space-between
-    margin 0 .1rem
-    height .64rem
-    font-size .18rem
-    color #fff
-    line-height 1.5
-    .anchor-name
-      font-size .24rem
-      font-weight bold
+    background #fff
+  .anchor-name
+    margin: 0 .12rem
+    color: #fff
+    font-size: .24rem
+    font-weight: bold
   .follow-icon
-    padding .16rem .2rem .15rem
-    font-weight bold
-    font-size .24rem
-    color #000
-    line-height 1
-    border-radius .27rem
-    background-color #EAAB63
+    display: flex
+    align-items: center
+    justify-content: center
+    width: .56rem
+    height: .54rem
+    color: #000
+    font-size: .2rem
+    font-weight: bold
+    border-radius: 50%
+    background-color: #EAAB63
 </style>
