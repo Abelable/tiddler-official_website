@@ -24,10 +24,10 @@ const user = {
     setLiveChatMsgList(state, data) {
       switch (data.constructor) {
         case Array:
-          state.liveChatMsgList = state.liveChatMsgList.length > 50 ? [...state.liveChatMsgList.slice(-50), ...data] : [...state.liveChatMsgList, ...data]
+          state.liveChatMsgList = state.liveChatMsgList.length > 50 ? [...state.liveChatMsgList.slice(-30), ...data] : [...state.liveChatMsgList, ...data]
           break
         case Object:
-          state.liveChatMsgList = state.liveChatMsgList.length > 50 ? [...state.liveChatMsgList.slice(-50), data] : [...state.liveChatMsgList, data]
+          state.liveChatMsgList = state.liveChatMsgList.length > 50 ? [...state.liveChatMsgList.slice(-30), data] : [...state.liveChatMsgList, data]
           break
       }
     },
