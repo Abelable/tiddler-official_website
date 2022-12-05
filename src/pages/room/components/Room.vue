@@ -34,6 +34,7 @@
     <div class="bottom-part">
       <AudienceActionTip />
       <Dialog :roomId="roomInfo.id" :isAnchor="!!roomInfo.type_name" @toggleSwipeTouchable="toggleSwipeTouchable" />
+      <PhraseList v-if="userPhraseList.length" :roomInfo="roomInfo" :phraseList="userPhraseList" />
       <div class="interactive-area">
         <div class="chat-btn" catchtap="showInputModal">
           <img class="ban-icon" src="../../../assets/images/live/ban.png" >
@@ -55,13 +56,16 @@
 <script>
 import TIM from 'tim-js-sdk'
 import TIMUploadPlugin from 'tim-upload-plugin'
-import { Toast } from 'vant'
+import Vue from 'vue'
 import { mapState } from 'vuex'
+import { Toast } from 'vant'
 import RoomService from '@/service/roomService'
+
 import Player from './Player'
 import AuchorCapsule from './AuchorCapsule'
 import AudienceActionTip from './AudienceActionTip'
 import Dialog from './Dialog'
+import PhraseList from './PhraseList'
 
 const roomService = new RoomService()
 
@@ -71,6 +75,7 @@ export default {
     AuchorCapsule,
     AudienceActionTip,
     Dialog,
+    PhraseList,
   },
 
   props: {
@@ -80,6 +85,7 @@ export default {
   data() {
     return {
       goodsList: [],
+      userPhraseList: [],
       praiseCount: 0,
       goodsModalVisible: false,
       featuresPopVisible: false
@@ -102,9 +108,10 @@ export default {
   },
 
   created() {
-    this.setMsgHistory()
     this.initTim()
     this.joinGroup()
+    this.setMsgHistory()
+    this.setUserPhraseList()
   },
 
   destroyed() {
@@ -128,6 +135,11 @@ export default {
       }
     },
 
+    async setUserPhraseList() {
+      const { list = [] } = await roomService.getPhraseList(this.roomInfo.studio_id, 2) || {}
+      this.userPhraseList = list
+    },
+
     initTim() {
       const tim = TIM.create({ SDKAppID: this.sdkAppID })
       if (tim) {
@@ -136,6 +148,7 @@ export default {
         tim.on(TIM.EVENT.MESSAGE_RECEIVED, this.onMsgReceive)
         tim.login({ userID: this.userID, userSig: this.userSig })
         this.tim = tim
+        Vue.prototype.tim = tim
       }
     },
 

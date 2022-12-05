@@ -82,9 +82,9 @@ export default {
 
 <style lang="stylus">
 .msg-lists-wrap
-  margin-bottom: .1rem
+  margin-bottom: .3rem
   width 5.46rem
-  max-height 4.3rem
+  max-height 6rem
   overflow-y scroll
   scrollbar-width none
   -ms-overflow-style none
