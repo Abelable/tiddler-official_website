@@ -43,6 +43,7 @@ export default {
 <style lang="stylus" scoped>
 .container
   position relative
+  overflow hidden
   .bg
     position absolute
     top 0

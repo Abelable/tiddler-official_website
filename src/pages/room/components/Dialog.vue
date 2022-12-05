@@ -1,11 +1,14 @@
 <template>
-  <div class="msg-lists-wrap" ref="msgListsWrap" @touchstart="touchStart" @touchend="touchEnd" v-if="currentMessageList.length">
-    <ul class="msg-lists" v-for="(item, index) in currentMessageList" :key="index">
-      <li class="msg-list">
-        <div class="identity-tip">
-          <FansLevelIcon v-if="item.gradetype" :gradeType="item.gradetype" :fansName="fansName" />
-        </div>
-        <span class="user-name" :style="{color: item.color}" v-if="item.nickname">{{item.nickname | sliceName}}</span>
+  <div class="msg-lists-wrap" ref="msgListsWrap" @touchstart="touchStart" @touchend="touchEnd" v-if="liveChatMsgList.length">
+    <ul class="msg-lists">
+      <li class="msg-list" v-for="(item, index) in liveChatMsgList" :key="index">
+        <img class="avatar" v-if="item.head_img" :src="item.head_img" />
+        <span 
+          class="tag"
+          :class="{ anchor: item.type_name === '创建者', 'live-assistant': item.type_name === '直播助手', assistant: item.type_name === '小助手' }"
+          v-if="isAnchor && item.type_name"
+        >{{item.type_name}}</span>
+        <span class="user-name" v-if="item.nick_name">{{(!isAnchor) ? (item.nick_name | sliceName) : item.nick_name}}</span>
         <span class="message-content">{{item.message}}</span>
       </li>
     </ul>
@@ -13,35 +16,41 @@
 </template>
 
 <script>
-import FansLevelIcon from '../components/FansLevelIcon'
 import { mapState } from 'vuex'
 
 export default {
   components: {
-    FansLevelIcon
+    
   },
 
   props: {
     roomId: String,
-    fansName: String
+    isAnchor: Boolean
   },
 
   computed: {
     ...mapState({
-      currentMessageList: state => state.im.currentMessageList
+      liveChatMsgList: state => state.im.liveChatMsgList
     })
   },
 
   watch: {
-    currentMessageList() {
+    liveChatMsgList() {
       this.autoScrollAbel && this.scrollToBottom()
     }
   },
 
   filters: {
     sliceName(name) {
-      if (name.length > 10) name = name.slice(10)
-      return name
+      if (name) {
+        if (name.length === 1) {
+          return '*';
+        } else if (name.length === 2) {
+          return '*' + name.slice(-1);
+        } else {
+          return name.slice(0, 1) + name.slice(1, -1).split('').map(function() { return '*' }).join('') + name.slice(-1);
+        }
+      }
     }
   },
 
@@ -73,8 +82,8 @@ export default {
 
 <style lang="stylus">
 .msg-lists-wrap
-  margin-left .16rem
-  width 5rem
+  margin-bottom: .1rem
+  width 5.46rem
   max-height 4.3rem
   overflow-y scroll
   scrollbar-width none
@@ -86,19 +95,40 @@ export default {
   .msg-lists
     .msg-list
       margin-bottom .12rem
-      padding .04rem .1rem
+      padding .18rem
       width fit-content
       font-size .26rem
       font-weight 500
       color #fff
       line-height 1.5
-      border-radius .08rem
+      border-radius .2rem
       background-color rgba(0, 0, 0, 0.3)
-      .identity-tip
-        display inline-block
-        margin-top .04rem
-        margin-right .1rem
-        vertical-align top
+      .avatar
+        margin-right: .1rem
+        margin-top: -0.06rem
+        vertical-align: top
+        width: .52rem
+        height: .52rem
+        border-radius: 50%
+      .tag
+        display: inline-block
+        margin-right: .1rem
+        vertical-align: top
+        padding: 0 .12rem
+        height: .36rem
+        font-size: .22rem
+        font-weight: bold
+        line-height: .36rem
+        border-radius: .06rem
+        &.anchor
+          color: #FFE5BD
+          background: linear-gradient(128deg, #404A5C 0%, #0F131A 100%)
+        &.assistant
+          color: #404A5C
+          background: #E7CCFF
+        &.live-assistant
+          color: #404A5C
+          background: #FFBCDF
       .user-name
         vertical-align top
         margin-right .1rem

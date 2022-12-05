@@ -1,10 +1,10 @@
 <template>
-  <div class="room-wrap" @click="hideModal">
-    <Player :roomInfo="roomInfo" />
+  <div class="room-wrap">
+    <Player :url="roomInfo.url" :horizontal="roomInfo.direction == 1" />
     <div class="top-part">
       <div class="row center between">
         <AuchorCapsule :roomInfo="roomInfo" />
-        <div class="user-count-wrap" @click.stop="roomInfo.type_name ? 'showUsersManagementPopup' : ''">
+        <div class="user-count-wrap" @click="roomInfo.type_name ? 'showUsersManagementPopup' : ''">
           <img class="users-icon" src="../../../assets/images/live/user.png" >
           <div class="user-count">{{0}}</div>
         </div>
@@ -24,7 +24,7 @@
     </div>
 
     <div class="shortcut-btns">
-      <img class="shortcut-btn" src="../../../assets/images/live/refresh.png" >
+      <img class="shortcut-btn" @click="refresh" src="../../../assets/images/live/refresh.png" >
       <img class="shortcut-btn" src="../../../assets/images/live/short.png" >
       <img class="shortcut-btn" src="../../../assets/images/live/users.png" >
       <img class="shortcut-btn" src="../../../assets/images/live/add-user-icon.png" >
@@ -33,7 +33,7 @@
 
     <div class="bottom-part">
       <AudienceActionTip />
-      <Dialog :roomId="roomInfo.id" :fansName="roomInfo.fansName" @toggleSwipeTouchable="toggleSwipeTouchable" />
+      <Dialog :roomId="roomInfo.id" :isAnchor="!!roomInfo.type_name" @toggleSwipeTouchable="toggleSwipeTouchable" />
       <div class="interactive-area">
         <div class="chat-btn" catchtap="showInputModal">
           <img class="ban-icon" src="../../../assets/images/live/ban.png" >
@@ -53,6 +53,10 @@
 </template>
 
 <script>
+import TIM from 'tim-js-sdk'
+import TIMUploadPlugin from 'tim-upload-plugin'
+import { Toast } from 'vant'
+import { mapState } from 'vuex'
 import RoomService from '@/service/roomService'
 import Player from './Player'
 import AuchorCapsule from './AuchorCapsule'
@@ -78,10 +82,16 @@ export default {
       goodsList: [],
       praiseCount: 0,
       goodsModalVisible: false,
-      skuModalVisible: false,
-      skuGoodsInfo: null,
       featuresPopVisible: false
     }
+  },
+
+  computed: {
+    ...mapState({
+      sdkAppID: state => state.im.sdkAppID,
+      userID: state => state.im.userID,
+      userSig: state => state.im.userSig
+    })
   },
 
   filters: {
@@ -91,7 +101,94 @@ export default {
     }
   },
 
+  created() {
+    this.setMsgHistory()
+    this.initTim()
+    this.joinGroup()
+  },
+
+  destroyed() {
+    this.quitGroup()
+    this.logoutIm()
+  },
+
   methods: {
+    refresh() {
+      Toast.loading({ message: '加载中...' })
+      this.$set(this.roomInfo, 'url', this.roomInfo.url)
+      setTimeout(() => {
+        Toast.clear()
+      }, 1000)
+    },
+
+    async setMsgHistory() {
+      const msgList = await roomService.getMsgHistory(this.roomInfo.id)
+      if (!this.$store.state.im.liveChatMsgList.length) {
+        this.$store.commit('setLiveChatMsgList', msgList)
+      }
+    },
+
+    initTim() {
+      const tim = TIM.create({ SDKAppID: this.sdkAppID })
+      if (tim) {
+        tim.setLogLevel(1)
+        tim.registerPlugin({'tim-upload-plugin': TIMUploadPlugin})
+        tim.on(TIM.EVENT.MESSAGE_RECEIVED, this.onMsgReceive)
+        tim.login({ userID: this.userID, userSig: this.userSig })
+        this.tim = tim
+      }
+    },
+
+    onMsgReceive({ data = [] }) {
+      console.log('tim', data)
+      data.forEach(item => {
+        const { conversationType, type, payload } = item
+        switch (conversationType) {
+          case TIM.TYPES.CONV_SYSTEM:
+            if (type === TIM.TYPES.MSG_GRP_SYS_NOTICE) {
+              // handleLiveCustomMsg(payload)
+            }
+            break
+
+          case TIM.TYPES.CONV_GROUP:
+            if (type === TIM.TYPES.MSG_TEXT) {
+              this.handleLiveChatMsg(payload)
+            } else if (type === TIM.TYPES.MSG_CUSTOM) {
+              // handleLiveCustomMsg(payload)
+            }
+            break
+        }
+      })
+    },
+
+    handleLiveChatMsg(payload) {
+      const { nick_name, ...rest } = typeof(payload.text) === 'string' ? JSON.parse(payload.text.replace(/&quot;/g, "\"")).data : {}
+      const liveMsg = nick_name ? { nick_name, ...rest } : null
+
+      if (!this.liveMsgCache) this.liveMsgCache = []
+      liveMsg && this.liveMsgCache.push(liveMsg)
+
+      if (!this.setLiveMsgListTimeout) {
+        this.setLiveMsgListTimeout = setTimeout(() => {
+          this.$store.commit('setLiveChatMsgList', this.liveMsgCache)
+          this.liveMsgCache = []
+          this.setLiveMsgListTimeout = null
+        }, 100 * this.liveMsgCache.length)
+      }
+    },
+
+    joinGroup() {
+      this.tim.joinGroup({ groupID: this.roomInfo.group_id, type: TIM.TYPES.GRP_AVCHATROOM })
+    },
+
+    quitGroup() {
+      this.tim.quitGroup(this.roomInfo.group_id)
+    },
+
+    logoutIm() {
+      this.tim.logout()
+    },
+
     toggleFeaturesPop() {
       this.featuresPopVisible = !this.featuresPopVisible
     },
@@ -133,7 +230,6 @@ export default {
   &.center
     align-items: center
 .room-wrap
-  position relative
   width: 100vw
   height: 100vh
   .top-part
