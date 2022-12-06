@@ -30,7 +30,7 @@ export default {
 .recommend-goods-slider
   display: flex
   align-items: center
-  margin-top: .2rem
+  margin-bottom: .3rem
   padding-left: .12rem
   padding-right: .18rem
   width: 5.46rem
@@ -71,14 +71,13 @@ export default {
     .goods-name
       color: #333
       font-size: .28rem
-      span
-        display: inline-block
-        vertical-align: middle
       .goods-tag
+        display: inline-block
         margin-right: .04rem
         padding: .02rem .04rem
         color: #fff
         font-size: .2rem
+        vertical-align: middle
         background: linear-gradient(270deg, #BCA26F 4%, #B98E4D 100%)
         border-radius: .04rem
     .goods-stock

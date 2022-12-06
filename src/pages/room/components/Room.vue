@@ -161,7 +161,7 @@ export default {
         this.recommendGoodsSliderVisible = true
         setTimeout(() => {
           this.recommendGoodsSliderVisible = false
-        }, 5000)
+        }, 10000)
       }
     },
 
@@ -184,7 +184,7 @@ export default {
         switch (conversationType) {
           case TIM.TYPES.CONV_SYSTEM:
             if (type === TIM.TYPES.MSG_GRP_SYS_NOTICE) {
-              // handleLiveCustomMsg(payload)
+              this.handleLiveCustomMsg(payload)
             }
             break
 
@@ -192,7 +192,7 @@ export default {
             if (type === TIM.TYPES.MSG_TEXT) {
               this.handleLiveChatMsg(payload)
             } else if (type === TIM.TYPES.MSG_CUSTOM) {
-              // handleLiveCustomMsg(payload)
+              this.handleLiveCustomMsg(payload)
             }
             break
         }
