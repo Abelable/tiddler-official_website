@@ -7,8 +7,16 @@ const user = {
     userAvatar: '',
     liveChatMsgList: [],
     audienceActionTip: null,
+    audienceCount: 0,
+    manualPraise: false,
+    praiseCount: 0,
     subtitleVisible: false,
     subtitleContent: '',
+    isBan: 0,
+    curUserIsBan: 0,
+    liveBreak: false,
+    anonymoused: 0,
+    animationIndex: -1,
   },
   mutations: {
     setImInfo(state, imInfo) {
@@ -31,12 +39,60 @@ const user = {
       }
     },
 
+    deleteLiveMsg(state, data) {
+      const list = state.liveChatMsgList.filter(item => {
+        const index = data.findIndex(_item => (_item.user_id == item.user_id && _item.time == item.time))
+        if (index === -1) return item
+      })
+      state.liveChatMsgList = list
+    },
+
+    clearLiveMsgList(state) {
+      state.liveChatMsgList = []
+    },
+
+    setAudienceActionTip(state, data) {
+      state.audienceActionTip = data
+    },
+
+    setAudienceCount(state, data) {
+      state.audienceCount = data
+    },
+
+    setManualPraise(state, data) {
+      state.manualPraise = data
+    },
+
+    setPraiseCount(state, data) {
+      state.praiseCount = data
+    },
+
     setSubtitleVisible(state, data) {
       state.subtitleVisible = data
     },
 
     setSubtitleContent(state, data) {
       state.subtitleContent = data
+    },
+
+    setIsBan(state, data) {
+      state.isBan = data
+    },
+
+    setCurUserIsBan(state, data) {
+      state.curUserIsBan = data
+    },
+
+    setAnonymoused(state, data) {
+      state.anonymoused = data
+    },
+
+    setLiveBreak(state, data) {
+      state.liveBreak = data
+    },
+
+    setAnimationIndex(state, data) {
+      state.animationIndex = data
     },
 
     reset(state) {

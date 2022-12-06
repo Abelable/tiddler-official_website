@@ -8,7 +8,7 @@
           :class="{ anchor: item.type_name === '创建者', 'live-assistant': item.type_name === '直播助手', assistant: item.type_name === '小助手' }"
           v-if="isAnchor && item.type_name"
         >{{item.type_name}}</span>
-        <span class="user-name" v-if="item.nick_name">{{(!isAnchor) ? (item.nick_name | sliceName) : item.nick_name}}</span>
+        <span class="user-name" v-if="item.nick_name">{{(!isAnchor && anonymoused) ? (item.nick_name | sliceName) : item.nick_name}}</span>
         <span class="message-content">{{item.message}}</span>
       </li>
     </ul>
@@ -30,7 +30,8 @@ export default {
 
   computed: {
     ...mapState({
-      liveChatMsgList: state => state.im.liveChatMsgList
+      liveChatMsgList: state => state.im.liveChatMsgList,
+      anonymoused: state => state.im.anonymoused,
     })
   },
 

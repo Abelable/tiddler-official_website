@@ -19,9 +19,7 @@ export default {
   },
   watch: {
     audienceActionTip(val) {
-      if (val) {
-        this.show = true
-      }
+      this.show = !!val
     }
   }
 }

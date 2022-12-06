@@ -39,7 +39,8 @@
 
     <div class="bottom-part">
       <AudienceActionTip />
-      <Dialog :roomId="roomInfo.id" :isAnchor="!!roomInfo.type_name" />
+      <Comment :roomId="roomInfo.id" :isAnchor="!!roomInfo.type_name" />
+      <RecommendGoodsSlider v-if="recommendGoodsSliderVisible" :goodsInfo="recommendGoods" />
       <PhraseList v-if="userPhraseList.length" :roomInfo="roomInfo" :phraseList="userPhraseList" />
       <div class="interactive-area">
         <div class="chat-btn" catchtap="showInputModal">
@@ -61,14 +62,17 @@
 
 <script>
 import TIM from 'tim-js-sdk'
+import TIMUploadPlugin from 'tim-upload-plugin'
+import Vue from 'vue'
 import { mapState } from 'vuex'
-import { Toast } from 'vant'
+import { Toast, Dialog } from 'vant'
 import RoomService from '@/service/roomService'
 
 import Player from './Player'
 import AuchorCapsule from './AuchorCapsule'
 import AudienceActionTip from './AudienceActionTip'
-import Dialog from './Dialog'
+import Comment from './Comment'
+import RecommendGoodsSlider from './RecommendGoodsSlider'
 import PhraseList from './PhraseList'
 
 const roomService = new RoomService()
@@ -78,7 +82,8 @@ export default {
     Player,
     AuchorCapsule,
     AudienceActionTip,
-    Dialog,
+    Comment,
+    RecommendGoodsSlider,
     PhraseList,
   },
 
@@ -93,6 +98,7 @@ export default {
       recommendGoods: null,
       praiseCount: 0,
       adVisible: false,
+      recommendGoodsSliderVisible: false,
       goodsModalVisible: false,
       featuresPopVisible: false
     }
@@ -100,6 +106,9 @@ export default {
 
   computed: {
     ...mapState({
+      sdkAppID: state => state.im.sdkAppID,
+      userID: state => state.im.userID,
+      userSig: state => state.im.userSig,
       subtitleVisible: state => state.im.subtitleVisible,
       subtitleContent: state => state.im.subtitleContent
     })
@@ -113,6 +122,7 @@ export default {
   },
 
   created() {
+    this.initTim()
     this.joinGroup()
     this.setMsgHistory()
     this.setUserPhraseList()
@@ -147,6 +157,206 @@ export default {
 
     async setRecommendGoods() {
       this.recommendGoods = await roomService.getRecommendGoods(this.roomInfo.id)
+      if (this.recommendGoods) {
+        this.recommendGoodsSliderVisible = true
+        setTimeout(() => {
+          this.recommendGoodsSliderVisible = false
+        }, 5000)
+      }
+    },
+
+    initTim() {
+      const tim = TIM.create({ SDKAppID: this.sdkAppID })
+      if (tim) {
+        tim.setLogLevel(1)
+        tim.registerPlugin({'tim-upload-plugin': TIMUploadPlugin})
+        tim.on(TIM.EVENT.MESSAGE_RECEIVED, this.onMsgReceive)
+        tim.login({ userID: this.userID, userSig: this.userSig })
+        this.tim = tim
+        Vue.prototype.tim = tim
+      }
+    },
+
+    onMsgReceive({ data = [] }) {
+      console.log('tim', data)
+      data.forEach(item => {
+        const { conversationType, type, payload } = item
+        switch (conversationType) {
+          case TIM.TYPES.CONV_SYSTEM:
+            if (type === TIM.TYPES.MSG_GRP_SYS_NOTICE) {
+              // handleLiveCustomMsg(payload)
+            }
+            break
+
+          case TIM.TYPES.CONV_GROUP:
+            if (type === TIM.TYPES.MSG_TEXT) {
+              this.handleLiveChatMsg(payload)
+            } else if (type === TIM.TYPES.MSG_CUSTOM) {
+              // handleLiveCustomMsg(payload)
+            }
+            break
+        }
+      })
+    },
+
+    handleLiveChatMsg(payload) {
+      const { nick_name, ...rest } = typeof(payload.text) === 'string' ? JSON.parse(payload.text.replace(/&quot;/g, "\"")).data : {}
+      const liveMsg = nick_name ? { nick_name, ...rest } : null
+
+      if (!this.liveMsgCache) this.liveMsgCache = []
+      liveMsg && this.liveMsgCache.push(liveMsg)
+
+      if (!this.setLiveMsgListTimeout) {
+        this.setLiveMsgListTimeout = setTimeout(() => {
+          this.$store.commit('setLiveChatMsgList', this.liveMsgCache)
+          this.liveMsgCache = []
+          this.setLiveMsgListTimeout = null
+        }, 100 * this.liveMsgCache.length)
+      }
+    },
+
+    handleLiveCustomMsg(payload) {
+      let content
+      if (payload.userDefinedField) {
+        if (payload.userDefinedField.includes('{')) {
+          content = JSON.parse(payload.userDefinedField)
+        } else if (payload.userDefinedField.includes('欢迎')) {
+          content = { type: 'user_coming', message: payload.userDefinedField }
+        }
+      } else if (payload.data) {
+        content = JSON.parse(payload.data)
+      }
+      if (content && content.type) {
+        this.handleCustomMsg(content)
+      }
+    },
+
+    handleCustomMsg(customMsg) {
+      if (customMsg) {
+        const { userID, audienceCount, manualPraise, praiseCount, liveBreak } = this.$store.state.im
+
+        switch (customMsg.type) {
+          case 'user_coming':
+            this.setAudienceActionTip(customMsg.message)
+            break
+
+          case 'robot_in_group':
+            this.setAudienceActionTip(customMsg.message)
+            if (!this.roomInfo.type_name) {
+              this.$store.commit('setAudienceCount', audienceCount + Number(customMsg.user_num))
+            }
+            break
+
+          case 'user_comed':
+            if (this.roomInfo.type_name) {
+              if (customMsg.zhubo_total_num != audienceCount) {
+                this.$store.commit('setAudienceCount', Number(customMsg.zhubo_total_num))
+              }
+            } else {
+              this.$store.commit('setAudienceCount', audienceCount + Number(customMsg.user_num))
+            }
+            break
+
+          case 'show_user_change':
+            if (!this.roomInfo.type_name) {
+              this.$store.commit('setAudienceCount', Number(customMsg.user_num))
+            }
+            break
+
+          case 'user_leaving':
+            if (this.roomInfo.type_name) {
+              if (customMsg.zhubo_total_num) {
+                this.$store.commit('setAudienceCount', Number(customMsg.zhubo_total_num))
+              } else {
+                const newCount = audienceCount - 1
+                this.$store.commit('setAudienceCount', newCount < 0 ? 0 : newCount)
+              }
+            } else {
+              const newCount = audienceCount - Number(customMsg.user_num)
+              this.$store.commit('setAudienceCount', newCount < 0 ? 0 : newCount)
+            }
+            break
+
+          case 'live_room_like':
+            if (Number(customMsg.like_num) > praiseCount) {
+              manualPraise && this.$store.commit('setManualPraise', false)
+              this.$store.commit('setPraiseCount', Number(customMsg.like_num))
+            }
+            break
+          
+          case 'ban_group_msg':
+            this.$store.commit('setIsBan', Number(customMsg.is_ban))
+            break
+
+          case 'ban_user':
+            this.$store.commit('setCurUserIsBan', customMsg.user_id.split(',').includes(`${userID}`) ? 1 : 0)
+            break
+
+          case 'group_subtitle':
+            this.$store.commit('setSubtitleVisible', customMsg.show_subtitle == 1)
+            this.$store.commit('setSubtitleContent', customMsg.subtitle)
+            break
+          
+          case 'send_premiere':
+            this.liveStartModalVisible = true
+            break
+
+          case 'clear_group_msg':
+            this.$store.commit('clearLiveMsgList')
+            break
+
+          case 'delete_group_msg':
+            this.$store.commit('deleteLiveMsg', customMsg.delete)
+            break
+          
+          case 'drop_live_stream':
+            !liveBreak && this.$store.commit('setLiveBreak', true)
+            break
+
+          case 'resume_live_stream':
+            liveBreak && this.$store.commit('setLiveBreak', false)
+            break
+
+          case 'room_anonymous':
+            this.$store.commit('setAnonymoused', Number(customMsg.is_anonymous))
+            break
+        
+          case 'black_user':
+            if (customMsg.user_id.split(',').includes(`${userID}`)) {
+              Dialog.alert({
+                message: '抱歉，您已被主播拉黑',
+              })
+            }
+            break
+
+          case 'close_live_room':
+            liveBreak && this.$store.commit('setLiveBreak', false)
+            this.liveDuration = customMsg.play_time
+            this.liveEnd = true
+            break
+
+          case 'recommend_goods':
+            this.setRecommendGoods()
+            break
+
+          case 'animation':
+            this.$store.commit('setAnimationIndex', Number(customMsg.index))
+            break
+        }
+      }
+    },
+
+    setAudienceActionTip(message) {
+      if (!this.$store.state.im.audienceActionTip) {
+        this.$store.commit('setAudienceActionTip', {
+          type: 'coming',
+          isRobot: this.roomInfo.type_name ? 1 : 0,
+          message
+        })
+        setTimeout(() => { 
+          this.$store.commit('setAudienceActionTip', null)
+        }, 2000)
+      }
     },
 
     joinGroup() {
