@@ -48,7 +48,7 @@
           <div>说点什么......</div>
         </div>
         <div class="btns">
-          <img class="btn" src="../../../assets/images/live/cart.png" >
+          <img class="btn" @click="goodsPopupVisible = true" src="../../../assets/images/live/cart.png" >
           <img class="btn" src="https://img.ubo.vip/mp/sass/live-push/share.png" >
           <div class="btn">
             <img class="icon" src="https://img.ubo.vip/mp/index/room/praise-icon.png" >
@@ -57,6 +57,8 @@
         </div>
       </div>
     </div>
+
+    <GoodsPopup v-if="goodsPopupVisible" :roomId="roomInfo.id" :recommendGoodsId="`${recommendGoods.id}`" @hide="goodsPopupVisible = false" />
   </div>
 </template>
 
@@ -74,6 +76,8 @@ import AudienceActionTip from './AudienceActionTip'
 import Comment from './Comment'
 import RecommendGoodsSlider from './RecommendGoodsSlider'
 import PhraseList from './PhraseList'
+import GoodsPopup from './GoodsPopup'
+
 
 const roomService = new RoomService()
 
@@ -85,6 +89,7 @@ export default {
     Comment,
     RecommendGoodsSlider,
     PhraseList,
+    GoodsPopup
   },
 
   props: {
@@ -100,8 +105,7 @@ export default {
       praiseCount: 0,
       adVisible: false,
       recommendGoodsSliderVisible: false,
-      goodsModalVisible: false,
-      featuresPopVisible: false
+      goodsPopupVisible: false,
     }
   },
 
