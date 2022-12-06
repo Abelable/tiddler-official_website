@@ -4,7 +4,12 @@
     <div class="popup" :class="{ show }">
       <div class="goods-popup">
         <div class="title">全部商品（{{total}}）</div>
-        <div class="goods-list" bindscrolltolower="loadMore">
+        <List
+          class="goods-list"
+          v-model="loading"
+          :finished="finished"
+          @load="onLoadMore"
+        >
           <div class="goods-item" v-for="(item, index) in goodsList" :key="index" @click="checkDetail(item.goods_id)">
             <div class="goods-img-wrap">
               <img class="goods-img" :src="item.goods_img" >
@@ -26,20 +31,21 @@
               </div>
             </div>
           </div>
-          <Empty v-if="!goodsList.length" description="暂无商品列表" />
-        </div>
+          <Empty v-if="finished && !goodsList.length" description="暂无商品列表" />
+        </List>
       </div>
     </div>
   </div>
 </template>
 
 <script>
-import { Toast, Empty } from 'vant'
+import { List, Empty } from 'vant'
 import RoomService from '@/service/roomService'
 
 export default {
   components: {
-    Empty
+    List,
+    Empty,
   },
 
   props: {
@@ -51,25 +57,31 @@ export default {
     return {
       show: false,
       total: 0,
-      goodsList: []
+      goodsList: [],
+      loading: false,
+      finished: false
     }
   },
 
   created() {
-    this.setGoodsList(true)
     setTimeout(() => {
       this.show = true
     }, 50)
   },
 
   methods: {
-    async setGoodsList(init = false) {
-      Toast.loading({ message: '加载中...' })
-      if (init) this.page = 0
+    onLoadMore() {
+      this.setGoodsList()
+    },
+
+    async setGoodsList() {
+      if (!this.page) this.page = 0
       const { total = 0, list = [] } = await new RoomService().getGoodsList(this.roomId, 1, ++this.page)
-      init && (this.total = total)
-      this.goodsList = init ? list : [...this.goodsList, list]
-      Toast.clear()
+      if (this.page === 1) this.total = total
+      if (list.length) {
+        this.goodsList = this.page === 1 ? list : [...this.goodsList, list]
+      } else this.finished = true
+      this.loading = false
     },
 
     checkDetail(id) {},
