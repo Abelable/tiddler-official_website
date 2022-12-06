@@ -1,7 +1,7 @@
 <template>
   <div class="container">
     <img class="bg" v-if="roomInfo" v-lazy="roomInfo.cover + '?x-oss-process=image/resize,w_10'">
-    <Room v-if="roomInfo" :roomInfo="roomInfo" />
+    <Room v-if="roomInfo && roomInfo.status == 1" :roomInfo="roomInfo" />
   </div>
 </template>
 

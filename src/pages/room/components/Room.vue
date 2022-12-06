@@ -31,10 +31,10 @@
 
     <div class="shortcut-btns">
       <img class="shortcut-btn" @click="refresh" src="../../../assets/images/live/refresh.png" >
-      <img class="shortcut-btn" src="../../../assets/images/live/short.png" >
-      <img class="shortcut-btn" src="../../../assets/images/live/users.png" >
-      <img class="shortcut-btn" src="../../../assets/images/live/add-user-icon.png" >
-      <img class="shortcut-btn" src="../../../assets/images/live/animation.png" >
+      <img class="shortcut-btn" v-if="roomInfo.type_name" src="../../../assets/images/live/short.png" >
+      <img class="shortcut-btn" v-if="roomInfo.type_name" src="../../../assets/images/live/users.png" >
+      <img class="shortcut-btn" v-if="roomInfo.type_name" src="../../../assets/images/live/add-user-icon.png" >
+      <img class="shortcut-btn" v-if="roomInfo.type_name && animationList.length" src="../../../assets/images/live/animation.png" >
     </div>
 
     <div class="bottom-part">
@@ -43,8 +43,8 @@
       <RecommendGoodsSlider v-if="recommendGoodsSliderVisible" :goodsInfo="recommendGoods" />
       <PhraseList v-if="userPhraseList.length" :roomInfo="roomInfo" :phraseList="userPhraseList" />
       <div class="interactive-area">
-        <div class="chat-btn" catchtap="showInputModal">
-          <img class="ban-icon" src="../../../assets/images/live/ban.png" >
+        <div class="chat-btn" :class="{ 'is-ban': isBan }" @click="showInputModal">
+          <img class="ban-icon" v-if="isBan" src="../../../assets/images/live/ban.png" >
           <div>说点什么......</div>
         </div>
         <div class="btns">
@@ -95,6 +95,7 @@ export default {
     return {
       goodsList: [],
       userPhraseList: [],
+      animationList: [],
       recommendGoods: null,
       praiseCount: 0,
       adVisible: false,
@@ -110,7 +111,8 @@ export default {
       userID: state => state.im.userID,
       userSig: state => state.im.userSig,
       subtitleVisible: state => state.im.subtitleVisible,
-      subtitleContent: state => state.im.subtitleContent
+      subtitleContent: state => state.im.subtitleContent,
+      isBan: state => state.im.isBan,
     })
   },
 
@@ -127,6 +129,7 @@ export default {
     this.setMsgHistory()
     this.setUserPhraseList()
     this.setRecommendGoods()
+    this.setAnimationList()
   },
 
   destroyed() {
@@ -163,6 +166,11 @@ export default {
           this.recommendGoodsSliderVisible = false
         }, 10000)
       }
+    },
+
+    async setAnimationList() {
+      const { list = [] } = await roomService.getAnimationList() || {}
+      this.animationList = list
     },
 
     initTim() {
@@ -375,6 +383,8 @@ export default {
       this.featuresPopVisible = !this.featuresPopVisible
     },
 
+    showInputModal() {},
+
     hideModal() {
       this.featuresPopVisible = false
     },
@@ -524,6 +534,8 @@ export default {
         font-size: .26rem
         border-radius: .35rem
         background: rgba(0, 0, 0, 0.3)
+        &.is-ban
+          opacity: 0.5
         .ban-icon
           margin-right: .1rem
           width: .4rem

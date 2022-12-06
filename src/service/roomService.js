@@ -50,6 +50,10 @@ class RoomService extends BaseService {
     const { list = [] } = await this.getGoodsList(room_id, 3, 1, 1) || {}
     return list.length ? list[0] : null
   }
+
+  async getAnimationList() {
+    return await this.get(`${this.liveUrl}/live-stream/dynamic`) || {}
+  }
 }
 
 export default RoomService
