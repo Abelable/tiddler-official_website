@@ -68,12 +68,10 @@ export default {
     },
 
     touchStart() {
-      this.$emit('toggleSwipeTouchable', false)
       this.autoScrollAbel = false
     },
 
     touchEnd() {
-      this.$emit('toggleSwipeTouchable', true)
       this.autoScrollAbel = true
     }
   }

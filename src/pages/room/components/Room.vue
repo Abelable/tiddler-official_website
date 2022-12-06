@@ -9,16 +9,22 @@
           <div class="user-count">{{0}}</div>
         </div>
       </div>
-      <div class="row between">
-        <div class="recommend-goods">
+      <div class="row">
+        <div class="recommend-goods" v-if="recommendGoods">
           <div class="recommend-goods-title">热门推荐</div>
-          <img class="recommend-goods-pic" src="" >
+          <img class="recommend-goods-pic" :src="recommendGoods.goods_img" >
         </div>
-        <div class="rolling-caption">
-          <div class="rolling-caption-content-wrap">
-            <div class="rolling-caption-content">这里是公告</div>
+        <div class="rolling-caption-wrap">
+          <div class="rolling-caption" v-if="subtitleVisible && subtitleContent" @click="adVisible = !adVisible">
+            <div class="rolling-caption-content-wrap">
+              <div class="rolling-caption-content">{{subtitleContent}}</div>
+            </div>
+            <img class="open-arrow" src="../../../assets/images/live/open-arrow.png" >
           </div>
-          <img class="open-arrow" src="../../../assets/images/live/open-arrow.png" >
+          <div class="ad-content-wrap" v-show="adVisible">
+            <img class="ad-content-title" src="../../../assets/images/live/ad-title.png">
+            <div class="ad-content">{{subtitleContent}}</div>
+          </div>
         </div>
       </div>
     </div>
@@ -33,7 +39,7 @@
 
     <div class="bottom-part">
       <AudienceActionTip />
-      <Dialog :roomId="roomInfo.id" :isAnchor="!!roomInfo.type_name" @toggleSwipeTouchable="toggleSwipeTouchable" />
+      <Dialog :roomId="roomInfo.id" :isAnchor="!!roomInfo.type_name" />
       <PhraseList v-if="userPhraseList.length" :roomInfo="roomInfo" :phraseList="userPhraseList" />
       <div class="interactive-area">
         <div class="chat-btn" catchtap="showInputModal">
@@ -55,8 +61,6 @@
 
 <script>
 import TIM from 'tim-js-sdk'
-import TIMUploadPlugin from 'tim-upload-plugin'
-import Vue from 'vue'
 import { mapState } from 'vuex'
 import { Toast } from 'vant'
 import RoomService from '@/service/roomService'
@@ -86,7 +90,9 @@ export default {
     return {
       goodsList: [],
       userPhraseList: [],
+      recommendGoods: null,
       praiseCount: 0,
+      adVisible: false,
       goodsModalVisible: false,
       featuresPopVisible: false
     }
@@ -94,9 +100,8 @@ export default {
 
   computed: {
     ...mapState({
-      sdkAppID: state => state.im.sdkAppID,
-      userID: state => state.im.userID,
-      userSig: state => state.im.userSig
+      subtitleVisible: state => state.im.subtitleVisible,
+      subtitleContent: state => state.im.subtitleContent
     })
   },
 
@@ -108,10 +113,10 @@ export default {
   },
 
   created() {
-    this.initTim()
     this.joinGroup()
     this.setMsgHistory()
     this.setUserPhraseList()
+    this.setRecommendGoods()
   },
 
   destroyed() {
@@ -140,54 +145,8 @@ export default {
       this.userPhraseList = list
     },
 
-    initTim() {
-      const tim = TIM.create({ SDKAppID: this.sdkAppID })
-      if (tim) {
-        tim.setLogLevel(1)
-        tim.registerPlugin({'tim-upload-plugin': TIMUploadPlugin})
-        tim.on(TIM.EVENT.MESSAGE_RECEIVED, this.onMsgReceive)
-        tim.login({ userID: this.userID, userSig: this.userSig })
-        this.tim = tim
-        Vue.prototype.tim = tim
-      }
-    },
-
-    onMsgReceive({ data = [] }) {
-      console.log('tim', data)
-      data.forEach(item => {
-        const { conversationType, type, payload } = item
-        switch (conversationType) {
-          case TIM.TYPES.CONV_SYSTEM:
-            if (type === TIM.TYPES.MSG_GRP_SYS_NOTICE) {
-              // handleLiveCustomMsg(payload)
-            }
-            break
-
-          case TIM.TYPES.CONV_GROUP:
-            if (type === TIM.TYPES.MSG_TEXT) {
-              this.handleLiveChatMsg(payload)
-            } else if (type === TIM.TYPES.MSG_CUSTOM) {
-              // handleLiveCustomMsg(payload)
-            }
-            break
-        }
-      })
-    },
-
-    handleLiveChatMsg(payload) {
-      const { nick_name, ...rest } = typeof(payload.text) === 'string' ? JSON.parse(payload.text.replace(/&quot;/g, "\"")).data : {}
-      const liveMsg = nick_name ? { nick_name, ...rest } : null
-
-      if (!this.liveMsgCache) this.liveMsgCache = []
-      liveMsg && this.liveMsgCache.push(liveMsg)
-
-      if (!this.setLiveMsgListTimeout) {
-        this.setLiveMsgListTimeout = setTimeout(() => {
-          this.$store.commit('setLiveChatMsgList', this.liveMsgCache)
-          this.liveMsgCache = []
-          this.setLiveMsgListTimeout = null
-        }, 100 * this.liveMsgCache.length)
-      }
+    async setRecommendGoods() {
+      this.recommendGoods = await roomService.getRecommendGoods(this.roomInfo.id)
     },
 
     joinGroup() {
@@ -207,21 +166,8 @@ export default {
     },
 
     hideModal() {
-      this.goodsModalVisible = false
-      this.hideSkuModal()
       this.featuresPopVisible = false
-      this.toggleSwipeTouchable(true)
     },
-
-    hideSkuModal() {
-      this.skuModalVisible = false
-      this.skuGoodsInfo = null
-      if (!this.goodsModalVisible) this.toggleSwipeTouchable(true)
-    },
-
-    toggleSwipeTouchable(val) {
-      this.$emit('toggleSwipeTouchable', val)
-    }
   }
 }
 </script>
@@ -271,43 +217,73 @@ export default {
       display: flex
       flex-direction: column
       align-items: center
+      margin-right: .24rem
       width: 1.24rem
       height: 1.64rem
       background-image: url('https://img.ubo.vip/youbo_plus/live/recommend-goods-bg.png')
       background-size: 100%
       background-repeat: no-repeat
       .recommend-goods-title
-        margin-top: .03rem
+        margin-top: .04rem
         color: #FFE5BD
         font-size: .2rem
         line-height: .3rem
       .recommend-goods-pic
-        margin-top: .12rem
+        margin-top: .08rem
         width: 1.14rem
         height: 1.14rem
         border-radius: .18rem
-    .rolling-caption
+    .rolling-caption-wrap
       display: flex
-      align-items: center
-      padding-left: .18rem
-      width: 3.68rem
-      height: .44rem
-      background: rgba(0,0,0,0.3)
-      border-radius: .36rem
-      border: 0.5px solid rgba(255, 255, 255, 0.3)
-      .rolling-caption-content-wrap
-        flex: 1
-        overflow: hidden
-        .rolling-caption-content
-          width: fit-content
-          color: #FDDF6A
-          font-size: .22rem
-          white-space: nowrap
-          animation: wordsLoop 16s linear infinite
-      .open-arrow
-        margin: 0 .08rem
-        width: .4rem
-        height: .4rem
+      flex-direction: column
+      align-items: flex-end
+      flex: 1
+      .rolling-caption
+        display: flex
+        align-items: center
+        padding-left: .18rem
+        width: 3.68rem
+        height: .44rem
+        background: rgba(0,0,0,0.3)
+        border-radius: .36rem
+        border: 0.5px solid rgba(255, 255, 255, 0.3)
+        .rolling-caption-content-wrap
+          flex: 1
+          overflow: hidden
+          .rolling-caption-content
+            width: fit-content
+            color: #FDDF6A
+            font-size: .22rem
+            white-space: nowrap
+            animation: wordsLoop 16s linear infinite
+        .open-arrow
+          margin: 0 .08rem
+          width: .4rem
+          height: .4rem
+      .ad-content-wrap
+        position: relative
+        margin-top: .24rem
+        padding: .3rem
+        width 100%
+        font-size: 0
+        background: #FFFFFF
+        border-radius: .2rem
+        &::before
+          position: absolute
+          right: .4rem
+          top: -0.28rem
+          content: ""
+          width: 0
+          height: 0
+          border: .16rem solid transparent
+          border-bottom-color: #fff 
+        .ad-content-title
+          width: .92rem
+          height: .32rem
+        .ad-content
+          margin-top: .12rem
+          color: #333
+          font-size: .24rem
   .shortcut-btns
     position: absolute
     top 50%

@@ -41,6 +41,15 @@ class RoomService extends BaseService {
   async setCurUserTagList(studio_id, user_id) {
     return await this.get(`${this.liveUrl}/live-tag/user-tag`, { studio_id, user_id })
   }
+
+  async getGoodsList(room_id, type, page, page_size = 10) {
+    return await this.get(`${this.liveUrl}/live-stream/good-list`, { room_id, type, page, page_size, platform: 'wechat' })
+  }
+
+  async getRecommendGoods(room_id) {
+    const { list = [] } = await this.getGoodsList(room_id, 3, 1, 1) || {}
+    return list.length ? list[0] : null
+  }
 }
 
 export default RoomService

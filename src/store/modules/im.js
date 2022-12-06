@@ -6,10 +6,9 @@ const user = {
     userName: '',
     userAvatar: '',
     liveChatMsgList: [],
-    fansPoints: 0,
-    fansRank: 0,
-    intimacyAddMsg: '',
-    audienceActionTip: null
+    audienceActionTip: null,
+    subtitleVisible: false,
+    subtitleContent: '',
   },
   mutations: {
     setImInfo(state, imInfo) {
@@ -30,6 +29,14 @@ const user = {
           state.liveChatMsgList = state.liveChatMsgList.length > 50 ? [...state.liveChatMsgList.slice(-30), data] : [...state.liveChatMsgList, data]
           break
       }
+    },
+
+    setSubtitleVisible(state, data) {
+      state.subtitleVisible = data
+    },
+
+    setSubtitleContent(state, data) {
+      state.subtitleContent = data
     },
 
     reset(state) {
