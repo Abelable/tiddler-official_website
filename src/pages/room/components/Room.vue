@@ -49,7 +49,7 @@
         </div>
         <div class="btns">
           <img class="btn" @click="goodsPopupVisible = true" src="../../../assets/images/live/cart.png" >
-          <img class="btn" src="https://img.ubo.vip/mp/sass/live-push/share.png" >
+          <img class="btn" @click="sharePopupVisible = true" src="https://img.ubo.vip/mp/sass/live-push/share.png" >
           <div class="btn">
             <img class="icon" src="https://img.ubo.vip/mp/index/room/praise-icon.png" >
             <div class="praise-count">1</div>
@@ -59,6 +59,7 @@
     </div>
 
     <GoodsPopup v-if="goodsPopupVisible" :roomId="roomInfo.id" :recommendGoodsId="`${recommendGoods.id}`" @hide="goodsPopupVisible = false" />
+    <SharePopup v-if="sharePopupVisible" @hide="sharePopupVisible = false" />
   </div>
 </template>
 
@@ -77,6 +78,7 @@ import Comment from './Comment'
 import RecommendGoodsSlider from './RecommendGoodsSlider'
 import PhraseList from './PhraseList'
 import GoodsPopup from './GoodsPopup'
+import SharePopup from './SharePopup'
 
 
 const roomService = new RoomService()
@@ -89,7 +91,8 @@ export default {
     Comment,
     RecommendGoodsSlider,
     PhraseList,
-    GoodsPopup
+    GoodsPopup,
+    SharePopup,
   },
 
   props: {
@@ -106,6 +109,7 @@ export default {
       adVisible: false,
       recommendGoodsSliderVisible: false,
       goodsPopupVisible: false,
+      sharePopupVisible: false,
     }
   },
 
