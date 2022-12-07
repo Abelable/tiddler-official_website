@@ -47,6 +47,7 @@
           <Comment :roomId="roomInfo.id" :isAnchor="!!roomInfo.type_name" />
           <RecommendGoodsSlider v-if="recommendGoodsSliderVisible" :goodsInfo="recommendGoods" />
           <PhraseList v-if="userPhraseList.length" :roomInfo="roomInfo" :phraseList="userPhraseList" />
+          <Praise :manual="manualPraise" :count="praiseCount" />
           <div class="interactive-area">
             <div class="chat-btn" :class="{ 'is-ban': isBan }" @click="showInputModal">
               <img class="ban-icon" v-if="isBan" src="../../assets/images/live/ban.png" >
@@ -57,7 +58,7 @@
               <img class="btn" @click="sharePopupVisible = true" src="https://img.ubo.vip/mp/sass/live-push/share.png" > -->
               <img class="btn" src="../../assets/images/live/cart.png" >
               <img class="btn" src="https://img.ubo.vip/mp/sass/live-push/share.png" >
-              <div class="btn">
+              <div class="btn" @click="praise">
                 <img class="icon" src="https://img.ubo.vip/mp/index/room/praise-icon.png" >
                 <div class="praise-count" v-if="praiseCount">{{praiseCount}}</div>
               </div>
@@ -76,6 +77,7 @@
 <script>
 import TIM from 'tim-js-sdk'
 import TIMUploadPlugin from 'tim-upload-plugin'
+import _ from "lodash"
 import Vue from 'vue'
 import { mapState } from 'vuex'
 import { Toast, Dialog, Swipe, SwipeItem } from 'vant'
@@ -90,6 +92,7 @@ import RecommendGoodsSlider from './components/RecommendGoodsSlider'
 import PhraseList from './components/PhraseList'
 import GoodsPopup from './components/GoodsPopup'
 import SharePopup from './components/SharePopup'
+import Praise from './components/Praise'
 
 export default {
   components: {
@@ -103,6 +106,7 @@ export default {
     PhraseList,
     GoodsPopup,
     SharePopup,
+    Praise,
   },
 
   data() {
@@ -128,6 +132,7 @@ export default {
       userID: state => state.im.userID,
       userSig: state => state.im.userSig,
       audienceCount: state => state.im.audienceCount,
+      manualPraise: state => state.im.manualPraise,
       praiseCount: state => state.im.praiseCount,
       subtitleVisible: state => state.im.subtitleVisible,
       subtitleContent: state => state.im.subtitleContent,
@@ -200,6 +205,19 @@ export default {
       const { list = [] } = await roomService.getAnimationList() || {}
       this.animationList = list
     },
+
+    praise() {
+      !this.manualPraise && this.$store.commit('setManualPraise', true)
+      this.$store.commit('setPraiseCount', this.praiseCount + 1)
+      if (!this.tempPraiseCount) this.tempPraiseCount = 0
+      ++this.tempPraiseCount
+      this.savePraise()
+    },
+
+    savePraise: _.debounce(function () {
+      roomService.savePraise(this.roomInfo.id, this.tempPraiseCount)
+      this.tempPraiseCount = 0
+    }, 1000),
 
     initTim() {
       const tim = TIM.create({ SDKAppID: this.sdkAppID })

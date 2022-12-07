@@ -54,6 +54,10 @@ class RoomService extends BaseService {
   async getAnimationList() {
     return await this.get(`${this.liveUrl}/live-stream/dynamic`) || {}
   }
+
+  async savePraise(room_id, count) {
+    return await this.post(`${this.liveUrl}/live-stream/like`, { room_id, count })
+  }
 }
 
 export default RoomService
