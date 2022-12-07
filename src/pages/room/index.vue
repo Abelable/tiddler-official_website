@@ -11,7 +11,7 @@
             <AuchorCapsule :roomInfo="roomInfo" />
             <div class="user-count-wrap" @click="roomInfo.type_name ? 'showUsersManagementPopup' : ''">
               <img class="users-icon" src="../../assets/images/live/user.png" >
-              <div class="user-count">{{0}}</div>
+              <div class="user-count">{{audienceCount}}</div>
             </div>
           </div>
           <div class="row">
@@ -59,7 +59,7 @@
               <img class="btn" src="https://img.ubo.vip/mp/sass/live-push/share.png" >
               <div class="btn">
                 <img class="icon" src="https://img.ubo.vip/mp/index/room/praise-icon.png" >
-                <div class="praise-count">1</div>
+                <div class="praise-count" v-if="praiseCount">{{praiseCount}}</div>
               </div>
             </div>
           </div>
@@ -112,7 +112,6 @@ export default {
       userPhraseList: [],
       animationList: [],
       recommendGoods: null,
-      praiseCount: 0,
       adVisible: false,
       recommendGoodsSliderVisible: false,
       goodsPopupVisible: false,
@@ -128,6 +127,8 @@ export default {
       sdkAppID: state => state.im.sdkAppID,
       userID: state => state.im.userID,
       userSig: state => state.im.userSig,
+      audienceCount: state => state.im.audienceCount,
+      praiseCount: state => state.im.praiseCount,
       subtitleVisible: state => state.im.subtitleVisible,
       subtitleContent: state => state.im.subtitleContent,
       isBan: state => state.im.isBan,
@@ -152,10 +153,12 @@ export default {
 
   methods: {
     async setRoomInfo() {
-      const { show_subtitle, subtitle, ...roomInfo } = await roomService.getRoomInfo(this.$route.query.id)
+      const { show_subtitle, subtitle, watch_num, user_watch_num, like_num, ...roomInfo } = await roomService.getRoomInfo(this.$route.query.id)
       this.roomInfo = roomInfo
       this.$store.commit('setSubtitleVisible', show_subtitle == 1)
       this.$store.commit('setSubtitleContent', subtitle)
+      this.$store.commit('setAudienceCount', roomInfo.type_name ? Number(watch_num) : Number(user_watch_num))
+      this.$store.commit('setPraiseCount', Number(like_num))
     },
 
     async setImInfo() {
