@@ -34,13 +34,13 @@
           </div>
         </div>
 
-        <div class="shortcut-btns">
+        <!-- <div class="shortcut-btns">
           <img class="shortcut-btn" @click="refresh" src="../../assets/images/live/refresh.png" >
           <img class="shortcut-btn" v-if="roomInfo.type_name" src="../../assets/images/live/short.png" >
           <img class="shortcut-btn" v-if="roomInfo.type_name" src="../../assets/images/live/users.png" >
           <img class="shortcut-btn" v-if="roomInfo.type_name" src="../../assets/images/live/add-user-icon.png" >
           <img class="shortcut-btn" v-if="roomInfo.type_name && animationList.length" src="../../assets/images/live/animation.png" >
-        </div>
+        </div> -->
 
         <div class="bottom-part">
           <AudienceActionTip />
@@ -53,8 +53,10 @@
               <div>说点什么......</div>
             </div>
             <div class="btns">
-              <img class="btn" @click="goodsPopupVisible = true" src="../../assets/images/live/cart.png" >
-              <img class="btn" @click="sharePopupVisible = true" src="https://img.ubo.vip/mp/sass/live-push/share.png" >
+              <!-- <img class="btn" @click="goodsPopupVisible = true" src="../../assets/images/live/cart.png" >
+              <img class="btn" @click="sharePopupVisible = true" src="https://img.ubo.vip/mp/sass/live-push/share.png" > -->
+              <img class="btn" src="../../assets/images/live/cart.png" >
+              <img class="btn" src="https://img.ubo.vip/mp/sass/live-push/share.png" >
               <div class="btn">
                 <img class="icon" src="https://img.ubo.vip/mp/index/room/praise-icon.png" >
                 <div class="praise-count">1</div>
@@ -66,7 +68,7 @@
       <SwipeItem></SwipeItem>
     </Swipe>
 
-    <GoodsPopup v-if="goodsPopupVisible" :roomId="roomInfo.id" :recommendGoodsId="`${recommendGoods.id}`" @hide="goodsPopupVisible = false" />
+    <GoodsPopup v-if="goodsPopupVisible" :roomId="roomInfo.id" :recommendGoodsId="`${recommendGoods ? recommendGoods.id : ''}`" @hide="goodsPopupVisible = false" />
     <SharePopup v-if="sharePopupVisible" @hide="sharePopupVisible = false" />
   </div>
 </template>
