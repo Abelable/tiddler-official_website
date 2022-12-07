@@ -2,10 +2,10 @@
   <div class="container" :class="{ horizontal }">
     <LivePlayer 
       class="player" 
-      :videoUrl="`${url.replace('rtmp', 'https')}.m3u8`" 
+      :videoUrl="url" 
       aspect='fullscreen' 
       :controls="false"
-      fluent 
+      :muted="false"
       autoplay 
       live 
       hide-big-play-button
