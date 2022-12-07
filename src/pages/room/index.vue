@@ -146,8 +146,8 @@ export default {
   },
 
   async created() {
-    await this.setImInfo()
     await this.setRoomInfo()
+    await this.setImInfo()
     this.initTim()
     this.joinGroup()
     this.setMsgHistory()
