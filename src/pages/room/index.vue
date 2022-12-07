@@ -4,7 +4,7 @@
 
     <Player v-if="roomInfo" :url="roomInfo.url" :horizontal="roomInfo.direction == 1" />
 
-    <Swipe class="cover" v-if="roomInfo" :loop="false" :show-indicators="false">
+    <Swipe class="cover" v-if="livePlaying" :loop="false" :show-indicators="false">
       <SwipeItem class="cover-inner">
         <div class="top-part">
           <div class="row center between">
@@ -135,6 +135,7 @@ export default {
       sdkAppID: state => state.im.sdkAppID,
       userID: state => state.im.userID,
       userSig: state => state.im.userSig,
+      livePlaying: state => state.im.livePlaying,
       audienceCount: state => state.im.audienceCount,
       manualPraise: state => state.im.manualPraise,
       praiseCount: state => state.im.praiseCount,

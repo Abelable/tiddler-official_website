@@ -5,6 +5,7 @@ const user = {
     sdkAppID: 0,
     userName: '',
     userAvatar: '',
+    livePlaying: false,
     liveChatMsgList: [],
     audienceActionTip: null,
     audienceCount: 0,
@@ -26,6 +27,10 @@ const user = {
       state.userSig = user_sig
       state.userName = user_name
       state.userAvatar = user_avatar
+    },
+
+    setLivePlaying(state, data) {
+      state.livePlaying = data
     },
 
     setLiveChatMsgList(state, data) {

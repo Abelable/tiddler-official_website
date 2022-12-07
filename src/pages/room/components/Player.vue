@@ -11,9 +11,31 @@ export default {
     horizontal: Boolean
   },
 
+  data() {
+    return {
+      player: null
+    }
+  },
+
+  watch: {
+    'player.hasStarted_': {
+      deep: true,
+      immediate: true,
+      handler(val) {
+        if (val) {
+          this.$store.commit('setLivePlaying', true)
+        }
+      }
+    }
+  },
+
   mounted() {
-    const player = window.TCPlayer('live_player', {})
+    const player = window.TCPlayer('live_player', {
+      autoplay: true,
+      controlBar: false
+    })
     player.src(`${this.url.replace('rtmp', 'https')}.m3u8`)
+    this.player = player
   }
 }
 </script>
