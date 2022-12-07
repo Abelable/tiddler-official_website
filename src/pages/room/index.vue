@@ -236,7 +236,6 @@ export default {
     },
 
     onMsgReceive({ data = [] }) {
-      console.log('tim', data)
       data.forEach(item => {
         const { conversationType, type, payload } = item
         switch (conversationType) {

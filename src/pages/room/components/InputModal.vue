@@ -4,7 +4,7 @@
       <div class="phrase-wrap" v-if="phraseList.length">
         <div class="tips">常用语：</div>
         <div class="phrase-list">
-          <div class="phrase" v-for="(item, index) in phraseList" :key="index" @click="sendMsg(item.content)">{{item.content}}</div>
+          <div class="phrase" v-for="(item, index) in phraseList" :key="index" @click="sendPhrase(item.content)">{{item.content}}</div>
         </div>
       </div>
 
@@ -54,7 +54,7 @@ export default {
     },
 
     async setSensitiveWordList() {
-      const { list = [] } = await roomService.getPhraseList(this.properties.roomInfo.studio_id, 3) || {}
+      const { list = [] } = await roomService.getPhraseList(this.roomInfo.studio_id, 3) || {}
       this.sensitiveWordList = list
     },
 
@@ -64,6 +64,12 @@ export default {
         return
       }
       this.sendMsg(this.content)
+      this.hide()
+    },
+
+    sendPhrase(content) {
+      this.sendMsg(content)
+      this.hide()
     },
 
     async sendMsg(msg) {
