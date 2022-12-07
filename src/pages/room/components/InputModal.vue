@@ -15,6 +15,7 @@
           v-model="content"
           placeholder="说点什么~" 
           confirm-type="send"
+          autofocus
           />
         <div class="send-btn" @click="send">发送</div>
       </div>

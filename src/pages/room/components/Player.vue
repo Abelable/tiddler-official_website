@@ -1,29 +1,19 @@
 <template>
   <div class="container" :class="{ horizontal }">
-    <LivePlayer 
-      class="player" 
-      :videoUrl="url" 
-      aspect='fullscreen' 
-      :controls="false"
-      :muted="false"
-      autoplay 
-      live 
-      hide-big-play-button
-    />
+    <video id="live_player" class="player" preload="auto" playsinline webkit-playsinline></video>
   </div>
 </template>
 
 <script>
-import LivePlayer from '@liveqing/liveplayer'
-
 export default {
-  components: {
-    LivePlayer,
-  },
-
   props: {
     url: String,
     horizontal: Boolean
+  },
+
+  mounted() {
+    const player = window.TCPlayer('live_player', {})
+    player.src(`${this.url.replace('rtmp', 'https')}.m3u8`)
   }
 }
 </script>
