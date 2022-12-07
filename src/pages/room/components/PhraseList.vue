@@ -21,19 +21,17 @@ export default {
     phraseList: Array
   },
 
-  data() {
-    return {
-      tagList: []
-    }
-  },
-
-  async created() {
-    const { list = [] } = await roomService.setCurUserTagList(this.roomInfo.studio_id, this.$store.state.im.userID) || {}
-    this.tagList = list
-    this.$store.commit('setUserTagList', list)
+  created() {
+    this.setTagList()
   },
 
   methods: {
+    async setTagList() {
+      const { list = [] } = await roomService.setCurUserTagList(this.roomInfo.studio_id, this.$store.state.im.userID) || {}
+      this.tagList = list
+      this.$store.commit('setUserTagList', list)
+    },
+
     async sendPhrase(msg) {
       const { id: room_id, group_id, type_name } = this.roomInfo
       let { userID, userName, userAvatar } = this.$store.state.im

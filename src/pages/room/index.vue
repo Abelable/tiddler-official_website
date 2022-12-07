@@ -49,7 +49,7 @@
           <PhraseList v-if="userPhraseList.length" :roomInfo="roomInfo" :phraseList="userPhraseList" />
           <Praise :manual="manualPraise" :count="praiseCount" />
           <div class="interactive-area">
-            <div class="chat-btn" :class="{ 'is-ban': isBan }" @click="showInputModal">
+            <div class="chat-btn" :class="{ 'is-ban': isBan }" @click="inputModalVisible = true">
               <img class="ban-icon" v-if="isBan" src="../../assets/images/live/ban.png" >
               <div>说点什么......</div>
             </div>
@@ -69,6 +69,7 @@
       <SwipeItem></SwipeItem>
     </Swipe>
 
+    <InputModal v-if="inputModalVisible" :roomInfo="roomInfo" :phraseList="userPhraseList" @hide="inputModalVisible = false" />
     <GoodsPopup v-if="goodsPopupVisible" :roomId="roomInfo.id" :recommendGoodsId="`${recommendGoods ? recommendGoods.id : ''}`" @hide="goodsPopupVisible = false" />
     <SharePopup v-if="sharePopupVisible" @hide="sharePopupVisible = false" />
   </div>
@@ -90,6 +91,7 @@ import AudienceActionTip from './components/AudienceActionTip'
 import Comment from './components/Comment'
 import RecommendGoodsSlider from './components/RecommendGoodsSlider'
 import PhraseList from './components/PhraseList'
+import InputModal from './components/InputModal'
 import GoodsPopup from './components/GoodsPopup'
 import SharePopup from './components/SharePopup'
 import Praise from './components/Praise'
@@ -104,6 +106,7 @@ export default {
     Comment,
     RecommendGoodsSlider,
     PhraseList,
+    InputModal,
     GoodsPopup,
     SharePopup,
     Praise,
@@ -118,6 +121,7 @@ export default {
       recommendGoods: null,
       adVisible: false,
       recommendGoodsSliderVisible: false,
+      inputModalVisible: false,
       goodsPopupVisible: false,
       sharePopupVisible: false,
       liveDuration: '',
@@ -423,16 +427,6 @@ export default {
 
     logoutIm() {
       this.tim.logout()
-    },
-
-    toggleFeaturesPop() {
-      this.featuresPopVisible = !this.featuresPopVisible
-    },
-
-    showInputModal() {},
-
-    hideModal() {
-      this.featuresPopVisible = false
     },
   }
 }
