@@ -488,6 +488,7 @@ export default {
             margin-left: .04rem
             color: #fff
             font-size: .24rem
+            line-height: 1
         .recommend-goods
           display: flex
           flex-direction: column
@@ -612,11 +613,13 @@ export default {
                 top: -0.28rem
                 left: 50%
                 transform: translateX(-50%)
+                display flex
+                align-items: center
                 padding: 0 .1rem
                 font-size: .18rem
                 color: #F94950
                 height: .28rem
-                line-height: .28rem
+                line-height: 1
                 border-radius: .14rem
                 background: #fff
                 white-space: nowrap
