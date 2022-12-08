@@ -24,6 +24,7 @@ import PasswordModal from './components/PasswordModal'
 import SharePopup from './components/SharePopup'
 
 import { mapState } from 'vuex'
+import { getUrlParam } from '@/utils/index'
 import RoomService from '@/service/roomService'
 
 const roomService = new RoomService()
@@ -56,10 +57,41 @@ export default {
   },
 
   created() {
+    const id = this.$route.query.id || getUrlParam('id')
+    const parent_user_id = this.$route.query.parent_user_id || getUrlParam('parent_user_id')
+
+    if (!navigator.userAgent.match(/(phone|pad|pod|iPhone|iPod|ios|iPad|Android|Mobile|IEMobile)/i)) {
+      window.location.href = `https://h5.youboi.com/youbo_plus/pc_live/index.html#/live_play?id=${id}&parent_user_id=${parent_user_id}`
+      return
+    }
+
+    const token = this.$route.query.token || getUrlParam('token') || localStorage.getItem('token') || ''
+    if (!token) {
+      window.location.href = `https://open.weixin.qq.com/connect/oauth2/authorize?appid=wx834688294afd4d48&redirect_uri=https%3A%2F%2Fyoubojia.youboi.com%2Fofficial-account%2Foauth-callback&response_type=code&scope=snsapi_userinfo&state=id%3D${id}%26parent_user_id%3D${parent_user_id}#wechat_redirect`
+      return
+    }
+
     this.setRoomInfo()
+    this.initWx()
   },
 
   methods: {
+    initWx() {
+      const ua = navigator.userAgent.toLowerCase()
+      const isWXWork = ua.match(/wxwork/i) == 'wxwork'
+      const isWeixin = !isWXWork && ua.match(/micromessenger/i) == 'micromessenger'
+      if (isWeixin) {
+        window.wx.config({
+          appId: 'wxc099fb49b78534b0',
+          timestamp: 0,
+          nonceStr: 'nonceStr',
+          signature: 'signature',
+          jsApiList: ['chooseImage'],
+          openTagList:['wx-open-launch-weapp'],
+        })
+      }
+    },
+
     refetch(password) {
       this.password = password
       this.setRoomInfo()

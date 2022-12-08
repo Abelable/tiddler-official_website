@@ -17,7 +17,6 @@ const router = new Router({
       component: () => import('../pages/room/index'),
       meta: {
         title: '直播间',
-        requireAuth: true
       }
     },
   ],
@@ -28,8 +27,7 @@ const router = new Router({
 
 router.beforeEach((to, from, next) => {
   if (to.meta.title) document.title = to.meta.title
-  // if (to.query.invite_code) localStorage.setItem('inviteCode', to.query.invite_code)
-
+  
   const token = localStorage.getItem('token')
   if (to.meta.requireAuth) {
     if (!token) {
@@ -53,6 +51,9 @@ router.beforeEach((to, from, next) => {
       next()
     }
   } else {
+    if (to.query.token) {
+      localStorage.setItem('token', to.query.token)
+    }
     next()
   }
 })
