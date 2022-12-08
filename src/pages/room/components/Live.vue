@@ -147,7 +147,6 @@ export default {
       recommendGoodsSliderVisible: false,
       inputModalVisible: false,
       goodsPopupVisible: false,
-      sharePopupVisible: false,
       liveStartModalVisible: false
     }
   },

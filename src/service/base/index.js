@@ -27,7 +27,7 @@ class Base {
   }
 
   async _axios({ method = 'GET', url, params, data, success, fail }) {
-    axios.defaults.headers['platform'] = 'wechat'
+    axios.defaults.headers['platform'] = 'official_account'
     if (method === 'POST') axios.defaults.headers['Content-Type'] = 'application/x-www-form-urlencoded'
     const token = localStorage.getItem('token')
     if (token) axios.defaults.headers['token'] = token

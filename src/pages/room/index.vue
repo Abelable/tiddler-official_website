@@ -45,7 +45,8 @@ export default {
       roomInfo: null,
       password: '',
       pwdError: false,
-      passwordModalVisible: false
+      passwordModalVisible: false,
+      sharePopupVisible: false
     }
   },
 
@@ -139,6 +140,8 @@ export default {
 <style lang="stylus" scoped>
 .container
   position relative
+  width: 100vw
+  height: 100vh
   overflow hidden
   .bg
     position absolute
