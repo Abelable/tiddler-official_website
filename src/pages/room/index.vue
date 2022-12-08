@@ -8,16 +8,19 @@
     <LiveNotice v-if="roomInfo && roomInfo.status == 2" :roomInfo="roomInfo" />
     <LiveEnd v-if="roomInfo && roomInfo.status == 3" :roomInfo="roomInfo" />
 
+    <PasswordModal v-if="passwordModalVisible" :pwdError="pwdError" @resetPassword="pwdError = false" @confirm="refetch" @cancel="back" />
     <SharePopup v-if="sharePopupVisible" @hide="sharePopupVisible = false" />
   </div>
 </template>
 
 <script>
+import { Toast, Dialog } from 'vant'
 import Live from './components/Live'
 import LiveBreak from './components/LiveBreak'
 import LiveEnding from './components/LiveEnding'
 import LiveNotice from './components/LiveNotice'
 import LiveEnd from './components/LiveEnd'
+import PasswordModal from './components/PasswordModal'
 import SharePopup from './components/SharePopup'
 
 import { mapState } from 'vuex'
@@ -32,12 +35,16 @@ export default {
     LiveEnding,
     LiveNotice,
     LiveEnd,
+    PasswordModal,
     SharePopup,
   },
 
   data() {
     return {
       roomInfo: null,
+      password: '',
+      pwdError: false,
+      passwordModalVisible: false
     }
   },
 
@@ -53,14 +60,42 @@ export default {
   },
 
   methods: {
-    async setRoomInfo() {
-      const { show_subtitle, subtitle, watch_num, user_watch_num, like_num, ...roomInfo } = await roomService.getRoomInfo(this.$route.query.id)
-      this.roomInfo = roomInfo
-      this.$store.commit('setSubtitleVisible', show_subtitle == 1)
-      this.$store.commit('setSubtitleContent', subtitle)
-      this.$store.commit('setAudienceCount', roomInfo.type_name ? Number(watch_num) : Number(user_watch_num))
-      this.$store.commit('setPraiseCount', Number(like_num))
+    refetch(password) {
+      this.password = password
+      this.setRoomInfo()
     },
+
+    setRoomInfo() {
+      const { id, parent_user_id } = this.$route.query
+      roomService.getRoomInfo(
+        id, this.password, parent_user_id, 
+        res => {
+          const { show_subtitle, subtitle, watch_num, user_watch_num, like_num, ...roomInfo } = res
+          this.roomInfo = roomInfo
+          this.$store.commit('setSubtitleVisible', show_subtitle == 1)
+          this.$store.commit('setSubtitleContent', subtitle)
+          this.$store.commit('setAudienceCount', roomInfo.type_name ? Number(watch_num) : Number(user_watch_num))
+          this.$store.commit('setPraiseCount', Number(like_num))
+        },
+        res => {
+          if (res.data.message === '直播间密码错误') {
+            if (this.passwordModalVisible) {
+              this.pwdError = true
+            } else {  
+              this.passwordModalVisible = true
+            }
+          } else if (res.data.message === '非白名单用户，无法查看' || res.data.message === '黑名单用户，无法查看') {
+            Dialog.alert({
+              message: '您暂无权限观看',
+            }).then(() => {
+              this.back()
+            })
+          } else Toast(res.data.message)
+        }
+      )
+    },
+
+    back() {}
   }
 }
 </script>

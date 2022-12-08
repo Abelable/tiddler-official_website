@@ -18,15 +18,15 @@ class Base {
     }
   }
 
-  async get(url, params) {
-    return await this._axios({ url, params })
+  async get(url, params, success, fail) {
+    return await this._axios({ url, params, success, fail })
   }
 
-  async post(url, data) {
-    return await this._axios({ method: 'POST', url, data})
+  async post(url, data, success, fail) {
+    return await this._axios({ method: 'POST', url, data, success, fail })
   }
 
-  async _axios({ method = 'GET', url, params, data }) {
+  async _axios({ method = 'GET', url, params, data, success, fail }) {
     axios.defaults.headers['platform'] = 'wechat'
     if (method === 'POST') axios.defaults.headers['Content-Type'] = 'application/x-www-form-urlencoded'
     const token = localStorage.getItem('token')
@@ -41,9 +41,10 @@ class Base {
     if (res) {
       if ([200, 201, 204].includes(res.status)) {
         if ([200, 1001].includes(res.data.code)) {
-          return res.data.data
+          if (success) success(res.data.data)
+          else return res.data.data
         } else {
-          Toast(res.data.message)
+          fail ? fail(res) : Toast(res.data.message)
           return false
         }
       } else {

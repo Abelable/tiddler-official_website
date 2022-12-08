@@ -33,6 +33,11 @@
           </div>
         </div>
 
+        <div class="full-screen-btn" wx:if="{{roomInfo.direction == 1}}" @click="toMp" >
+          <img class="full-screen-icon" src="/images/live/full-screen-icon.png" >
+          <div class="full-screen-desc">全屏观看</div>
+        </div>
+
         <!-- <div class="shortcut-btns">
           <img class="shortcut-btn" @click="refresh" src="../../assets/images/live/refresh.png" >
           <img class="shortcut-btn" v-if="roomInfo.type_name" src="../../assets/images/live/short.png" >
@@ -415,6 +420,8 @@ export default {
     logoutIm() {
       this.tim.logout()
     },
+
+    toMp() {}
   }
 }
 </script>
@@ -538,6 +545,27 @@ export default {
               margin-top: .12rem
               color: #333
               font-size: .24rem
+      .full-screen-btn
+        position: absolute
+        top: 6.8rem
+        left: 50%
+        transform: translateX(-50%)
+        display: flex
+        align-items: center
+        padding: 0 .16rem
+        height: .6rem
+        border-radius: .3rem
+        background-color: rgba(0, 0, 0, 0.3)
+        border: 0.5px solid rgba(255,255,255,0.3)
+        z-index: 1
+        .full-screen-icon
+          width: .36rem
+          height: .36rem
+        .full-screen-desc
+          margin-left: .08rem
+          color: #fff
+          font-size: .24rem
+          line-height: 1
       .shortcut-btns
         position: absolute
         top 50%

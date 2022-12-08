@@ -5,8 +5,8 @@ class RoomService extends BaseService {
     return await this.post(`${this.liveUrl}/user/tim-login`)
   }
 
-  async getRoomInfo(room_id, room_password = '', parent_user_id = '') {
-    return await this.post(`${this.liveUrl}/live-stream/live-room-url`, { room_id, room_password, parent_user_id })
+  async getRoomInfo(room_id, room_password = '', parent_user_id = '', success, fail) {
+    return await this.post(`${this.liveUrl}/live-stream/live-room-url`, { room_id, room_password, parent_user_id }, success, fail)
   }
 
   async getMsgHistory(room_id) {
