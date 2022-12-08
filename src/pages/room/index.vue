@@ -1,6 +1,9 @@
 <template>
   <div class="container">
+    <img class="bg" v-if="roomInfo" v-lazy="roomInfo.cover + '?x-oss-process=image/resize,w_10'">
+
     <Live v-if="roomInfo && roomInfo.status == 1 && !liveEnding" :roomInfo="roomInfo" />
+    <LiveBreak v-if="liveBreak" />
     <LiveEnding v-if="liveEnding" :roomInfo="roomInfo" />
     <LiveNotice v-if="roomInfo && roomInfo.status == 2" :roomInfo="roomInfo" />
     <LiveEnd v-if="roomInfo && roomInfo.status == 3" :roomInfo="roomInfo" />
@@ -11,6 +14,7 @@
 
 <script>
 import Live from './components/Live'
+import LiveBreak from './components/LiveBreak'
 import LiveEnding from './components/LiveEnding'
 import LiveNotice from './components/LiveNotice'
 import LiveEnd from './components/LiveEnd'
@@ -24,6 +28,7 @@ const roomService = new RoomService()
 export default {
   components: {
     Live,
+    LiveBreak,
     LiveEnding,
     LiveNotice,
     LiveEnd,
@@ -38,6 +43,7 @@ export default {
 
   computed: {
     ...mapState({
+      liveBreak: state => state.im.liveBreak,
       liveEnding: state => state.im.liveEnding,
     })
   },
@@ -62,4 +68,14 @@ export default {
 <style lang="stylus" scoped>
 .container
   position relative
+  overflow hidden
+  .bg
+    position absolute
+    top 0
+    left 0
+    width 100vw
+    height 100vh
+    filter blur(20px)
+    transform scale(1.2)
+    z-index -1  
 </style>

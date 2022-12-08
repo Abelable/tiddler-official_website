@@ -1,6 +1,5 @@
 <template>
   <div class="live">
-    <img class="bg" v-lazy="roomInfo.cover + '?x-oss-process=image/resize,w_10'">
 
     <Player :url="roomInfo.url" :horizontal="roomInfo.direction == 1" />
 
@@ -435,16 +434,6 @@ export default {
     align-items: center
 .live
   position relative
-  overflow hidden
-  .bg
-    position absolute
-    top 0
-    left 0
-    width 100vw
-    height 100vh
-    filter blur(20px)
-    transform scale(1.2)
-    z-index -1  
   .cover 
     position absolute
     top 0
