@@ -9,7 +9,7 @@
           <div class="row center between">
             <AuchorCapsule :roomInfo="roomInfo" />
             <div class="user-count-wrap" @click="roomInfo.type_name ? 'showUsersManagementPopup' : ''">
-              <img class="users-icon" src="../../assets/images/live/user.png" >
+              <img class="users-icon" src="../../../assets/images/live/user.png" >
               <div class="user-count">{{audienceCount}}</div>
             </div>
           </div>
@@ -28,10 +28,10 @@
                 <div class="rolling-caption-content-wrap">
                   <div class="rolling-caption-content">{{subtitleContent}}</div>
                 </div>
-                <img class="open-arrow" src="../../assets/images/live/open-arrow.png" >
+                <img class="open-arrow" src="../../../assets/images/live/open-arrow.png" >
               </div>
               <div class="ad-content-wrap" v-show="adVisible">
-                <img class="ad-content-title" src="../../assets/images/live/ad-title.png">
+                <img class="ad-content-title" src="../../../assets/images/live/ad-title.png">
                 <div class="ad-content">{{subtitleContent}}</div>
               </div>
             </div>
@@ -49,11 +49,11 @@
         </wx-open-launch-weapp>
 
         <!-- <div class="shortcut-btns">
-          <img class="shortcut-btn" @click="refresh" src="../../assets/images/live/refresh.png" >
-          <img class="shortcut-btn" v-if="roomInfo.type_name" src="../../assets/images/live/short.png" >
-          <img class="shortcut-btn" v-if="roomInfo.type_name" src="../../assets/images/live/users.png" >
-          <img class="shortcut-btn" v-if="roomInfo.type_name" src="../../assets/images/live/add-user-icon.png" >
-          <img class="shortcut-btn" v-if="roomInfo.type_name && animationList.length" src="../../assets/images/live/animation.png" >
+          <img class="shortcut-btn" @click="refresh" src="../../../assets/images/live/refresh.png" >
+          <img class="shortcut-btn" v-if="roomInfo.type_name" src="../../../assets/images/live/short.png" >
+          <img class="shortcut-btn" v-if="roomInfo.type_name" src="../../../assets/images/live/users.png" >
+          <img class="shortcut-btn" v-if="roomInfo.type_name" src="../../../assets/images/live/add-user-icon.png" >
+          <img class="shortcut-btn" v-if="roomInfo.type_name && animationList.length" src="../../../assets/images/live/animation.png" >
         </div> -->
 
         <div class="bottom-part">
@@ -64,7 +64,7 @@
           <Praise :manual="manualPraise" :count="praiseCount" />
           <div class="interactive-area">
             <div class="chat-btn" :class="{ 'is-ban': isBan }" @click="inputModalVisible = true">
-              <img class="ban-icon" v-if="isBan" src="../../assets/images/live/ban.png" >
+              <img class="ban-icon" v-if="isBan" src="../../../assets/images/live/ban.png" >
               <div>说点什么......</div>
             </div>
             <div class="btns">
@@ -73,7 +73,7 @@
                 username="gh_7fa0cd4796ba" 
                 :path="`pages/subpages/home/live-play/index?id=${roomInfo.id}&parent_user_id=${shareId}`"
               >
-                <img class="icon" src="../../assets/images/live/cart.png" >
+                <img class="icon" src="../../../assets/images/live/cart.png" >
               </wx-open-launch-weapp>
               <wx-open-launch-weapp 
                 class="btn" 
