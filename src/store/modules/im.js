@@ -18,6 +18,8 @@ const user = {
     liveBreak: false,
     anonymoused: 0,
     animationIndex: -1,
+    liveDuration: 0,
+    liveEnding: false,
   },
   mutations: {
     setImInfo(state, imInfo) {
@@ -98,6 +100,14 @@ const user = {
 
     setAnimationIndex(state, data) {
       state.animationIndex = data
+    },
+
+    setLiveDuration(state, data) {
+      state.liveDuration = data
+    },
+
+    setLiveEnding(state, data) {
+      state.liveEnding = data
     },
 
     reset(state) {
