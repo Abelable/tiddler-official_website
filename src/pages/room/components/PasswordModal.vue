@@ -108,5 +108,5 @@ export default {
           color: #999
           border-right: 1px solid #eee
         &.confirm
-          color: var(--dark-gold)
+          color: #D68C1E
 </style>
