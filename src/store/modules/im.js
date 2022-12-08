@@ -1,5 +1,6 @@
 const user = {
   state: {
+    shareId: 0,
     userID: 0,
     userSig: '',
     sdkAppID: 0,
@@ -21,7 +22,12 @@ const user = {
     liveDuration: 0,
     liveEnding: false,
   },
+
   mutations: {
+    setShareId(state, id) {
+      state.shareId = id
+    },
+
     setImInfo(state, imInfo) {
       const { app_id, user_id, user_sig, user_name, user_avatar } = imInfo
       state.sdkAppID = +app_id

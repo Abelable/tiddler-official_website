@@ -14,10 +14,15 @@
             </div>
           </div>
           <div class="row">
-            <div class="recommend-goods" v-if="recommendGoods">
+            <wx-open-launch-weapp 
+              class="recommend-goods" 
+              v-if="recommendGoods"
+              username="gh_7fa0cd4796ba" 
+              :path="`pages/subpages/home/live-play/index?id=${roomInfo.id}&parent_user_id=${shareId}`"
+            >
               <div class="recommend-goods-title">热门推荐</div>
               <img class="recommend-goods-pic" :src="recommendGoods.goods_img" >
-            </div>
+            </wx-open-launch-weapp>
             <div class="rolling-caption-wrap">
               <div class="rolling-caption" v-if="subtitleVisible && subtitleContent" @click="adVisible = !adVisible">
                 <div class="rolling-caption-content-wrap">
@@ -33,10 +38,15 @@
           </div>
         </div>
 
-        <div class="full-screen-btn" wx:if="{{roomInfo.direction == 1}}" @click="toMp" >
+        <wx-open-launch-weapp 
+          class="full-screen-btn" 
+          v-if="roomInfo.direction == 1" 
+          username="gh_7fa0cd4796ba" 
+          :path="`pages/subpages/home/live-play/index?id=${roomInfo.id}&parent_user_id=${shareId}`"
+        >
           <img class="full-screen-icon" src="/images/live/full-screen-icon.png" >
           <div class="full-screen-desc">全屏观看</div>
-        </div>
+        </wx-open-launch-weapp>
 
         <!-- <div class="shortcut-btns">
           <img class="shortcut-btn" @click="refresh" src="../../assets/images/live/refresh.png" >
@@ -49,7 +59,7 @@
         <div class="bottom-part">
           <AudienceActionTip />
           <Comment :roomId="roomInfo.id" :isAnchor="!!roomInfo.type_name" />
-          <RecommendGoodsSlider v-if="recommendGoodsSliderVisible" :goodsInfo="recommendGoods" />
+          <RecommendGoodsSlider v-if="recommendGoodsSliderVisible" :roomId="roomInfo.id" :goodsInfo="recommendGoods" />
           <PhraseList v-if="userPhraseList.length" :roomInfo="roomInfo" :phraseList="userPhraseList" />
           <Praise :manual="manualPraise" :count="praiseCount" />
           <div class="interactive-area">
@@ -58,10 +68,20 @@
               <div>说点什么......</div>
             </div>
             <div class="btns">
-              <!-- <img class="btn" @click="goodsPopupVisible = true" src="../../assets/images/live/cart.png" >
-              <img class="btn" @click="sharePopupVisible = true" src="https://img.ubo.vip/mp/sass/live-push/share.png" > -->
-              <img class="btn" src="../../assets/images/live/cart.png" >
-              <img class="btn" src="https://img.ubo.vip/mp/sass/live-push/share.png" >
+              <wx-open-launch-weapp 
+                class="btn" 
+                username="gh_7fa0cd4796ba" 
+                :path="`pages/subpages/home/live-play/index?id=${roomInfo.id}&parent_user_id=${shareId}`"
+              >
+                <img class="icon" src="../../assets/images/live/cart.png" >
+              </wx-open-launch-weapp>
+              <wx-open-launch-weapp 
+                class="btn" 
+                username="gh_7fa0cd4796ba" 
+                :path="`pages/subpages/home/live-play/index?id=${roomInfo.id}&parent_user_id=${shareId}`"
+              >
+                <img class="icon" src="https://img.ubo.vip/mp/sass/live-push/share.png" >
+              </wx-open-launch-weapp>
               <div class="btn" @click="praise">
                 <img class="icon" src="https://img.ubo.vip/mp/index/room/praise-icon.png" >
                 <div class="praise-count" v-if="praiseCount">{{praiseCount}}</div>
@@ -134,6 +154,7 @@ export default {
 
   computed: {
     ...mapState({
+      shareId: state => state.im.shareId,
       sdkAppID: state => state.im.sdkAppID,
       userID: state => state.im.userID,
       userSig: state => state.im.userSig,
@@ -420,8 +441,6 @@ export default {
     logoutIm() {
       this.tim.logout()
     },
-
-    toMp() {}
   }
 }
 </script>
