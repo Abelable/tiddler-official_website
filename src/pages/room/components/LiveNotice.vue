@@ -131,5 +131,5 @@ export default {
     border: .01rem solid #fff
     &.invalid
       color: #ccc
-      border:. 1rem solid #999
+      border: .01rem solid #999
 </style>

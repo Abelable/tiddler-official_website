@@ -6,8 +6,8 @@
       <input class="input" type="number" v-model="password" placeholder="请输入密码" >
       <div class="error-tips">{{pwdError ? '*密码错误' : ''}}</div>
       <div class="btns">
-        <div class="cancel btn" @click="cancel">取消</div>
-        <div class="confirm btn" @click="confirm">确认</div>
+        <div class="cancel-btn" @click="cancel">取消</div>
+        <div class="confirm-btn" @click="confirm">确认</div>
       </div>
     </div>
   </div>
@@ -52,7 +52,7 @@ export default {
 </script>
 
 <style lang="stylus" scoped>
-.password-modal {
+.password-modal
   position: fixed
   top: 0
   left: 0
@@ -60,7 +60,7 @@ export default {
   height: 100vh
   background-color: rgba(0, 0, 0, 0.3)
   backdrop-filter: blur(10px)
-  .main {
+  .main
     position: absolute
     top: 50%
     left: 50%
@@ -96,17 +96,21 @@ export default {
     .btns
       display: flex
       border-top: 1px solid #eee
-      .btn
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        &.cancel, &.confirm
-          flex: 1
-          font-size: .34rem
-          height: .92rem
-        &.cancel
-          color: #999
-          border-right: 1px solid #eee
-        &.confirm
-          color: #D68C1E
+      .confirm-btn
+        display: flex
+        align-items: center
+        justify-content: center
+        flex: 1
+        color: #D68C1E
+        font-size: .34rem
+        height: .92rem
+      .cancel-btn
+        display: flex
+        align-items: center
+        justify-content: center
+        flex: 1
+        font-size: .34rem
+        height: .92rem
+        color: #999
+        border-right: 1px solid #eee
 </style>
