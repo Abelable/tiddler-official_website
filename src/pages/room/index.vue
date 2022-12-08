@@ -72,7 +72,7 @@ export default {
 
     const token = this.$route.query.token || getUrlParam('token') || localStorage.getItem('token') || ''
     if (!token) {
-      window.location.href = `https://open.weixin.qq.com/connect/oauth2/authorize?appid=wx834688294afd4d48&redirect_uri=https%3A%2F%2Fyoubojia.youboi.com%2Fofficial-account%2Foauth-callback&response_type=code&scope=snsapi_userinfo&state=id%3D${id}%26parent_user_id%3D${parent_user_id}#wechat_redirect`
+      window.location.href = `https://open.weixin.qq.com/connect/oauth2/authorize?appid=wx834688294afd4d48&redirect_uri=https%3A%2F%2Fyoubojia.youboi.com%2Fofficial-account%2Foauth-callback&response_type=code&scope=snsapi_userinfo&state=${encodeURIComponent(`id=${id}&parent_user_id=${parent_user_id}`)}#wechat_redirect`
       return
     }
 
