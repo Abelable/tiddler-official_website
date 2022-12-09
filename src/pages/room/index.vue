@@ -76,6 +76,8 @@ export default {
       return
     }
 
+    localStorage.setItem('token', token)
+
     this.setRoomInfo()
     this.initWx()
   },
@@ -113,6 +115,7 @@ export default {
           this.$store.commit('setSubtitleContent', subtitle)
           this.$store.commit('setAudienceCount', roomInfo.type_name ? Number(watch_num) : Number(user_watch_num))
           this.$store.commit('setPraiseCount', Number(like_num))
+          document.title = roomInfo.title
         },
         res => {
           if (res.data.message === '直播间密码错误') {
