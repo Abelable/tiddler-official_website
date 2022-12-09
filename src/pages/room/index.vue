@@ -3,7 +3,7 @@
     <img class="bg" v-if="roomInfo" v-lazy="roomInfo.cover + '?x-oss-process=image/resize,w_10'">
 
     <Live v-if="roomInfo && roomInfo.status == 1 && !liveEnding" :roomInfo="roomInfo" />
-    <LiveBreak v-if="liveBreak" />
+    <LiveBreak v-if="(roomInfo && roomInfo.status == 0) || liveBreak" />
     <LiveEnding v-if="liveEnding" :roomInfo="roomInfo" />
     <LiveNotice v-if="roomInfo && roomInfo.status == 2" :roomInfo="roomInfo" />
     <LiveEnd v-if="roomInfo && roomInfo.status == 3" :roomInfo="roomInfo" />

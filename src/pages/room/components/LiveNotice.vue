@@ -13,12 +13,37 @@
 
     <div class="btn-wrap">
       <div class="btn" :class="{ invalid: isSubscribed }" @click="toggleSubscribe">{{isSubscribed ? '已订阅' : '订阅直播间'}}</div>
-      <div class="btn" @click="share">分享直播间</div>
+      <wx-open-launch-weapp 
+        username="gh_7fa0cd4796ba" 
+        :path="`pages/subpages/home/live-play/index?id=${roomInfo.id}&parent_user_id=${shareId}`"
+      >
+        <script type="text/wxtag-template">
+          <style>
+            .btn {
+              display: flex;
+              align-items: center;
+              justify-content: center;
+              margin-top: 15px;
+              width: 290px;
+              height: 44px;
+              color: #fff;
+              font-size: 18px;
+              line-height: 1;
+              border-radius: 22px;
+              border: 1px solid #fff;
+            }
+          </style>
+          <div class="btn">分享直播间</div>
+        </script>
+      </wx-open-launch-weapp>
+      
     </div>
   </div>
 </template>
 
 <script>
+import { mapState } from 'vuex'
+
 export default {
   props: {
     roomInfo: Object
@@ -29,6 +54,12 @@ export default {
       time: 0,
       isSubscribed: false,
     }
+  },
+
+  computed: {
+    ...mapState({
+      shareId: state => state.im.shareId,
+    })
   },
 
   filters: {
@@ -121,15 +152,15 @@ export default {
     display: flex
     align-items: center
     justify-content: center
-    margin-top: .30rem
-    width: 5.82rem
-    height: .88rem
+    margin-top: 15px
+    width: 290px
+    height: 44px
     color: #fff
-    font-size: .36rem
+    font-size: 18px
     line-height: 1
-    border-radius: .44rem
-    border: .01rem solid #fff
+    border-radius: 22px
+    border: 1px solid #fff
     &.invalid
       color: #ccc
-      border: .01rem solid #999
+      border: 1px solid #999
 </style>
