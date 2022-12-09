@@ -33,10 +33,9 @@
               border: 1px solid #fff;
             }
           </style>
-          <div class="btn">查看高清直播</div>
+          <div class="btn">跳转小程序</div>
         </script>
       </wx-open-launch-weapp>
-      
     </div>
   </div>
 </template>

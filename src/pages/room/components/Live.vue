@@ -45,7 +45,7 @@
                   padding: 0 8px;
                   height: 3px;
                   border-radius: 1.5px;
-                  background-color: rgba(0, 0, 0, 0.3);
+                  background: rgba(0, 0, 0, 0.3);
                   border: 0.5px solid rgba(255,255,255,0.3);
                 }
                 .full-screen-icon {
@@ -83,8 +83,7 @@
                   width: 60px;
                   height: 60px;
                   border-radius: 50%;
-                  background rgba(0, 0, 0, 0.3);
-                  z-index: 100;
+                  background: rgba(0, 0, 0, 0.3);
                 }
                 .hd-icon {
                   margin-left: 2px;
@@ -608,11 +607,13 @@ export default {
         top: 6.8rem
         left: 50%
         transform: translateX(-50%)
+        z-index: 100
       .hd-btn
         position: absolute
         top 50%
         transform: translateY(-50%)
         right: .24rem
+        z-index: 100
       .shortcut-btns
         position: absolute
         top 50%

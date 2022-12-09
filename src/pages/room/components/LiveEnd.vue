@@ -17,6 +17,29 @@
     </div>
 
     <div class="bottom-bar">
+      <wx-open-launch-weapp 
+        username="gh_7fa0cd4796ba" 
+        :path="`pages/subpages/home/live-play/index?id=${roomInfo.id}&parent_user_id=${shareId}`"
+      >
+        <script type="text/wxtag-template">
+          <style>
+            .back-btn {
+              display: flex;
+              align-items: center;
+              justify-content: center;
+              margin-right: 10px;
+              width: 100px;
+              height: 40px;
+              font-size: 16px;
+              font-weight: bold;
+              color: #FFE5BD;
+              background: linear-gradient(128deg, #404A5C 0%, #0F131A 100%);
+              border-radius: 20px;
+            }
+          </style>
+          <div class="back-btn">跳转小程序</div>
+        </script>
+      </wx-open-launch-weapp>
       <div class="status-btn">直播已结束</div>
     </div>
   </div>
@@ -41,10 +64,6 @@ export default {
       return 'YYYY年MM月DD日 hh:mm:ss'.replace('YYYY', year).replace('MM', month).replace('DD', day).replace('hh', hours).replace('mm', minutes).replace('ss', seconds)
     }
   },
-
-  methods: {
-    back() {}
-  }
 }
 </script>
 
@@ -113,6 +132,11 @@ export default {
       font-size: .32rem
       font-weight: bold
       border-radius: .40rem
+    .back-btn
+      margin-left: .30rem
+      width: 2.00rem
+      color: #FFE5BD
+      background: linear-gradient(128deg, #404A5C 0%, #0F131A 100%)
     .status-btn
       flex: 1
       color: #999
