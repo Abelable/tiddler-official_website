@@ -32,15 +32,78 @@
           </div>
         </div>
 
-        <wx-open-launch-weapp 
-          class="full-screen-btn" 
-          v-if="roomInfo.direction == 1" 
-          username="gh_7fa0cd4796ba" 
-          :path="`pages/subpages/home/live-play/index?id=${roomInfo.id}&parent_user_id=${shareId}`"
-        >
-          <img class="full-screen-icon" src="https://img.ubo.vip/youbo_plus/live/full-screen-icon.png" >
-          <div class="full-screen-desc">全屏观看</div>
-        </wx-open-launch-weapp>
+        <div class="full-screen-btn" v-if="roomInfo.direction == 1">
+          <wx-open-launch-weapp 
+            username="gh_7fa0cd4796ba" 
+            :path="`pages/subpages/home/live-play/index?id=${roomInfo.id}&parent_user_id=${shareId}`"
+          >
+            <script type="text/wxtag-template">
+              <style>
+                .full-screen-btn {
+                  display: flex;
+                  align-items: center;
+                  padding: 0 8px;
+                  height: 3px;
+                  border-radius: 1.5px;
+                  background-color: rgba(0, 0, 0, 0.3);
+                  border: 0.5px solid rgba(255,255,255,0.3);
+                }
+                .full-screen-icon {
+                  width: 18px;
+                  height: 18px;
+                }
+                .full-screen-desc {
+                  margin-left: 4px;
+                  color: #fff;
+                  font-size: 12px;
+                  line-height: 1;
+                }
+              </style>
+              <div class="full-screen-btn">
+                <img class="full-screen-icon" src="https://img.ubo.vip/youbo_plus/live/full-screen-icon.png" >
+                <div class="full-screen-desc">全屏观看</div>
+              </div>
+            </script>
+          </wx-open-launch-weapp>
+        </div>
+
+
+        <div class="hd-btn">
+          <wx-open-launch-weapp 
+            username="gh_7fa0cd4796ba" 
+            :path="`pages/subpages/home/live-play/index?id=${roomInfo.id}&parent_user_id=${shareId}`"
+          >
+            <script type="text/wxtag-template">
+              <style>
+                .hd-btn {
+                  display: flex;
+                  flex-direction: column;
+                  align-items: center;
+                  justify-content: center;
+                  width: 60px;
+                  height: 60px;
+                  border-radius: 50%;
+                  background rgba(0, 0, 0, 0.3);
+                  z-index: 100;
+                }
+                .hd-icon {
+                  margin-left: 2px;
+                  width: 24px;
+                  height: 24px;
+                }
+                .hd-desc {
+                  margin-top: 2px;
+                  color: #fff;
+                  font-size: 12px;
+                }
+              </style>
+              <div class="hd-btn">
+                <img class="hd-icon" src="https://img.ubo.vip/youbo_plus/live/hd.png">
+                <div class="hd-desc">高清</div>
+              </div>
+            </script>
+          </wx-open-launch-weapp>
+        </div>
 
         <!-- <div class="shortcut-btns">
           <img class="shortcut-btn" @click="refresh" src="../../../assets/images/live/refresh.png" >
@@ -61,26 +124,6 @@
               <div>说点什么......</div>
             </div>
             <div class="btns">
-              <div class="btn">
-                <wx-open-launch-weapp 
-                  username="gh_7fa0cd4796ba" 
-                  :path="`pages/subpages/home/live-play/index?id=${roomInfo.id}&parent_user_id=${shareId}`"
-                >
-                  <script type="text/wxtag-template">
-                    <img style="width: 35px; height: 35px;" src="https://img.ubo.vip/youbo_plus/live/cart.png" >
-                  </script>
-                </wx-open-launch-weapp>
-              </div>
-              <div class="btn">
-                <wx-open-launch-weapp 
-                  username="gh_7fa0cd4796ba" 
-                  :path="`pages/subpages/home/live-play/index?id=${roomInfo.id}&parent_user_id=${shareId}`"
-                >
-                  <script type="text/wxtag-template">
-                    <img style="width: 35px; height: 35px;" src="https://img.ubo.vip/mp/sass/live-push/share.png" >
-                  </script>
-                </wx-open-launch-weapp>
-              </div>
               <div class="btn" @click="praise">
                 <img class="icon" src="https://img.ubo.vip/mp/index/room/praise-icon.png" >
                 <div class="praise-count" v-if="praiseCount">{{praiseCount}}</div>
@@ -565,22 +608,11 @@ export default {
         top: 6.8rem
         left: 50%
         transform: translateX(-50%)
-        display: flex
-        align-items: center
-        padding: 0 .16rem
-        height: .6rem
-        border-radius: .3rem
-        background-color: rgba(0, 0, 0, 0.3)
-        border: 0.5px solid rgba(255,255,255,0.3)
-        z-index: 1
-        .full-screen-icon
-          width: .36rem
-          height: .36rem
-        .full-screen-desc
-          margin-left: .08rem
-          color: #fff
-          font-size: .24rem
-          line-height: 1
+      .hd-btn
+        position: absolute
+        top 50%
+        transform: translateY(-50%)
+        right: .24rem
       .shortcut-btns
         position: absolute
         top 50%

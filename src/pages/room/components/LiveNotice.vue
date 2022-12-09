@@ -33,7 +33,7 @@
               border: 1px solid #fff;
             }
           </style>
-          <div class="btn">分享直播间</div>
+          <div class="btn">查看高清直播</div>
         </script>
       </wx-open-launch-weapp>
       
