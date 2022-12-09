@@ -6,7 +6,6 @@
       <input class="input" type="number" v-model="password" placeholder="请输入密码" >
       <div class="error-tips">{{pwdError ? '*密码错误' : ''}}</div>
       <div class="btns">
-        <div class="cancel-btn" @click="cancel">取消</div>
         <div class="confirm-btn" @click="confirm">确认</div>
       </div>
     </div>
@@ -104,13 +103,4 @@ export default {
         color: #D68C1E
         font-size: .34rem
         height: .92rem
-      .cancel-btn
-        display: flex
-        align-items: center
-        justify-content: center
-        flex: 1
-        font-size: .34rem
-        height: .92rem
-        color: #999
-        border-right: 1px solid #eee
 </style>

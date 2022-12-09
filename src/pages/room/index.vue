@@ -8,13 +8,13 @@
     <LiveNotice v-if="roomInfo && roomInfo.status == 2" :roomInfo="roomInfo" />
     <LiveEnd v-if="roomInfo && roomInfo.status == 3" :roomInfo="roomInfo" />
 
-    <PasswordModal v-if="passwordModalVisible" :pwdError="pwdError" @resetPassword="pwdError = false" @confirm="refetch" @cancel="back" />
+    <PasswordModal v-if="passwordModalVisible" :pwdError="pwdError" @resetPassword="pwdError = false" @confirm="refetch" />
     <SharePopup v-if="sharePopupVisible" @hide="sharePopupVisible = false" />
   </div>
 </template>
 
 <script>
-import { Toast, Dialog } from 'vant'
+import { Toast } from 'vant'
 import Live from './components/Live'
 import LiveBreak from './components/LiveBreak'
 import LiveEnding from './components/LiveEnding'
@@ -125,17 +125,11 @@ export default {
               this.passwordModalVisible = true
             }
           } else if (res.data.message === '非白名单用户，无法查看' || res.data.message === '黑名单用户，无法查看') {
-            Dialog.alert({
-              message: '您暂无权限观看',
-            }).then(() => {
-              this.back()
-            })
+            Toast.fail('您暂无权限观看')
           } else Toast(res.data.message)
         }
       )
-    },
-
-    back() {}
+    }
   }
 }
 </script>
