@@ -35,7 +35,7 @@ class Base {
     let res = await axios({ method, url, params, 
       data: (method === 'POST' && url.indexOf(this.liveUrl) >= 0) ? qs.stringify(sign(data)) : qs.stringify(data),
     }).catch(() => {
-      Toast('服务器异常')
+      Toast('服务器繁忙')
     })
 
     if (res) {
