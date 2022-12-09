@@ -81,27 +81,20 @@ export default {
     }
 
     this.setRoomInfo()
-  },
-
-  mounted() {
     this.initWx()
   },
 
   methods: {
-    initWx() {
-      const ua = navigator.userAgent.toLowerCase()
-      const isWXWork = ua.match(/wxwork/i) == 'wxwork'
-      const isWeixin = !isWXWork && ua.match(/micromessenger/i) == 'micromessenger'
-      if (isWeixin) {
-        window.wx.config({
-          appId: 'wxc099fb49b78534b0',
-          timestamp: 0,
-          nonceStr: 'nonceStr',
-          signature: 'signature',
-          jsApiList: ['chooseImage', 'previewImage', 'wx-open-launch-weapp'],
-          openTagList:['wx-open-launch-weapp'],
-        })
-      }
+    async initWx() {
+      const { appId, timestamp, nonceStr, signature } = await roomService.getWxSign() || {}
+      window.wx.config({
+        appId,
+        timestamp,
+        nonceStr,
+        signature,
+        jsApiList: ['chooseImage', 'previewImage', 'wx-open-launch-weapp'],
+        openTagList:['wx-open-launch-weapp'],
+      })
     },
 
     refetch(password) {

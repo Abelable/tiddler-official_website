@@ -1,6 +1,10 @@
 import BaseService from './baseService'
 
 class RoomService extends BaseService {
+  async getWxSign() {
+    return await this.get(`${this.liveUrl}/official-account/get-sign`)
+  }
+
   async getImInfo() {
     return await this.post(`${this.liveUrl}/user/tim-login`)
   }

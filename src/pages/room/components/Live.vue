@@ -1,6 +1,5 @@
 <template>
   <div class="live">
-
     <Player :url="roomInfo.url" :horizontal="roomInfo.direction == 1" />
 
     <Swipe class="cover" v-if="livePlaying" :loop="false" :show-indicators="false">
@@ -14,15 +13,10 @@
             </div>
           </div>
           <div class="row">
-            <wx-open-launch-weapp 
-              class="recommend-goods" 
-              v-if="recommendGoods"
-              username="gh_7fa0cd4796ba" 
-              :path="`pages/subpages/home/live-play/index?id=${roomInfo.id}&parent_user_id=${shareId}`"
-            >
+            <!-- <div class="recommend-goods" v-if="recommendGoods">
               <div class="recommend-goods-title">热门推荐</div>
               <img class="recommend-goods-pic" :src="recommendGoods.goods_img" >
-            </wx-open-launch-weapp>
+            </div> -->
             <div class="rolling-caption-wrap">
               <div class="rolling-caption" v-if="subtitleVisible && subtitleContent" @click="adVisible = !adVisible">
                 <div class="rolling-caption-content-wrap">
@@ -44,7 +38,7 @@
           username="gh_7fa0cd4796ba" 
           :path="`pages/subpages/home/live-play/index?id=${roomInfo.id}&parent_user_id=${shareId}`"
         >
-          <img class="full-screen-icon" src="/images/live/full-screen-icon.png" >
+          <img class="full-screen-icon" src="https://img.ubo.vip/youbo_plus/live/full-screen-icon.png" >
           <div class="full-screen-desc">全屏观看</div>
         </wx-open-launch-weapp>
 
@@ -59,7 +53,6 @@
         <div class="bottom-part">
           <AudienceActionTip />
           <Comment :roomId="roomInfo.id" :isAnchor="!!roomInfo.type_name" />
-          <RecommendGoodsSlider v-if="recommendGoodsSliderVisible" :roomId="roomInfo.id" :goodsInfo="recommendGoods" />
           <PhraseList v-if="userPhraseList.length" :roomInfo="roomInfo" :phraseList="userPhraseList" />
           <Praise :manual="manualPraise" :count="praiseCount" />
           <div class="interactive-area">
@@ -68,26 +61,26 @@
               <div>说点什么......</div>
             </div>
             <div class="btns">
-              <wx-open-launch-weapp 
-                username="gh_7fa0cd4796ba" 
-                :path="`pages/subpages/home/live-play/index?id=${roomInfo.id}&parent_user_id=${shareId}`"
-                @launch="sucFun"
-                @error="errFun"
-              >
-                <script type="text/wxtag-template">
-                  <style>.btn { width: 35px; height: 35px; }</style>
-                  <img class="btn" src="../../../assets/images/live/cart.png" >
-                </script>
-              </wx-open-launch-weapp>
-              <wx-open-launch-weapp 
-                username="gh_7fa0cd4796ba" 
-                :path="`pages/subpages/home/live-play/index?id=${roomInfo.id}&parent_user_id=${shareId}`"
-              >
-                <script type="text/wxtag-template">
-                  <style>.btn { width: 35px; height: 35px; }</style>
-                  <img class="btn" src="https://img.ubo.vip/mp/sass/live-push/share.png" >
-                </script>
-              </wx-open-launch-weapp>
+              <div class="btn">
+                <wx-open-launch-weapp 
+                  username="gh_7fa0cd4796ba" 
+                  :path="`pages/subpages/home/live-play/index?id=${roomInfo.id}&parent_user_id=${shareId}`"
+                >
+                  <script type="text/wxtag-template">
+                    <img style="width: 35px; height: 35px;" src="https://img.ubo.vip/youbo_plus/live/cart.png" >
+                  </script>
+                </wx-open-launch-weapp>
+              </div>
+              <div class="btn">
+                <wx-open-launch-weapp 
+                  username="gh_7fa0cd4796ba" 
+                  :path="`pages/subpages/home/live-play/index?id=${roomInfo.id}&parent_user_id=${shareId}`"
+                >
+                  <script type="text/wxtag-template">
+                    <img style="width: 35px; height: 35px;" src="https://img.ubo.vip/mp/sass/live-push/share.png" >
+                  </script>
+                </wx-open-launch-weapp>
+              </div>
               <div class="btn" @click="praise">
                 <img class="icon" src="https://img.ubo.vip/mp/index/room/praise-icon.png" >
                 <div class="praise-count" v-if="praiseCount">{{praiseCount}}</div>
@@ -110,7 +103,6 @@ import Player from './Player'
 import AuchorCapsule from './AuchorCapsule'
 import AudienceActionTip from './AudienceActionTip'
 import Comment from './Comment'
-import RecommendGoodsSlider from './RecommendGoodsSlider'
 import PhraseList from './PhraseList'
 import InputModal from './InputModal'
 import GoodsPopup from './GoodsPopup'
@@ -133,7 +125,6 @@ export default {
     AuchorCapsule,
     AudienceActionTip,
     Comment,
-    RecommendGoodsSlider,
     PhraseList,
     InputModal,
     GoodsPopup,
@@ -189,14 +180,6 @@ export default {
   },
 
   methods: {
-    sucFun(msg) {
-      console.log(msg)
-    },
-
-    errFun(msg) {
-      console.log(msg)
-    },
-
     async setImInfo() {
       const imInfo = await roomService.getImInfo()
       this.$store.commit('setImInfo', imInfo)
@@ -639,13 +622,13 @@ export default {
             .btn
               position relative
               margin-left: .16rem
-              width: .7rem
-              height: .7rem
+              width: 35px
+              height: 35px
               font-size: 0
               overflow: initial
               .icon
-                width: .7rem
-                height: .7rem
+                width: 35px
+                height: 35px
               .praise-count
                 position: absolute
                 top: -0.28rem

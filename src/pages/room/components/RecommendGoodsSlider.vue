@@ -1,9 +1,5 @@
 <template>
-  <wx-open-launch-weapp 
-    class="recommend-goods-slider"
-    username="gh_7fa0cd4796ba" 
-    :path="`pages/subpages/home/live-play/index?id=${roomId}&parent_user_id=${shareId}`"
-  >
+  <div class="recommend-goods-slider" >
     <div class="goods-img-wrap">
       <img class="goods-img" :src="goodsInfo.goods_img">
       <div class="recommend-tag">推荐</div>
@@ -19,7 +15,7 @@
         <div class="buy-btn" catchtap="buyGoods">立即购买</div>
       </div>
     </div>
-  </wx-open-launch-weapp>
+  </div>
 </template>
 
 <script>
