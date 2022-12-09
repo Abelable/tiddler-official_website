@@ -76,7 +76,9 @@ export default {
       return
     }
 
-    localStorage.setItem('token', token)
+    if (this.$route.query.token || getUrlParam('token')) {
+      localStorage.setItem('token', token)
+    }
 
     this.setRoomInfo()
     this.initWx()
