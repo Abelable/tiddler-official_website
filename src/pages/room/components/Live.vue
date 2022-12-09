@@ -43,8 +43,8 @@
                   display: flex;
                   align-items: center;
                   padding: 0 8px;
-                  height: 3px;
-                  border-radius: 1.5px;
+                  height: 30px;
+                  border-radius: 15px;
                   background: rgba(0, 0, 0, 0.3);
                   border: 0.5px solid rgba(255,255,255,0.3);
                 }
