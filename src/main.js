@@ -9,6 +9,7 @@ import './utils/remConfig'
 import './assets/style/index.styl'
 Vue.prototype.$host = judgeHost()
 Vue.config.productionTip = false
+Vue.config.ignoredElements = ['wx-open-launch-weapp']
 
 Vue.use(Router)
 Vue.use(Swipe)

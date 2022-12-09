@@ -81,6 +81,9 @@ export default {
     }
 
     this.setRoomInfo()
+  },
+
+  mounted() {
     this.initWx()
   },
 
@@ -95,7 +98,7 @@ export default {
           timestamp: 0,
           nonceStr: 'nonceStr',
           signature: 'signature',
-          jsApiList: ['chooseImage'],
+          jsApiList: ['chooseImage', 'previewImage', 'wx-open-launch-weapp'],
           openTagList:['wx-open-launch-weapp'],
         })
       }

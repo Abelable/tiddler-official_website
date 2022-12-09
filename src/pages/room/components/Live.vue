@@ -71,9 +71,12 @@
               <wx-open-launch-weapp 
                 username="gh_7fa0cd4796ba" 
                 :path="`pages/subpages/home/live-play/index?id=${roomInfo.id}&parent_user_id=${shareId}`"
+                @launch="sucFun"
+                @error="errFun"
               >
                 <script type="text/wxtag-template">
-                  <img style="margin-left: 0.16rem; width: 0.7rem; height: 0.7rem;" src="../../../assets/images/live/cart.png" >
+                  <style>.btn { width: 35px; height: 35px; }</style>
+                  <img class="btn" src="../../../assets/images/live/cart.png" >
                 </script>
               </wx-open-launch-weapp>
               <wx-open-launch-weapp 
@@ -81,7 +84,8 @@
                 :path="`pages/subpages/home/live-play/index?id=${roomInfo.id}&parent_user_id=${shareId}`"
               >
                 <script type="text/wxtag-template">
-                  <img style="margin-left: 0.16rem; width: 0.7rem; height: 0.7rem;" src="https://img.ubo.vip/mp/sass/live-push/share.png" >
+                  <style>.btn { width: 35px; height: 35px; }</style>
+                  <img class="btn" src="https://img.ubo.vip/mp/sass/live-push/share.png" >
                 </script>
               </wx-open-launch-weapp>
               <div class="btn" @click="praise">
@@ -185,6 +189,14 @@ export default {
   },
 
   methods: {
+    sucFun(msg) {
+      console.log(msg)
+    },
+
+    errFun(msg) {
+      console.log(msg)
+    },
+
     async setImInfo() {
       const imInfo = await roomService.getImInfo()
       this.$store.commit('setImInfo', imInfo)
