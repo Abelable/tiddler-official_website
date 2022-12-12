@@ -36,7 +36,7 @@ class Base {
       data: (method === 'POST' && url.indexOf(this.liveUrl) >= 0) ? qs.stringify(sign(data)) : qs.stringify(data),
     }).catch(() => {
       localStorage.removeItem('token')
-      Toast('服务繁忙')
+      Toast('服务繁忙, 请重试')
     })
 
     if (res) {
@@ -44,6 +44,9 @@ class Base {
         if ([200, 1001].includes(res.data.code)) {
           if (success) success(res.data.data)
           else return res.data.data
+        } else if ([4040, 0].includes(res.data.code)) {
+          localStorage.removeItem('token')
+          Toast('身份已失效，请重新点击链接进入')
         } else {
           fail ? fail(res) : Toast(res.data.message)
           return false
