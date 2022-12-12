@@ -3,11 +3,11 @@
     <ul class="msg-lists">
       <li class="msg-list" v-for="(item, index) in liveChatMsgList" :key="index">
         <img class="avatar" v-if="item.head_img" :src="item.head_img" />
-        <span 
+        <!-- <span 
           class="tag"
           :class="{ anchor: item.type_name === '创建者', 'live-assistant': item.type_name === '直播助手', assistant: item.type_name === '小助手' }"
           v-if="isAnchor && item.type_name"
-        >{{item.type_name}}</span>
+        >{{item.type_name}}</span> -->
         <span class="user-name" v-if="item.nick_name">{{(!isAnchor && anonymoused) ? (item.nick_name | sliceName) : item.nick_name}}</span>
         <span class="message-content">{{item.message}}</span>
       </li>
