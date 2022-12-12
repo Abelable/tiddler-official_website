@@ -36,7 +36,11 @@ export default {
     })
     player.src(`${this.url.replace('rtmp', 'https')}.m3u8`)
     this.player = player
-  }
+  },
+
+  destroyed() {
+    this.player.pause()
+  },
 }
 </script>
 
