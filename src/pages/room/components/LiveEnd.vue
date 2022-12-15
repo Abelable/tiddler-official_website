@@ -17,29 +17,56 @@
     </div>
 
     <div class="bottom-bar">
-      <wx-open-launch-weapp 
-        username="gh_7fa0cd4796ba" 
-        :path="`pages/subpages/home/live-play/index?id=${roomInfo.id}&parent_user_id=${shareId}`"
-      >
-        <script type="text/wxtag-template">
-          <style>
-            .back-btn {
-              display: flex;
-              align-items: center;
-              justify-content: center;
-              margin-right: 10px;
-              width: 100px;
-              height: 40px;
-              font-size: 16px;
-              font-weight: bold;
-              color: #FFE5BD;
-              background: linear-gradient(128deg, #404A5C 0%, #0F131A 100%);
-              border-radius: 20px;
-            }
-          </style>
-          <div class="back-btn">跳转小程序</div>
-        </script>
-      </wx-open-launch-weapp>
+      <div v-if="roomInfo.show_replay == 2">
+        <wx-open-launch-weapp 
+          username="gh_7fa0cd4796ba" 
+          :path="`pages/subpages/home/live-play/index?id=${roomInfo.id}&parent_user_id=${shareId}`"
+        >
+          <script type="text/wxtag-template">
+            <style>
+              .back-btn {
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                margin-right: 10px;
+                width: 100px;
+                height: 40px;
+                font-size: 16px;
+                font-weight: bold;
+                color: #FFE5BD;
+                background: linear-gradient(128deg, #404A5C 0%, #0F131A 100%);
+                border-radius: 20px;
+              }
+            </style>
+            <div class="back-btn">跳转小程序</div>
+          </script>
+        </wx-open-launch-weapp>
+      </div>
+      <div v-if="roomInfo.show_replay == 1">
+        <wx-open-launch-weapp 
+          username="gh_7fa0cd4796ba" 
+          :path="`pages/subpages/home/live-play/index?id=${roomInfo.id}&parent_user_id=${shareId}`"
+        >
+          <script type="text/wxtag-template">
+            <style>
+              .back-btn {
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                margin-right: 10px;
+                width: 100px;
+                height: 40px;
+                font-size: 16px;
+                font-weight: bold;
+                color: #FFE5BD;
+                background: linear-gradient(128deg, #404A5C 0%, #0F131A 100%);
+                border-radius: 20px;
+              }
+            </style>
+            <div class="back-btn">查看回放</div>
+          </script>
+        </wx-open-launch-weapp>
+      </div>
       <div class="status-btn">直播已结束</div>
     </div>
   </div>
