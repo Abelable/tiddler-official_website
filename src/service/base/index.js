@@ -51,8 +51,8 @@ class Base {
           } else {
             localStorage.removeItem('token')
             Toast('身份已失效，请重新点击链接进入')
+            return false
           }
-          return false
         } else {
           fail ? fail(res) : Toast(res.data.message)
           return false
