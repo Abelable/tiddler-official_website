@@ -46,8 +46,13 @@ class Base {
           if (success) success(res.data.data)
           else return res.data.data
         } else if ([4040, 0].includes(res.data.code)) {
-          localStorage.removeItem('token')
-          Toast('身份已失效，请重新点击链接进入')
+          if (fail) {
+            fail(res)
+          } else {
+            localStorage.removeItem('token')
+            Toast('身份已失效，请重新点击链接进入')
+          }
+          return false
         } else {
           fail ? fail(res) : Toast(res.data.message)
           return false
