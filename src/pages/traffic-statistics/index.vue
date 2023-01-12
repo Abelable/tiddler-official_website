@@ -93,7 +93,11 @@ export default {
 
   filters: {
     dateDesc(timestamp) {
-      return (new Date(timestamp * 1000).toLocaleString()).split(' ')[0]
+      const date = new Date(timestamp * 1000)
+      const year = date.getFullYear()
+      const mouth = date.getMonth() + 1
+      const day = date.getDate()
+      return `${year}/${mouth}/${day}`
     },
     timeDesc(timestamp) {
       const date = new Date(timestamp * 1000)
