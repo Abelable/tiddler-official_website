@@ -14,8 +14,8 @@
     <div class="card">
       <div class="title-wrap">
         <div class="title">回放流量</div>
-        <div class="timer-picker">
-          <div class="time-desc">时间筛选</div>
+        <div class="timer-picker" @click="datePickerPopupVisible = true">
+          <div class="time-desc">请选择日期范围</div>
           <Icon name="arrow-down" />
         </div>
       </div>
@@ -25,15 +25,20 @@
     <Popup v-model="timePickerPopupVisible" position="bottom" round>
       <div>时间筛选</div>
     </Popup>
+    <Calendar v-model="datePickerPopupVisible" type="multiple" safe-area-inset-bottom />
   </div>
 </template>
 
 <script>
 import * as echarts from "echarts";
-import { Icon, Popup } from 'vant'
+import { Icon, Popup, Calendar } from 'vant'
+
+import TrafficService from '@/service/trafficService'
+
+const trafficService = new TrafficService()
 
 export default {
-  components: { Icon, Popup },
+  components: { Icon, Popup, Calendar },
 
   data() {
     return {
@@ -41,16 +46,36 @@ export default {
       xData: ["16:50", "17:00", "17:10", "17:20", "17:30"],
       yData: [0, 50, 100, 150, 200, 250],
       myChartStyle: { width: "100%", height: "320px" },
-      timePickerPopupVisible: false
+      timePickerPopupVisible: false,
+      datePickerPopupVisible: false,
     };
   },
 
+  created() {
+    this.roomId = this.$route.query.room_id
+    this.liveStartTime = this.$route.query.start_time
+    this.liveEndTime = this.$route.query.end_time
+    this.playBackStartTime = this.liveStartTime
+    this.playBackEndTime = Date.parse(new Date(this.playBackStartTime * 1000 + 5 * 24 * 3600 * 1000)) / 1000 
+  },
+
   mounted() {
-    this.initEcharts();
+    this.setLiveChartData()
+    this.initEcharts()
     this.initEchartsTwo()
   },
 
   methods: {
+    async setLiveChartData() {
+      const res = await trafficService.getChartData(this.roomId, 3, `${this.liveStartTime},${this.liveEndTime}`)
+      console.log('setLiveChartData', res)
+    },
+
+    async setPlayBackChartData() {
+      const res = await trafficService.getChartData(this.roomId, 4, `${this.playBackStartTime},${this.playBackEndTime}`)
+      console.log('setPlayBackChartData', res)
+    },
+
     initEcharts() {
       const option = {
         legend: {
