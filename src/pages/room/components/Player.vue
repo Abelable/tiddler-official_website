@@ -8,7 +8,8 @@
 export default {
   props: {
     url: String,
-    horizontal: Boolean
+    horizontal: Boolean,
+    playerPause: Boolean
   },
 
   data() {
@@ -26,6 +27,9 @@ export default {
           this.$store.commit('setLivePlaying', true)
         }
       }
+    },
+    playerPause(truthy) {
+      truthy && this.player.pause()
     }
   },
 

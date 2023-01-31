@@ -1,6 +1,6 @@
 <template>
   <div class="live">
-    <Player :url="roomInfo.url" :horizontal="roomInfo.direction == 1" />
+    <Player :url="roomInfo.url" :horizontal="roomInfo.direction == 1" :playerPause="playerPause" />
 
     <Swipe class="cover" v-if="livePlaying" :loop="false" :show-indicators="false">
       <SwipeItem class="cover-inner">
@@ -32,7 +32,7 @@
           </div>
         </div>
 
-        <div class="full-screen-btn" v-if="roomInfo.direction == 1">
+        <div class="full-screen-btn" v-if="roomInfo.direction == 1" @click="playerPause = true">
           <wx-open-launch-weapp 
             :username="originalMpId" 
             :path="`pages/subpages/home/live-play/index?id=${roomInfo.id}&parent_user_id=${shareId}`"
@@ -68,7 +68,7 @@
         </div>
 
 
-        <div class="hd-btn">
+        <div class="hd-btn" @click="playerPause = true">
           <wx-open-launch-weapp 
             :username="originalMpId" 
             :path="`pages/subpages/home/live-play/index?id=${roomInfo.id}&parent_user_id=${shareId}`"
@@ -187,7 +187,8 @@ export default {
       recommendGoodsSliderVisible: false,
       inputModalVisible: false,
       goodsPopupVisible: false,
-      liveStartModalVisible: false
+      liveStartModalVisible: false,
+      playerPause: false
     }
   },
 
