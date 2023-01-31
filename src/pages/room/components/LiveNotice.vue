@@ -14,7 +14,7 @@
     <div class="btn-wrap">
       <div class="btn" :class="{ invalid: isSubscribed }" @click="toggleSubscribe">{{isSubscribed ? '已订阅' : '订阅直播间'}}</div>
       <wx-open-launch-weapp 
-        username="gh_7fa0cd4796ba" 
+        :username="originalMpId" 
         :path="`pages/subpages/home/live-play/index?id=${roomInfo.id}&parent_user_id=${shareId}`"
       >
         <script type="text/wxtag-template">
@@ -50,6 +50,7 @@ export default {
 
   data() {
     return {
+      originalMpId: '',
       time: 0,
       isSubscribed: false,
     }
@@ -88,6 +89,7 @@ export default {
   },
 
   created() {
+    this.originalMpId = window.location.href.includes('sm') ? 'gh_fede7ed137e1' : 'gh_7fa0cd4796ba'
     this.setCountDown(this.roomInfo.notice_time)
   },
 

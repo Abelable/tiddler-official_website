@@ -19,7 +19,7 @@
     <div class="bottom-bar">
       <div v-if="roomInfo.show_replay == 2">
         <wx-open-launch-weapp 
-          username="gh_7fa0cd4796ba" 
+          :username="originalMpId" 
           :path="`pages/subpages/home/live-play/index?id=${roomInfo.id}&parent_user_id=${shareId}`"
         >
           <script type="text/wxtag-template">
@@ -44,7 +44,7 @@
       </div>
       <div v-if="roomInfo.show_replay == 1">
         <wx-open-launch-weapp 
-          username="gh_7fa0cd4796ba" 
+          :username="originalMpId" 
           :path="`pages/subpages/home/live-play/index?id=${roomInfo.id}&parent_user_id=${shareId}`"
         >
           <script type="text/wxtag-template">
@@ -78,6 +78,12 @@ export default {
     roomInfo: Object
   },
 
+  data() {
+    return {
+      originalMpId: ''
+    }
+  },
+
   filters: {
     timeFormat(timeStamp) {
       timeStamp = timeStamp.toString().length === 10 ? timeStamp * 1000 : timeStamp
@@ -91,6 +97,10 @@ export default {
       return 'YYYY年MM月DD日 hh:mm:ss'.replace('YYYY', year).replace('MM', month).replace('DD', day).replace('hh', hours).replace('mm', minutes).replace('ss', seconds)
     }
   },
+
+  created() {
+    this.originalMpId = window.location.href.includes('sm') ? 'gh_fede7ed137e1' : 'gh_7fa0cd4796ba'
+  }
 }
 </script>
 

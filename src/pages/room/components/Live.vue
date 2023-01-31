@@ -34,7 +34,7 @@
 
         <div class="full-screen-btn" v-if="roomInfo.direction == 1">
           <wx-open-launch-weapp 
-            username="gh_7fa0cd4796ba" 
+            :username="originalMpId" 
             :path="`pages/subpages/home/live-play/index?id=${roomInfo.id}&parent_user_id=${shareId}`"
           >
             <script type="text/wxtag-template">
@@ -70,7 +70,7 @@
 
         <div class="hd-btn">
           <wx-open-launch-weapp 
-            username="gh_7fa0cd4796ba" 
+            :username="originalMpId" 
             :path="`pages/subpages/home/live-play/index?id=${roomInfo.id}&parent_user_id=${shareId}`"
           >
             <script type="text/wxtag-template">
@@ -179,6 +179,7 @@ export default {
 
   data() {
     return {
+      originalMpId: '',
       userPhraseList: [],
       animationList: [],
       adVisible: false,
@@ -207,6 +208,7 @@ export default {
   },
 
   async created() {
+    this.originalMpId = window.location.href.includes('sm') ? 'gh_fede7ed137e1' : 'gh_7fa0cd4796ba'
     await this.setImInfo()
     this.initTim()
     this.joinGroup()
