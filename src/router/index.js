@@ -4,7 +4,7 @@ const router = new Router({
   routes: [
     {
       name: 'live_play',
-      path: '/live_play',
+      path: '/l_p',
       component: () => import('../pages/room/index')
     },
     {
