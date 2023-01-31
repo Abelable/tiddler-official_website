@@ -1,8 +1,8 @@
 import BaseService from './baseService'
 
 class RoomService extends BaseService {
-  async getWxSign() {
-    return await this.get(`${this.liveUrl}/official-account/get-sign?redirect_domain=${window.location.href.includes('sm') ? 'sm.youbo.com' : 'h5.youbo.com'}`)
+  async getWxSign(path) {
+    return await this.get(`${this.liveUrl}/official-account/get-sign?real_url=${path}`)
   }
 
   async getImInfo() {

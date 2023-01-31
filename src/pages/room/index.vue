@@ -86,8 +86,9 @@ export default {
 
   methods: {
     async initWx() {
-      const { appId, timestamp, nonceStr, signature } = await roomService.getWxSign() || {}
+      const { appId, timestamp, nonceStr, signature } = await roomService.getWxSign(encodeURIComponent(window.location.href)) || {}
       window.wx.config({
+        debug: true,
         appId,
         timestamp,
         nonceStr,
