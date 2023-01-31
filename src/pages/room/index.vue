@@ -95,23 +95,6 @@ export default {
         jsApiList: ['chooseImage', 'previewImage', 'wx-open-launch-weapp'],
         openTagList:['wx-open-launch-weapp'],
       })
-      
-      // roomService.getWxSign(
-      //   res => {
-      //     const { appId, timestamp, nonceStr, signature } = res
-      //     window.wx.config({
-      //       appId,
-      //       timestamp,
-      //       nonceStr,
-      //       signature,
-      //       jsApiList: ['chooseImage', 'previewImage', 'wx-open-launch-weapp'],
-      //       openTagList:['wx-open-launch-weapp'],
-      //     })
-      //   },
-      //   () => {
-      //     window.location.href = `https://open.weixin.qq.com/connect/oauth2/authorize?appid=wx834688294afd4d48&redirect_uri=https%3A%2F%2Fyoubojia.youboi.com%2Fofficial-account%2Foauth-callback&response_type=code&scope=snsapi_userinfo&state=${encodeURIComponent(`id=${this.id}&parent_user_id=${this.parent_user_id}`)}#wechat_redirect`
-      //   }
-      // )
     },
 
     refetch(password) {
