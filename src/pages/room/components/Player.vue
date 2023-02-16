@@ -59,7 +59,7 @@ export default {
   &.horizontal
     top 2.3rem
     width 100vw
-    height 4.26rem
+    height 4.1rem
   .player
     width 100%
     height 100%
