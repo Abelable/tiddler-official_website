@@ -29,7 +29,11 @@ export default {
       }
     },
     playerPause(truthy) {
-      truthy && this.player.pause()
+      if (truthy) {
+        this.player.pause()
+      } else {
+        this.player.play()
+      }
     }
   },
 

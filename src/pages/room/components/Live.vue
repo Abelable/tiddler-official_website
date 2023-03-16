@@ -32,7 +32,7 @@
           </div>
         </div>
 
-        <div class="full-screen-btn" v-if="roomInfo.direction == 1" @click="playerPause = true">
+        <div class="full-screen-btn" v-if="roomInfo.direction == 1">
           <wx-open-launch-weapp 
             :username="originalMpId" 
             :path="`pages/subpages/home/live-play/index?id=${roomInfo.id}&parent_user_id=${shareId}`"
@@ -68,7 +68,7 @@
         </div>
 
 
-        <div class="hd-btn" @click="playerPause = true">
+        <div class="hd-btn">
           <wx-open-launch-weapp 
             :username="originalMpId" 
             :path="`pages/subpages/home/live-play/index?id=${roomInfo.id}&parent_user_id=${shareId}`"
@@ -217,6 +217,16 @@ export default {
     this.setUserPhraseList()
     this.setRecommendGoods()
     this.setAnimationList()
+  },
+
+  mounted() {
+    window.WeixinJSBridge.on('onPageStateChange', (res) => {
+      if (res && res.active) {
+        this.playerPause = false
+      } else {
+        this.playerPause = true
+      }
+    })
   },
 
   destroyed() {
