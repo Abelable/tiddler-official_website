@@ -96,6 +96,7 @@ export default {
       margin-bottom .12rem
       padding .18rem
       width fit-content
+      max-width 5.46rem
       font-size .26rem
       font-weight 500
       color #fff
