@@ -15,6 +15,11 @@ const router = new Router({
         title: '流量统计'
       }
     },
+    {
+      name: 'login',
+      path: '/login',
+      component: () => import('../pages/login/index')
+    },
   ],
   scrollBehavior() {
     return { x: 0, y: 0 }
