@@ -2,14 +2,17 @@
   <div class="msg-lists-wrap" ref="msgListsWrap" @touchstart="touchStart" @touchend="touchEnd" v-if="liveChatMsgList.length">
     <ul class="msg-lists">
       <li class="msg-list" v-for="(item, index) in liveChatMsgList" :key="index">
-        <img class="avatar" v-if="item.head_img" :src="item.head_img" />
-        <!-- <span 
-          class="tag"
-          :class="{ anchor: item.type_name === '创建者', 'live-assistant': item.type_name === '直播助手', assistant: item.type_name === '小助手' }"
-          v-if="isAnchor && item.type_name"
-        >{{item.type_name}}</span> -->
-        <span class="user-name" v-if="item.nick_name">{{(!isAnchor && anonymoused) ? (item.nick_name | sliceName) : item.nick_name}}</span>
-        <span class="message-content">{{item.message}}</span>
+        <template v-if="isAnchor || (!isAnchor && item.is_ban != 1) || (!isAnchor && item.is_ban == 1 && item.user_id == userID)">
+          <img class="avatar" v-if="item.head_img" :src="item.head_img" />
+          <!-- <span 
+            class="tag"
+            :class="{ anchor: item.type_name === '创建者', 'live-assistant': item.type_name === '直播助手', assistant: item.type_name === '小助手' }"
+            v-if="isAnchor && item.type_name"
+          >{{item.type_name}}</span> -->
+          <span class="user-name" v-if="item.nick_name">{{(!isAnchor && anonymoused) ? (item.nick_name | sliceName) : item.nick_name}}</span>
+          <span class="message-content" v-if="item.is_ban == 1">（已禁言）</span>
+          <span class="message-content">{{item.message}}</span>
+        </template>
       </li>
     </ul>
   </div>
@@ -30,6 +33,7 @@ export default {
 
   computed: {
     ...mapState({
+      userID: state => state.im.userID,
       liveChatMsgList: state => state.im.liveChatMsgList,
       anonymoused: state => state.im.anonymoused,
     })

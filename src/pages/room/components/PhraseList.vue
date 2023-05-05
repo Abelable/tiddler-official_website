@@ -34,7 +34,7 @@ export default {
 
     async sendPhrase(msg) {
       const { id: room_id, group_id, type_name } = this.roomInfo
-      let { userID, userName, userAvatar } = this.$store.state.im
+      let { userID, userName, userAvatar, curUserIsBan } = this.$store.state.im
 
       // 马甲
       if (type_name && this.$store.state.vestInfo) {
@@ -49,6 +49,7 @@ export default {
         type_name,
         tag: this.tagList,
         message: msg,
+        is_ban: curUserIsBan,
         time: Date.parse(new Date()) / 1000
       }
 

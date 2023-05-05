@@ -90,6 +90,7 @@ export default {
         type_name,
         tag: this.tagList,
         message: msg,
+        is_ban: curUserIsBan,
         time: Date.parse(new Date()) / 1000
       }
 
@@ -103,10 +104,10 @@ export default {
         }
       }
 
-      // 当前用户被禁言
-      if (curUserIsBan) {
-        return
-      }
+      // // 当前用户被禁言
+      // if (curUserIsBan) {
+      //   return
+      // }
 
       roomService.saveLiveMsg(room_id, userName, userAvatar, type_name, JSON.stringify(this.tagList), msg, chatMsg.time)
       const message = this.tim.createTextMessage({

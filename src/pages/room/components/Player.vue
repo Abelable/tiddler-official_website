@@ -42,7 +42,9 @@ export default {
       autoplay: true,
       controlBar: false
     })
-    player.src(`${this.url.replace('rtmp', 'https')}.m3u8`)
+    // player.src(`${this.url.replace('rtmp', 'https')}.m3u8`)
+    player.src(`${this.url.replace('rtmp', 'webrtc')}.flv`)
+
     this.player = player
   },
 
