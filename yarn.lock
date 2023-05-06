@@ -7776,15 +7776,15 @@ thunky@^1.0.2:
   resolved "https://registry.npm.taobao.org/thunky/download/thunky-1.1.0.tgz#5abaf714a9405db0504732bbccd2cedd9ef9537d"
   integrity sha1-Wrr3FKlAXbBQRzK7zNLO3Z75U30=
 
-tim-js-sdk@^2.24.2:
-  version "2.24.2"
-  resolved "https://registry.yarnpkg.com/tim-js-sdk/-/tim-js-sdk-2.24.2.tgz#709c19a8ad0338908f934a209e8c1fd7393c4763"
-  integrity sha512-YwWOibsy3foACA+t4PvwfetaTh3gR9X6Z06n9EYDdstYb9NXHOLAzvNJTO9udiAtBEwQbzssKSbDvv0HwCdbhw==
+tim-js-sdk@^2.27.1:
+  version "2.27.1"
+  resolved "https://registry.yarnpkg.com/tim-js-sdk/-/tim-js-sdk-2.27.1.tgz#6698f787c79163fe012022b7b27b2177e3dd0985"
+  integrity sha512-RY/c3TsHsmeOKm0wACR/o4F9ehcU9+lKv2w3TP/rpa8s5/1WM3olcdvCWPMeF9tRhnVyeqqSuJ3C02haLK45WA==
 
-tim-upload-plugin@^1.0.6:
-  version "1.0.6"
-  resolved "https://registry.yarnpkg.com/tim-upload-plugin/-/tim-upload-plugin-1.0.6.tgz#c2610d972ff522dadef0eb8c7554b7547fcb8bc8"
-  integrity sha512-yO85EmYQB/lyKo3h90Lruw9VX7RagwJ7QSlCLaiD8KWBsZZaTpuZpr54xw+m5U6TlGwN3/wO8Q4bRmYncLoOnQ==
+tim-upload-plugin@^1.2.0:
+  version "1.2.0"
+  resolved "https://registry.yarnpkg.com/tim-upload-plugin/-/tim-upload-plugin-1.2.0.tgz#b9971538a8f6cb04bab6dd14334c8bb902df3be8"
+  integrity sha512-ax+I9lnCcX384DQPy3s6U7ibgEzJyUh2LJBwsFyM2aYMt/mlXleu4MawtjO+pMk2auA8tceifzqUDgxsPH2Buw==
 
 timers-browserify@^2.0.4:
   version "2.0.11"

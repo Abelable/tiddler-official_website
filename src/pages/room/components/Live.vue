@@ -220,13 +220,15 @@ export default {
   },
 
   mounted() {
-    window.WeixinJSBridge.on('onPageStateChange', (res) => {
-      if (res && res.active) {
-        this.playerPause = false
-      } else {
-        this.playerPause = true
-      }
-    })
+    if (window.WeixinJSBridge) {
+      window.WeixinJSBridge.on('onPageStateChange', (res) => {
+        if (res && res.active) {
+          this.playerPause = false
+        } else {
+          this.playerPause = true
+        }
+      })
+    }
   },
 
   destroyed() {
