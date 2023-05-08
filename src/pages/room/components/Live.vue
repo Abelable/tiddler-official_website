@@ -212,7 +212,6 @@ export default {
     this.originalMpId = window.location.href.includes('sm') ? 'gh_fede7ed137e1' : 'gh_7fa0cd4796ba'
     await this.setImInfo()
     this.initTim()
-    this.joinGroup()
     this.setMsgHistory()
     this.setUserPhraseList()
     this.setRecommendGoods()
@@ -295,11 +294,16 @@ export default {
       if (tim) {
         tim.setLogLevel(1)
         tim.registerPlugin({'tim-upload-plugin': TIMUploadPlugin})
-        tim.on(TIM.EVENT.MESSAGE_RECEIVED, this.onMsgReceive)
+        tim.on(TIM.EVENT.SDK_READY, this.onReadyStateUpdate, this);
+        tim.on(TIM.EVENT.MESSAGE_RECEIVED, this.onMsgReceive, this)
         tim.login({ userID: this.userID, userSig: this.userSig })
         this.tim = tim
         Vue.prototype.tim = tim
       }
+    },
+
+    onReadyStateUpdate() {
+      this.joinGroup()
     },
 
     onMsgReceive({ data = [] }) {
