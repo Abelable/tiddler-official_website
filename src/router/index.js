@@ -20,6 +20,11 @@ const router = new Router({
       path: '/login',
       component: () => import('../pages/login/index')
     },
+    {
+      name: 'auth',
+      path: '/auth',
+      component: () => import('../pages/auth/index')
+    },
   ],
   scrollBehavior() {
     return { x: 0, y: 0 }
