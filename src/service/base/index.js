@@ -8,12 +8,12 @@ class Base {
     switch (env) {
       case 'pro':
         this.mmsUrl = 'https://mms.youboi.com'
-        this.liveUrl = 'https://youbojia.youboi.com'
+        this.liveUrl = 'https://api.talking.vip'
         break
 
       case 'dev':
         this.mmsUrl = 'https://mms.youboe.com'
-        this.liveUrl = 'https://youbojia.youboe.com'
+        this.liveUrl = 'https://api.talking.vip'
         break
     }
   }
