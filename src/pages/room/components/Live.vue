@@ -470,6 +470,14 @@ export default {
           case 'animation':
             this.$store.commit('setAnimationIndex', Number(customMsg.index))
             break
+          case 'studio_freeze':
+            if(this.roomInfo.id == customMsg.room_id){
+              Toast.fail(customMsg.msg)
+              setTimeout(()=>{
+                location.reload()
+              },2000)
+            }
+            break
         }
       }
     },
