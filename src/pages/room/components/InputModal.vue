@@ -60,7 +60,7 @@ export default {
     },
 
     send() {
-      if (!this.content) {
+      if (!this.content.trim()) {
         Toast('消息不能为空')
         return
       }
