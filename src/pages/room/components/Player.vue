@@ -29,7 +29,7 @@ export default {
         if (val) {
           this.$store.commit('setLivePlaying', true)
         }
-      }
+      },
     },
     playerPause(truthy) {
       if (truthy) {
@@ -50,6 +50,7 @@ export default {
 
   mounted() {
     if(this.roomInfo.live_platform == 'huawei'){
+      this.$store.commit('setLivePlaying', true)
       this.HWclient = window.HWLLSPlayer.createClient("webrtc")
       this.HWclient.startPlay(`${this.url.replace('rtmp', 'webrtc')}`,{
         elementId:'live_player_hw',

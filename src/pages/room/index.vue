@@ -75,7 +75,7 @@ export default {
       const redirect_domain = 'h5.talking.vip'
       const application_key = 'ybj_h5'
       const state = encodeURIComponent(`id=${this.id}&parent_user_id=${this.parent_user_id}&redirect_domain=${redirect_domain}&application_key=${application_key}`)
-      window.location.href = `https://open.weixin.qq.com/connect/oauth2/authorize?appid=wx21737bccb934bd94&redirect_uri=https%3A%2F%2Fyoubojia.youboi.com%2Fofficial-account%2Foauth-callback&response_type=code&scope=snsapi_userinfo&state=${state}#wechat_redirect`
+      window.location.href = `https://open.weixin.qq.com/connect/oauth2/authorize?appid=wx21737bccb934bd94&redirect_uri=https%3A%2F%2Fapi.talking.vip%2Fofficial-account%2Foauth-callback&response_type=code&scope=snsapi_userinfo&state=${state}#wechat_redirect`
       return
     }
 
