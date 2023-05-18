@@ -1,6 +1,6 @@
 <template>
   <div class="live">
-    <Player :url="roomInfo.url" :horizontal="roomInfo.direction == 1" :playerPause="playerPause" />
+    <Player :url="roomInfo.url" :horizontal="roomInfo.direction == 1" :roomInfo="roomInfo" :playerPause="playerPause" />
 
     <Swipe class="cover" v-if="livePlaying" :loop="false" :show-indicators="false">
       <SwipeItem class="cover-inner">
