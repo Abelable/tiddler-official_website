@@ -52,7 +52,7 @@ export default {
     if(this.roomInfo.live_platform == 'huawei'){
       this.$store.commit('setLivePlaying', true)
       this.HWclient = window.HWLLSPlayer.createClient("webrtc")
-      this.HWclient.startPlay(`${this.url.replace('rtmp', 'webrtc')}`,{
+      this.HWclient.startPlay(this.roomInfo.webrtc_url,{
         elementId:'live_player_hw',
         objectFit:'cover',
         autoPlay:true
