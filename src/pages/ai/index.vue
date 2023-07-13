@@ -5,8 +5,8 @@
     <div class="main">
       <div class="introduce">
         <div class="introduce-title row">
-          <img class="logo" src="./images/youbo-logo.png" alt="" />
-          <div>您好，我是YouAi</div>
+          <img class="logo" src="./images/ruibo-logo.png" alt="" />
+          <div>您好，我是您的智能助手</div>
         </div>
         <div class="introduce-content">
           <div>能够学习和理解人类的语言，进行多轮对话</div>
@@ -15,16 +15,8 @@
       </div>
 
       <div class="btns row between">
-        <div class="btn row" @click="navToAssistantCenter">
-          <img class="icon" src="./images/robot-icon.png" alt="" />
-          <div class="desc">助手中心</div>
-          <img class="arrow" src="./images/arrow.png" alt="" />
-        </div>
-        <div class="btn row" @click="newChat">
-          <img class="icon" src="./images/contact-icon.png" alt="" />
-          <div class="desc">新建对话</div>
-          <img class="arrow" src="./images/arrow.png" alt="" />
-        </div>
+        <img class="btn" @click="navToAssistantCenter" src="./images/assistant-center-btn.png" alt="" >
+        <img class="btn" @click="newChat" src="./images/new-chat-btn.png" alt="" >
       </div>
 
       <div class="recommend-assistants card">
@@ -191,7 +183,7 @@ export default {
       background-size: 100%
       background-repeat: no-repeat
       .introduce-title
-        color: #0866F4
+        color: #05A5AF
         font-size: .28rem
         font-weight: 500
         .logo
@@ -202,26 +194,16 @@ export default {
         margin-top: .16rem
         color: #44446F
         font-size: .26rem
+        font-weight: 500
     .btns
       margin-top: .3rem
       .btn
-        padding-left: .3rem
-        padding-right: .12rem
         width: 3.36rem
-        height: .88rem
-        background: #5D7CFF
-        border-radius: .16rem
-        .icon, .arrow
-          margin-right: .08rem
-          width: .32rem
-          height: .32rem
-        .desc
-          flex: 1
-          color: #fff
-          font-size: .28rem
-          font-weight: 500
     .recommend-assistants
       margin-top: .34rem
+      background-image: url('./images/recommend-assistants-bg.png')
+      background-size: 100%
+      background-repeat: no-repeat
       .recommend-assistants-title
         color: #44446F
         font-size: .32rem

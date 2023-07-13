@@ -114,6 +114,10 @@ export default {
   &.nomore
     width: 3.06rem
     height: 1.6rem
+    background: #F5FDFF
+    border-color: #DCEDFD
+    .card-content
+      color: #94B4C0
   .watermark
     position: absolute
     top: 50%
