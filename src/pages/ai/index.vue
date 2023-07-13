@@ -14,8 +14,6 @@
         </div>
       </div>
 
-      <img class="goods-mode-banner" @click="goodsModeChat" src="./images/goods-mode.png" alt="" />
-
       <div class="btns row between">
         <div class="btn row" @click="navToAssistantCenter">
           <img class="icon" src="./images/robot-icon.png" alt="" />
@@ -140,10 +138,6 @@ export default {
       this.hotTopicList = list;
     },
 
-    goodsModeChat() {
-      router.push(`/ai/goods_mode?assistantId=${this.goodsAssistantList[0].id}`);
-    },
-
     navToAssistantCenter() {
       router.push("/ai/assistant_center");
     },
@@ -208,10 +202,6 @@ export default {
         margin-top: .16rem
         color: #44446F
         font-size: .26rem
-    .goods-mode-banner
-      display: block
-      margin-top: .2rem
-      width: 100%
     .btns
       margin-top: .3rem
       .btn

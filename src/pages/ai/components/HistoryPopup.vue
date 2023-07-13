@@ -138,11 +138,7 @@ export default {
 
     navToChatPage({ id: sessionId, gpt_assistant_id: assistantId }) {
       if (assistantId) {
-        if (assistantId === 154) {
-          router.push(`/ai/goods_mode?assistantId=${assistantId}`);
-        } else {
-          router.push(`/ai/assistant_mode?assistantId=${assistantId}`);
-        }
+        router.push(`/ai/assistant_mode?assistantId=${assistantId}`);
       } else {
         router.push(`/ai/chat?sessionId=${sessionId}`);
       }
