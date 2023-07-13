@@ -66,7 +66,7 @@ export default {
     }
 
     if (!navigator.userAgent.match(/(phone|pad|pod|iPhone|iPod|ios|iPad|Android|Mobile|IEMobile)/i)) {
-      window.location.href = `https://shop.talking.vip/pc/#/l_p?id=${this.id}&parent_user_id=${this.parent_user_id}`
+      window.location.href = `https://h5.talking.vip/pc/#/l_p?id=${this.id}&parent_user_id=${this.parent_user_id}`
       return
     }
 
@@ -75,7 +75,7 @@ export default {
       const redirect_domain = 'h5.talking.vip'
       const application_key = 'ybj_h5'
       const state = encodeURIComponent(`id=${this.id}&parent_user_id=${this.parent_user_id}&redirect_domain=${redirect_domain}&application_key=${application_key}`)
-      window.location.href = `https://open.weixin.qq.com/connect/oauth2/authorize?appid=wx834688294afd4d48&redirect_uri=https%3A%2F%2Fyoubojia.youboi.com%2Fofficial-account%2Foauth-callback&response_type=code&scope=snsapi_userinfo&state=${state}#wechat_redirect`
+      window.location.href = `https://open.weixin.qq.com/connect/oauth2/authorize?appid=wx21737bccb934bd94&redirect_uri=https%3A%2F%2Fapi.talking.vip%2Fofficial-account%2Foauth-callback&response_type=code&scope=snsapi_userinfo&state=${state}#wechat_redirect`
       return
     }
 
