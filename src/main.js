@@ -7,6 +7,17 @@ import { Swipe, SwipeItem, Lazyload, Toast, Dialog, ImagePreview, Popup, List } 
 import { judgeHost } from './utils/bridge'
 import './utils/remConfig'
 import './assets/style/index.styl'
+import "github-markdown-css/github-markdown.css";
+import "highlight.js/styles/googlecode.css";
+import hljs from "highlight.js";
+
+Vue.directive("highlight", function(el) {
+  const blocks = el.querySelectorAll("pre code");
+  blocks.forEach((block) => {
+    hljs.highlightBlock(block);
+  });
+});
+
 Vue.prototype.$host = judgeHost()
 Vue.config.productionTip = false
 Vue.config.ignoredElements = ['wx-open-launch-weapp']

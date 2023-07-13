@@ -25,6 +25,63 @@ const router = new Router({
       path: '/auth',
       component: () => import('../pages/auth/index')
     },
+    {
+      name: "ai",
+      path: "/ai",
+      component: () => import("@/pages/ai"),
+      meta: {
+        title: "YOUAi",
+        requireAuth: true,
+      },
+    },
+    {
+      name: "ai_chat",
+      path: "/ai/chat",
+      component: () => import("@/pages/ai/chat/chat"),
+      meta: {
+        title: "YOUAi",
+      },
+    },
+    {
+      name: "ai_assistant_mode",
+      path: "/ai/assistant_mode",
+      component: () => import("@/pages/ai/chat/assistant-mode"),
+      meta: {
+        title: "助手模式",
+      },
+    },
+    {
+      name: "ai_goods_mode",
+      path: "/ai/goods_mode",
+      component: () => import("@/pages/ai/chat/goods-mode"),
+      meta: {
+        title: "智能商品推荐",
+      },
+    },
+    {
+      name: "ai_assistant_center",
+      path: "/ai/assistant_center",
+      component: () => import("@/pages/ai/assistant-center"),
+      meta: {
+        title: "YouAi助手中心",
+      },
+    },
+    {
+      name: "ai_assistant_create",
+      path: "/ai/assistant_create",
+      component: () => import("@/pages/ai/assistant-center/create-assistant"),
+      meta: {
+        title: "创建助手",
+      },
+    },
+    {
+      name: "ai_assistant_preview",
+      path: "/ai/assistant_preview",
+      component: () => import("@/pages/ai/assistant-center/preview"),
+      meta: {
+        title: "预览与调试",
+      },
+    },
   ],
   scrollBehavior() {
     return { x: 0, y: 0 }

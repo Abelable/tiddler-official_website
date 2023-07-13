@@ -6,12 +6,16 @@ Vue.use(Vuex)
 
 export default new Vuex.Store({
   state: {
+    userInfo: null,
     vestInfo: null,
     userTagList: []
   },
   getters: {
   },
   mutations: {
+    setUserInfo(state, info) {
+      state.userInfo = info;
+    },
     setVestInfo(state, data) {
       state.vestInfo = data
     },
