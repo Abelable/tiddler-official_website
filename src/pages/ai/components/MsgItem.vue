@@ -13,7 +13,7 @@
             ? userInfo.nickname || "我"
             : assistantInfo
             ? assistantInfo.name
-            : "YouAi"
+            : "智能助手"
         }}
       </div>
       <img
@@ -274,7 +274,7 @@ export default {
     align-items: flex-end
     .chat-msg-content
       color: #fff
-      background: #0866F4
+      background: #05828C
   .user-info
     .avatar
       width: .6rem
@@ -334,7 +334,7 @@ export default {
   vertical-align: top;
   width: 0.1rem;
   height: 0.32rem;
-  background: #0866f4;
+  background: #05828C;
   animation: blink 1s infinite;
 }
 </style>

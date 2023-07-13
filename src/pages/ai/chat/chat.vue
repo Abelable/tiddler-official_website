@@ -122,7 +122,7 @@ export default {
         content,
       };
       const robotMsg = {
-        avatar: "https://img.ubo.vip/ai/youai-avatar.png",
+        avatar: "https://img.ubo.vip/ai/ruiboai-avatar.png",
         role: "assistant",
         content: "",
       };
@@ -144,7 +144,7 @@ export default {
         content: this.msgList[this.msgList.length - 2].content,
       };
       const robotMsg = {
-        avatar: "https://img.ubo.vip/ai/youai-avatar.png",
+        avatar: "https://img.ubo.vip/ai/ruiboai-avatar.png",
         role: "assistant",
         content: "",
       };
@@ -182,7 +182,7 @@ export default {
               this.saveMsg(
                 "assistant",
                 content,
-                "https://img.ubo.vip/ai/youai-avatar.png"
+                "https://img.ubo.vip/ai/ruiboai-avatar.png"
               );
               this.replying = false;
               this.scrollToBottom();

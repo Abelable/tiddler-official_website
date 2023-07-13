@@ -16,7 +16,7 @@
           v-model="content"
           placeholder="请点击按钮进行语音识别"
         ></textarea>
-        <div class="send-btn row center" @click="send">发送</div>
+        <img class="send-btn" @click="send" src="../images/send-btn.png" alt="">
       </div>
 
       <div class="voice-btn-wrap row center">
@@ -41,7 +41,7 @@
         <div class="voice-input row" ref="voiceInput">
           {{ `${content}${tempContent}` || "请点击按钮进行语音识别" }}
         </div>
-        <div class="send-btn row center">发送</div>
+        <img class="send-btn" src="../images/send-btn.png" alt="">
       </div>
     </div>
   </Popup>
@@ -129,7 +129,7 @@ export default {
 
     send() {
       if (this.voiceRecognizing) {
-        return;
+        this.stopVoiceInput()
       }
       if (this.replying) {
         Toast("YouAi正在答复中，请等待!");
@@ -191,12 +191,6 @@ export default {
     .send-btn
       margin-left: .24rem
       width 1.54rem
-      height: .86rem
-      color: #fff
-      font-size: .28rem
-      font-weight: 500
-      border-radius: .43rem
-      background: linear-gradient(180deg, #1399FA 0%, #085DF4 100%)
   .voice-btn-wrap
     height: 5rem
     border-top: 1px solid #F1F3FA
@@ -220,7 +214,7 @@ export default {
           height: 1.96rem
           content: ""
           border-radius: 50%
-          background: linear-gradient(180deg, #1399FA 0%, #085DF4 100%)
+          background: linear-gradient(180deg, #079799 0%, #057F8B 100%)
           animation: wave 1.5s ease-out infinite
       .btn-tips
         position relative

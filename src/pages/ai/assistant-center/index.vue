@@ -37,17 +37,6 @@
           </div>
 
           <div class="mine-menu-wrap row" v-if="curMenuIdx === 1">
-            <div class="mine-menu row">
-              <div
-                class="mine-menu-item row center"
-                :class="{ active: curMineMenuIdx === index }"
-                v-for="(item, index) in ['已添加的助手', '我创建的助手']"
-                :key="index"
-                @click="selectMineMenu(index)"
-              >
-                {{ item }}
-              </div>
-            </div>
             <div
               class="editting-btn row center"
               v-if="curMineMenuIdx === 0"
@@ -140,7 +129,7 @@
       </div>
       <div class="selected-count-desc">
         <span>已选择</span>
-        <span style="color: #4C75F7;">{{ selectedCount }}</span>
+        <span style="color: #05828C;">{{ selectedCount }}</span>
         <span>个助手</span>
       </div>
       <div class="delete-btn row" @click="deleteCard">
@@ -320,7 +309,7 @@ export default {
       Dialog.confirm({
         title: "确认移除",
         message: "请注意，移除助手会清空与该助手的历史对话",
-        confirmButtonColor: "#4C75F7",
+        confirmButtonColor: "#05828C",
       })
         .then(async () => {
           const ids = this.userAssistantList
@@ -384,7 +373,7 @@ export default {
         color: #fff
         font-size: .28rem
         font-weight: 500
-        background: #4C75F7
+        background: #05828C
         border-radius: .38rem
         &.mine
           left: 3.14rem
@@ -404,28 +393,10 @@ export default {
         &.active
           color: #fff
           font-weight: 500
-          background: #4C75F7
+          background: #05828C
     .mine-menu-wrap
       margin-top: .2rem
-      .mine-menu
-        flex: 1
-        .mine-menu-item
-          flex: 1
-          color: #494970
-          font-size: .28rem
-          &.active
-            position: relative
-            color: #4C75F7
-            font-weight: 500
-            &::after
-              position: absolute
-              left: 50%
-              bottom: -0.12rem
-              transform: translateX(-50%)
-              width: 1.68rem
-              height: .04rem
-              content: ''
-              background: #4C75F7
+      justify-content: flex-end
       .editting-btn
         margin-left: .3rem
         width: 1.24rem
@@ -434,7 +405,7 @@ export default {
         font-size: .24rem
         font-weight: 500
         border-radius: .25rem
-        background: #4C75F7
+        background: #05828C
     .assistant-cards
       display: flex
       flex-wrap: wrap

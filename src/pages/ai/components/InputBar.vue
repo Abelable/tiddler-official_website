@@ -6,7 +6,7 @@
           class="input"
           v-model="content"
           type="text"
-          placeholder="有播智能为您服务"
+          placeholder="瑞播智能为您服务"
           @blur="onBlur"
         />
         <img
@@ -16,7 +16,7 @@
           alt=""
         />
       </div>
-      <div class="send-btn row center" @click="send">发送</div>
+      <img class="send-btn" @click="send" src="../images/send-btn.png" alt="">
     </div>
     <div class="tips">
       产生的内容均为AI智能模型输出，其内容的准确性和完整性无法保证不代表我们的态度或观点
@@ -97,8 +97,8 @@ export default {
     flex: 1
     height: .86rem
     border-radius: .43rem
-    border: 1px solid #DAE1EB
-    background: #F5F6FC
+    border: 1px solid #DAEBE7
+    background: #F5FCFA
     .input
       flex: 1
       font-size: .26rem
@@ -110,15 +110,9 @@ export default {
   .send-btn
     margin-left: .24rem
     width 1.54rem
-    height: .86rem
-    color: #fff
-    font-size: .28rem
-    font-weight: 500
-    border-radius: .43rem
-    background: linear-gradient(180deg, #1399FA 0%, #085DF4 100%)
   .tips
     margin-top: .2rem
-    color: #9499C2
+    color: #94B4C2
     font-size: .22rem
     text-align: center
 </style>

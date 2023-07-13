@@ -59,7 +59,7 @@
               assistantInfo ? assistantInfo.name : ""
             }}”助手
           </div>
-          <div class="form-subtitle">YOUAI为您提供以下指令模版</div>
+          <div class="form-subtitle">瑞播智能助手为您提供以下指令模版</div>
           <div
             class="form-item row"
             v-for="(item, index) in formItemList"
@@ -74,7 +74,7 @@
             />
           </div>
         </div>
-        <div class="confirm-btn row center" @click="confirm">确定</div>
+        <img class="confirm-btn" @click="confirm" src="../images/confirm-btn.png" alt="">
       </div>
     </Popup>
 
@@ -207,7 +207,7 @@ export default {
       const robotMsg = {
         avatar:
           this.assistantInfo.avatar ||
-          "https://img.ubo.vip/ai/youai-avatar.png",
+          "https://img.ubo.vip/ai/ruiboai-avatar.png",
         role: "assistant",
         content: "",
       };
@@ -233,7 +233,7 @@ export default {
       const robotMsg = {
         avatar:
           this.assistantInfo.avatar ||
-          "https://img.ubo.vip/ai/youai-avatar.png",
+          "https://img.ubo.vip/ai/ruiboai-avatar.png",
         role: "assistant",
         content: "",
       };
@@ -274,7 +274,7 @@ export default {
                 "assistant",
                 content,
                 this.assistantInfo.avatar ||
-                  "https://img.ubo.vip/ai/youai-avatar.png"
+                  "https://img.ubo.vip/ai/ruiboai-avatar.png"
               );
               this.replying = false;
               this.scrollToBottom();
@@ -355,7 +355,7 @@ export default {
   .main
     padding: .3rem .3rem 2.68rem
     .mode-desc
-      color: #0866F4
+      color: #05828C
       font-size: .28rem
       font-weight: 500
       text-align: center
@@ -411,7 +411,7 @@ export default {
     .form
       position: relative
       padding: .3rem .3rem .9rem
-      background: linear-gradient(90deg, #EBF1FF 0%, #EFFCFF 100%)
+      background: linear-gradient(90deg, #E7FAFA 0%, #EEFEFC 100%)
       &::after
         position: absolute
         left: 0
@@ -443,12 +443,7 @@ export default {
           border: 1px solid #E2EBFF
           border-radius: .08rem
     .confirm-btn
+      display: block
       margin: 0 auto
       width: 5.1rem
-      height: .92rem
-      color: #fff
-      font-size: .32rem
-      font-weight: 500
-      background: #5D7CFF
-      border-radius: .46rem
 </style>
