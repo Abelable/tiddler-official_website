@@ -1,5 +1,5 @@
 let isInApp = () => {
-  return navigator.userAgent.toLowerCase().indexOf('youbo') !== -1
+  return navigator.userAgent.toLowerCase().indexOf('ruibo') !== -1
 }
 
 let isInIOS = () => {

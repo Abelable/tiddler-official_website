@@ -2,7 +2,9 @@ import axios from 'axios'
 import qs from 'qs'
 import { Toast } from 'vant'
 import { env } from '../../utils/config'
+import { judgeHost } from '../../utils/bridge'
 import sign from './sign'
+
 class Base {
   constructor() {
     switch (env) {
@@ -28,7 +30,23 @@ class Base {
 
   async _axios({ method = 'GET', url, params, data, success, fail }) {
     axios.defaults.headers['platform'] = 'official_account'
-    axios.defaults.headers['application_key'] = 'ybj_h5' 
+    switch (judgeHost()) {
+      case 'IOS':
+        axios.defaults.headers['application_key'] = 'ybj_ios' 
+        break;
+
+      case 'android':
+        axios.defaults.headers['application_key'] = 'ybj_android' 
+        break;
+    
+      case 'mp':
+        axios.defaults.headers['application_key'] = 'ybj_xcx' 
+        break;
+    
+      default:
+        axios.defaults.headers['application_key'] = 'ybj_h5' 
+        break;
+    }
     axios.defaults.headers['app_name'] = 'ruibo' 
     if (method === 'POST') axios.defaults.headers['Content-Type'] = 'application/x-www-form-urlencoded'
     const token = localStorage.getItem('token')
