@@ -4,9 +4,20 @@
 
 <script>
 import { getUrlParam } from '@/utils/index'
+import { Toast } from 'vant';
 
 export default {
   created() {
+    const ua = navigator.userAgent.toLowerCase();
+    if (ua.match(/wxwork/i) == 'wxwork') {
+      Toast('请在微信中打开')
+      return
+    }
+    if (ua.match(/MicroMessenger/i) != "micromessenger") {
+      Toast('请在微信中打开')
+      return
+    }
+
     const token = this.$route.query.token || getUrlParam('token') || ''
     if (!token) {
       const login_type = 1

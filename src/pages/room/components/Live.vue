@@ -417,7 +417,17 @@ export default {
             break
 
           case 'ban_user':
-            this.$store.commit('setCurUserIsBan', customMsg.user_id.split(',').includes(`${userID}`) ? 1 : 0)
+            var userIdList = customMsg.user_id.split(',')
+            if (userIdList.includes(`${userID}`)) {
+              this.$store.commit('setCurUserIsBan', 1)
+            }
+            break
+          
+          case 'unban_user':
+            var unbanUserIds = customMsg.user_id.split(',')
+            if (unbanUserIds.includes(`${userID}`)) {
+              this.$store.commit('setCurUserIsBan', 0)
+            }
             break
 
           case 'group_subtitle':
@@ -469,6 +479,14 @@ export default {
 
           case 'animation':
             this.$store.commit('setAnimationIndex', Number(customMsg.index))
+            break
+          case 'studio_freeze':
+            if(this.roomInfo.id == customMsg.room_id){
+              Toast.fail(customMsg.msg)
+              setTimeout(()=>{
+                location.reload()
+              },2000)
+            }
             break
         }
       }
