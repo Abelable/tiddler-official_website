@@ -7,7 +7,6 @@
           v-model="content"
           type="text"
           placeholder="瑞播智能为您服务"
-          @blur="onBlur"
         />
         <img
           class="mike-icon"
@@ -26,9 +25,6 @@
 
 <script>
 import { Toast } from "vant";
-import AiService from "../utils/aiService";
-
-const aiService = new AiService();
 
 export default {
   props: {
@@ -70,10 +66,6 @@ export default {
 
     showVoiceInputPopup() {
       this.$emit("showVoiceInputPopup");
-    },
-
-    onBlur() {
-      window.scrollTo(0, Math.max(this.scrollHieght - 1, 0));
     },
   },
 };

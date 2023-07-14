@@ -25,6 +25,7 @@
     </div>
 
     <InputBar
+      v-if="!voiceInputPopupVisible"
       :replying="replying"
       @send="send"
       @showVoiceInputPopup="voiceInputPopupVisible = true"

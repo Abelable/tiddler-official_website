@@ -171,6 +171,8 @@ export default {
     justify-content: center
 .voice-input-popup
   position: relative
+  height: fit-content
+  overflow hidden
   .voice-input-wrap
     padding: .3rem
     &.fixed

@@ -34,7 +34,7 @@
               src="../images/history-popup/chat.png"
               alt=""
             />
-            <div class="chat-content omit">{{ item.last_content }}</div>
+            <div class="chat-content omit">{{ item | formatContent }}</div>
             <img
               class="delete-icon"
               @click.stop="deleteHistory(item.id)"
@@ -88,6 +88,37 @@ export default {
       this.show = truthy;
       if (truthy) {
         this.setHistroryList(true);
+      }
+    },
+  },
+
+  filters: {
+    formatContent({ last_content, instruct }) {
+      if (instruct) {
+        const formItemList = instruct
+          .match(new RegExp("【(.+?)】", "g"))
+          .map((item) => ({
+            name: item.replace("【", "").replace("】", ""),
+            value: "",
+          }));
+
+        let content = "";
+        if (formItemList.length > 1) {
+          const contentList = last_content
+            .match(new RegExp("【(.+?)】", "g"))
+            .map((item) => item.replace("【", "").replace("】", ""));
+          formItemList.forEach(({ name }, index) => {
+            content = `${content}${name}：${contentList[index]}；`;
+          });
+        } else {
+          content = last_content
+            .match(new RegExp("【(.+?)】", "g"))[0]
+            .replace("【", "")
+            .replace("】", "");
+        }
+        return content;
+      } else {
+        return last_content;
       }
     },
   },

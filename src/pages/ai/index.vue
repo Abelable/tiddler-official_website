@@ -56,6 +56,7 @@
     </div>
 
     <InputBar
+      v-if="!historyPopupVisible && !voiceInputPopupVisible"
       @send="newChatWithContent"
       @showVoiceInputPopup="voiceInputPopupVisible = true"
     />
@@ -195,6 +196,7 @@ export default {
         color: #44446F
         font-size: .26rem
         font-weight: 500
+        white-space: nowrap
     .btns
       margin-top: .3rem
       .btn
