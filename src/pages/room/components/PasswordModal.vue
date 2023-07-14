@@ -79,6 +79,7 @@ export default {
       text-align: center
       font-weight: bold
     .input
+      display: block
       margin: .40rem auto 0
       padding: 0 .24rem
       font-size: .28rem
