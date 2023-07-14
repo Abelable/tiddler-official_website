@@ -7,7 +7,7 @@ import { Swipe, SwipeItem, Lazyload, Toast, Dialog, ImagePreview, Popup, List } 
 import { judgeHost } from './utils/bridge'
 import './utils/remConfig'
 import './assets/style/index.styl'
-import "github-markdown-css/github-markdown.css";
+import "github-markdown-css/github-markdown-light.css";
 import "highlight.js/styles/googlecode.css";
 import hljs from "highlight.js";
 // import Vconsole from 'vconsole'
