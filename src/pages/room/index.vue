@@ -117,6 +117,9 @@ export default {
           this.$store.commit('setAudienceCount', roomInfo.type_name ? Number(watch_num) : Number(user_watch_num))
           this.$store.commit('setPraiseCount', Number(like_num))
           document.title = roomInfo.title
+          if (this.passwordModalVisible) {
+            this.passwordModalVisible = false
+          }
         },
         res => {
           if (res.data.message === '直播间密码错误') {
