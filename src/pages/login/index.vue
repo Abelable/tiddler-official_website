@@ -25,7 +25,7 @@
       </div>
       <div class="protocol">
         注册即代表您同意<a
-          href="https://madmin.youboi.com/admin/view_article.php?act=view&article_id=144"
+          href="https://h5.talking.vip/youbo_plus/h5/index.html#/privacy_policy"
           >《瑞播用户服务协议》</a
         >
       </div>

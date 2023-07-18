@@ -98,13 +98,25 @@ export default {
     };
   },
 
-  created() {
+  async created() {
+    await this.setUserInfo();
     this.setGoodsAssistantList();
     this.setAssistantList();
     this.setHotTopicList();
   },
 
   methods: {
+    async setUserInfo() {
+      const {
+        id,
+        head_img: avatar,
+        nick_name: nickname,
+        mobile,
+      } = await aiService.getCurrentUserInfo();
+      localStorage.setItem("userId", id);
+      this.$store.commit("setUserInfo", { avatar, nickname, mobile });
+    },
+
     async setGoodsAssistantList() {
       const { list = [] } =
         (await aiService.getAssistantList({ is_goods: 1 })) || {};

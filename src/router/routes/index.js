@@ -2,6 +2,11 @@ import ai from "./ai";
 
 const routes = [
   {
+    name: "login",
+    path: "/login",
+    component: () => import("@/pages/login/index"),
+  },
+  {
     name: "live_play",
     path: "/l_p",
     component: () => import("@/pages/room/index"),
@@ -17,16 +22,6 @@ const routes = [
     meta: {
       title: "流量统计",
     },
-  },
-  {
-    name: "login",
-    path: "/login",
-    component: () => import("@/pages/login/index"),
-  },
-  {
-    name: "auth",
-    path: "/auth",
-    component: () => import("@/pages/auth/index"),
   },
   ...ai,
 ];
