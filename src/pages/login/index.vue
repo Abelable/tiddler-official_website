@@ -88,7 +88,7 @@ export default {
         if (redirect) {
           const token = this.$route.query.token || getUrlParam("token") || "";
           localStorage.setItem("token", token);
-          this.$router.push(`${this.$route.query.redirect}`);
+          this.$router.push(`${redirect}`);
         } else {
           window.wx.miniProgram.navigateBack();
         }
