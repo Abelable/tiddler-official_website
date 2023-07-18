@@ -63,21 +63,13 @@ export default {
       // 公众号授权返回标识
       const isWxAuthCallback = localStorage.getItem("isWxAuthCallback");
 
-      if (!isWxAuthCallback) { // 公众号授权
+      if (!isWxAuthCallback) {
+        // 公众号授权
         const { redirect = "" } = this.$route.query || {};
         redirect && localStorage.setItem("redirect", redirect);
         localStorage.setItem("isWxAuthCallback", true);
 
-        let state = "";
-        if (!redirect) {
-          state = encodeURIComponent(`login_type=1`);
-        } else {
-          const redirect_domain = "h5.talking.vip";
-          const application_key = "ybj_h5";
-          state = encodeURIComponent(
-            `redirect_domain=${redirect_domain}&application_key=${application_key}`
-          );
-        }
+        const state = encodeURIComponent(`login_type=1`);
         window.location.href = `https://open.weixin.qq.com/connect/oauth2/authorize?appid=wx21737bccb934bd94&redirect_uri=https%3A%2F%2Fapi.talking.vip%2Fofficial-account%2Foauth-callback&response_type=code&scope=snsapi_userinfo&state=${state}#wechat_redirect`;
       } else {
         localStorage.removeItem("isWxAuthCallback");
