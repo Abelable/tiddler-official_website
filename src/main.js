@@ -10,10 +10,10 @@ import './assets/style/index.styl'
 import "github-markdown-css/github-markdown-light.css";
 import "highlight.js/styles/googlecode.css";
 import hljs from "highlight.js";
-import Vconsole from 'vconsole'
+// import Vconsole from 'vconsole'
 
-const vconsole = new Vconsole()
-Vue.use(vconsole)
+// const vconsole = new Vconsole()
+// Vue.use(vconsole)
 
 Vue.directive("highlight", function(el) {
   const blocks = el.querySelectorAll("pre code");

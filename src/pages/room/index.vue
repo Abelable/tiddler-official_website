@@ -74,15 +74,6 @@ export default {
     this.parent_user_id =
       this.$route.query.parent_user_id || getUrlParam("parent_user_id") || "";
 
-    if (
-      !navigator.userAgent.match(
-        /(phone|pad|pod|iPhone|iPod|ios|iPad|Android|Mobile|IEMobile)/i
-      )
-    ) {
-      window.location.href = `https://h5.talking.vip/pc/#/l_p?id=${this.id}&parent_user_id=${this.parent_user_id}`;
-      return;
-    }
-
     if (this.parent_user_id) {
       this.$store.commit("setShareId", this.parent_user_id);
     }
