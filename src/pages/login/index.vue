@@ -36,9 +36,9 @@
 
 <script>
 import { getUrlParam } from "@/utils/index";
-import LoginService from './utils/loginService'
+import LoginService from "./utils/loginService";
 
-const loginService = new LoginService()
+const loginService = new LoginService();
 
 export default {
   data() {
@@ -56,8 +56,10 @@ export default {
 
     const ua = navigator.userAgent.toLowerCase();
     if (
-      ua.match(/wxwork/i) === "wxwork" ||
-      ua.match(/MicroMessenger/i) !== "micromessenger"
+      (ua.match(/wxwork/i) &&
+        ua.match(/wxwork/i).length &&
+        ua.match(/wxwork/i)[0] === "wxwork") ||
+      !ua.match(/MicroMessenger/i)
     ) {
       this.loginPageVisible = true;
     } else {
