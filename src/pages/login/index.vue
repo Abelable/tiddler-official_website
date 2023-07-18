@@ -51,9 +51,6 @@ export default {
   },
 
   created() {
-    const { redirect = "" } = this.$route.query || {};
-    redirect && localStorage.setItem("redirect", redirect);
-
     const ua = navigator.userAgent.toLowerCase();
     if (
       (ua.match(/wxwork/i) &&
@@ -66,8 +63,9 @@ export default {
       // 公众号授权返回标识
       const isWxAuthCallback = localStorage.getItem("isWxAuthCallback");
 
-      if (!isWxAuthCallback) {
-        // 公众号授权
+      if (!isWxAuthCallback) { // 公众号授权
+        const { redirect = "" } = this.$route.query || {};
+        redirect && localStorage.setItem("redirect", redirect);
         localStorage.setItem("isWxAuthCallback", true);
 
         let state = "";
@@ -88,6 +86,7 @@ export default {
         if (redirect) {
           const token = this.$route.query.token || getUrlParam("token") || "";
           localStorage.setItem("token", token);
+          localStorage.removeItem("redirect");
           this.$router.push(`${redirect}`);
         } else {
           window.wx.miniProgram.navigateBack();
