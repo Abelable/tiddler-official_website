@@ -65,11 +65,11 @@ export default {
 
       if (!isWxAuthCallback) {
         // 公众号授权
-        const { redirect = "" } = this.$route.query || {};
+        const { redirect = "", login_type = 1 } = this.$route.query || {};
         redirect && localStorage.setItem("redirect", redirect);
         localStorage.setItem("isWxAuthCallback", true);
 
-        const state = encodeURIComponent(`login_type=1`);
+        const state = encodeURIComponent(`login_type=${login_type || 1}`);
         window.location.href = `https://open.weixin.qq.com/connect/oauth2/authorize?appid=wx21737bccb934bd94&redirect_uri=https%3A%2F%2Fapi.talking.vip%2Fofficial-account%2Foauth-callback&response_type=code&scope=snsapi_userinfo&state=${state}#wechat_redirect`;
       } else {
         localStorage.removeItem("isWxAuthCallback");
