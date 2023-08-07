@@ -15,6 +15,14 @@ const supplier = [
       title: "店铺基本信息",
     },
   },
+  {
+    name: "supplier_status",
+    path: "/supplier/status",
+    component: () => import("@/pages/supplier/status"),
+    meta: {
+      title: "入驻申请",
+    },
+  },
 ];
 
 export default supplier;
