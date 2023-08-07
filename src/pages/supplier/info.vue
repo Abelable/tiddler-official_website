@@ -115,7 +115,7 @@
 
     <div class="category-selector row between">
       <div class="label">选择类目</div>
-      <div class="content row">
+      <div class="content row" @click="categoryPickerPopupVisible = true">
         <div>玉翠珠宝</div>
         <img class="arrow" src="./images/info/arrow.png" alt="" />
       </div>
@@ -130,19 +130,29 @@
         @cancel="areaPickerPopupVisible = false"
       />
     </Popup>
+
+    <Popup v-model="categoryPickerPopupVisible" position="bottom" round closeable>
+      <div class="popup-title">选择类目</div>
+      <TreeSelect
+        :main-active-index.sync="categoryIdx"
+        :items="categoryList"
+        @click-nav="categoryConfirm"
+      />
+    </Popup>
   </div>
 </template>
 
 <script>
-import { Popup, Area } from "vant";
+import { Popup, Area, TreeSelect } from "vant";
 import Uploader from "@/components/Uploader";
 import { areaList } from "@vant/area-data";
 
 export default {
-  components: { Popup, Area, Uploader },
+  components: { Popup, Area, Uploader, TreeSelect },
 
   data() {
     return {
+      categoryIdx: 0,
       areaList,
       shopName: "",
       regionDesc: "",
@@ -153,7 +163,12 @@ export default {
       coverPic: "",
       name: "",
       idCardNum: "",
+      categoryList: [
+        { text: '玉翠珠宝', children: [{ text: '和田玉', disabled: true }, { text: '翡翠', disabled: true }] },
+        { text: '紫砂陶瓷', children: [{ text: '和田玉', disabled: true }, { text: '翡翠', disabled: true }] }
+      ],
       areaPickerPopupVisible: false,
+      categoryPickerPopupVisible: false,
     };
   },
 
@@ -182,6 +197,10 @@ export default {
     setHoldCardPic(pic) {
       this.coverPic = pic;
     },
+
+    categoryConfirm(index) {
+      this.categoryIdx = index
+    }
   },
 };
 </script>
@@ -248,6 +267,13 @@ export default {
       color: #1F233B
     .content
       color: #333
+  .popup-title
+    padding: .3rem 0
+    color: #333
+    font-size: .32rem
+    font-weight: 500
+    text-align: center
+    border-bottom: 1px solid #f5f6f7
   .submit-btn
     position: fixed
     left: 50%
@@ -260,4 +286,9 @@ export default {
     font-weight: 500
     background: linear-gradient(128deg, #404A5C 0%, #0F131A 100%)
     border-radius: 25px
+</style>
+<style>
+.van-tree-select__item--disabled {
+  color: #333;
+}
 </style>
