@@ -23,6 +23,14 @@ const routes = [
       title: "流量统计",
     },
   },
+  {
+    name: "supplier",
+    path: "/supplier",
+    component: () => import("@/pages/supplier/index"),
+    meta: {
+      title: "瑞播商家入驻",
+    },
+  },
   ...ai,
 ];
 
