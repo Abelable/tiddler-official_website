@@ -25,6 +25,9 @@
 
 <script>
 import { Toast } from "vant";
+import AiService from "../utils/aiService";
+
+const aiService = new AiService();
 
 export default {
   props: {
@@ -60,8 +63,19 @@ export default {
         return;
       }
 
-      this.$emit("send", this.content);
-      this.content = "";
+      aiService.filterSensitiveContent(
+        this.content,
+        () => {
+          this.$emit("send", this.content);
+          this.content = "";
+        },
+        () => {
+          Toast("您输入了敏感信息，请咨询其他问题");
+        }
+      );
+
+      // this.$emit("send", this.content);
+      // this.content = "";
     },
 
     showVoiceInputPopup() {

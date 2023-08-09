@@ -139,8 +139,20 @@ export default {
         Toast("内容不能为空哦");
         return;
       }
-      this.$emit("send", this.content);
-      this.content = "";
+
+      aiService.filterSensitiveContent(
+        this.content,
+        () => {
+          this.$emit("send", this.content);
+          this.content = "";
+        },
+        () => {
+          Toast("您输入了敏感信息，请咨询其他问题");
+        }
+      );
+
+      // this.$emit("send", this.content);
+      // this.content = "";
     },
 
     hide() {
