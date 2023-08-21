@@ -527,6 +527,8 @@ export default {
       if(document.getElementById('audio_player').paused){
         this.mutedBtn = true
         this.mutedVolume = false
+      }else{
+        this.mutedBtn = false
       }
     },
 
