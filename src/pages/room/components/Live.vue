@@ -209,7 +209,7 @@ export default {
   },
 
   async created() {
-    this.originalMpId = window.location.href.includes('sm') ? 'gh_fede7ed137e1' : 'gh_7fa0cd4796ba'
+    this.originalMpId = 'gh_49d405c089a5'
     await this.setImInfo()
     this.initTim()
     this.setMsgHistory()
