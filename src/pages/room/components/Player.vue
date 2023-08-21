@@ -2,6 +2,7 @@
   <div class="container" :class="{ horizontal }">
     <div id="live_player_hw" v-show="roomInfo.live_platform == 'huawei'" class="player" preload="auto" playsinline webkit-playsinline></div>
     <video id="live_player" v-show="roomInfo.live_platform != 'huawei'"  class="player" preload="auto" playsinline webkit-playsinline></video>
+    
   </div>
 </template>
 
@@ -17,7 +18,7 @@ export default {
   data() {
     return {
       player: null,
-      HWclient: null
+      HWclient: null,
     }
   },
 
@@ -41,6 +42,7 @@ export default {
       } else {
         if(this.roomInfo.live_platform == 'huawei'){
           this.HWclient.replay()
+          this.checkMute()
         }else{
           this.player.play()
         }
@@ -48,15 +50,16 @@ export default {
     }
   },
 
-  mounted() {
+  async mounted() {
     if(this.roomInfo.live_platform == 'huawei'){
       this.$store.commit('setLivePlaying', true)
       this.HWclient = window.HWLLSPlayer.createClient("webrtc")
-      this.HWclient.startPlay(this.roomInfo.webrtc_url,{
+      await this.HWclient.startPlay(this.roomInfo.webrtc_url,{
         elementId:'live_player_hw',
         objectFit:'cover',
         autoPlay:true
       })
+      this.checkMute()
     }else{
       const player = window.TCPlayer('live_player', {
         autoplay: true,
@@ -66,6 +69,11 @@ export default {
       player.src(`${this.url.replace('rtmp', 'webrtc')}.flv`)
       this.player = player
     }
+  },
+  methods:{
+    checkMute(){
+      this.$emit('checkMute')
+    },
   },
 
   destroyed() {
