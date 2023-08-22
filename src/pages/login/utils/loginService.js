@@ -8,6 +8,10 @@ class LoginService extends BaseService {
   async login(mobile, code) {
     return await this.post(`${this.liveUrl}/user/login`, { mobile, code, skip_first_check: 1 })
   }
+
+  async getAreaCodeList() {
+    return await this.post(`${this.liveUrl}/user/mobile-area-code`)
+  }
 }
 
 export default LoginService

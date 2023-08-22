@@ -6,47 +6,68 @@
       <div class="tips">欢迎来到瑞播</div>
       <div class="input-wrap">
         <div class="input-list">
-          <img
-            style="width: .38rem; height: .38rem;"
-            src="./images/phone-icon.png"
-          />
+          <Popover v-model="showPopover" trigger="click">
+            <ul class="area-code-list">
+              <li
+                class="area-code"
+                v-for="(item, index) in areaCodeList"
+                :key="index"
+                @click="selectAreaCode(index)"
+              >
+                {{ item.text }}
+              </li>
+            </ul>
+            <template #reference>
+              <div class="area-code-pikcer" v-if="areaCodeList.length">
+                <div>+{{areaCodeList[curAreaCodeIdx].value}}</div>
+                <img
+                  class="down-arrow"
+                  src="./images/down-arrow.png"
+                />
+              </div>
+            </template>
+          </Popover>
           <input v-model="mobile" placeholder="请输入手机号" />
         </div>
         <div class="input-list">
-          <img
-            style="width: .38rem; height: .38rem;"
-            src="./images/code-icon.png"
-          />
+          <div class="code-label">验证码：</div>
           <input v-model="code" placeholder="请输入验证码" />
           <div class="get-code-btn" @click="sendCode">
             {{ timeStamp ? timeStamp + "s" : "获取验证码" }}
           </div>
         </div>
       </div>
-      <div class="protocol">
+      <button class="login-btn" :class="{ active: code }" @click="login">登录</button>
+    </div>
+    <div class="protocol">
         注册即代表您同意<a
           href="https://h5.talking.vip/youbo_plus/h5/index.html#/privacy_policy"
           >《瑞播用户服务协议》</a
         >
       </div>
-      <div class="login-btn" :class="{ active: code }" @click="login">登录</div>
-    </div>
   </div>
 </template>
 
 <script>
+import { Popover } from "vant";
+
 import { getUrlParam } from "@/utils/index";
 import LoginService from "./utils/loginService";
 
 const loginService = new LoginService();
 
 export default {
+  components: { Popover },
+
   data() {
     return {
       loginPageVisible: false,
       mobile: "",
       code: "",
       timeStamp: 0,
+      showPopover: false,
+      areaCodeList: [],
+      curAreaCodeIdx: 0,
     };
   },
 
@@ -59,6 +80,7 @@ export default {
       !ua.match(/MicroMessenger/i)
     ) {
       this.loginPageVisible = true;
+      this.setAreaCodeList();
     } else {
       // 公众号授权返回标识
       const isWxAuthCallback = localStorage.getItem("isWxAuthCallback");
@@ -88,9 +110,30 @@ export default {
   },
 
   methods: {
+    async setAreaCodeList() {
+      const list = await loginService.getAreaCodeList();
+      this.areaCodeList = [
+        { text: "86 中国", value: 86 },
+        { text: "886 台湾", value: 886 },
+        ...list
+          .filter((item) => item[1] && item[0] !== "中国" && item[0] !== "台湾")
+          .map((item) => ({
+            text: `${item[1]} ${item[0]}`,
+            value: item[1],
+          })),
+      ];
+    },
+
+    selectAreaCode(index) {
+      this.curAreaCodeIdx = index
+      this.showPopover = false
+    },
+
+    onSelect() {},
+
     sendCode() {
       if (!this.countDown && this.mobile) {
-        loginService.getSms(this.mobile);
+        loginService.getSms(`${this.areaCodeList[this.curAreaCodeIdx].value}-${this.mobile}`);
         this.setCountDown();
       }
     },
@@ -109,7 +152,7 @@ export default {
 
     async login() {
       if (this.code) {
-        const { token } = await loginService.login(this.mobile, this.code);
+        const { token } = await loginService.login(`${this.areaCodeList[this.curAreaCodeIdx].value}-${this.mobile}`, this.code);
         if (token) {
           localStorage.setItem("token", token);
           this.$router.push(`${this.$route.query.redirect}`);
@@ -133,7 +176,7 @@ export default {
     height 100%
     z-index -1
   .content
-    padding 1.2rem .6rem
+    padding 1.2rem .4rem
     .title
       color #333
       font-size .68rem
@@ -143,36 +186,60 @@ export default {
       font-size .3rem
       color #333
     .input-wrap
-      margin-top .6rem
-      padding 0 .5rem
-      font-size .26rem
+      margin-top 2.4rem
+      font-size .28rem
       .input-list
         display flex
         align-items center
         padding .26rem 0
-        border-bottom .01rem solid #D8D8D8
+        border-bottom 1px solid #e7e7e7
+        .area-code-pikcer
+          display: flex
+          align-items: center
+          width: 1.3rem
+          border-right: 1px solid #D8D8D8
+          .down-arrow
+            margin-left: .06rem
+            width: .32rem
+            height: .32rem
         input
           margin-left .15rem
           flex 1
-    .protocol
-      margin-top 27px
-      color #A3A3A3
-      font-size 10px
-      text-align center
-      a
-        color #B2372B
-        text-decoration none
+        .code-label
+          width: 1.3rem
+        .get-code-btn
+          color: #DAB174
     .login-btn
-      margin .5rem auto
-      width 5rem
-      height .8rem
-      line-height .8rem
-      text-align center
+      margin .9rem auto
+      width 100%
+      height 1rem
       color #fff
       font-weight 500
       font-size .36rem
-      border-radius .4rem
+      border-radius .5rem
       background-color #D8D8D8
       &.active
         background-color #CB9B49
+  .protocol
+    position: absolute
+    bottom: 1rem
+    left: 0
+    width: 100%
+    color #A3A3A3
+    font-size 10px
+    text-align center
+    a
+      color #B2372B
+      text-decoration none
+.area-code-list
+  height: 5rem
+  overflow-y: scroll
+  .area-code
+    display: flex
+    align-items: center
+    justify-content: center
+    color: #333
+    font-size: .26rem
+    height: .8rem
+    border-bottom: 1px solid #ddd
 </style>
