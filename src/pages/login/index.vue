@@ -217,9 +217,10 @@ export default {
       font-weight 500
       font-size .36rem
       border-radius .5rem
-      background-color #D8D8D8
+      background #D8D8D8
       &.active
-        background-color #CB9B49
+        color: #FFE5BD
+        background: linear-gradient(128deg, #404A5C 0%, #0F131A 100%);
   .protocol
     position: absolute
     bottom: 1rem
