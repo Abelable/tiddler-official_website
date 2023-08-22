@@ -11,6 +11,8 @@ class Base {
       case "pro":
         this.mmsUrl = "https://mms.youboi.com";
         this.liveUrl = "https://api.talking.vip";
+        this.yb_mmsUrl = "https://mms.youboi.com";
+        this.yb_liveUrl = "https://newlive.youboi.com/index.php?r=";
         break;
 
       case "dev":
@@ -52,14 +54,29 @@ class Base {
       axios.defaults.headers["Content-Type"] =
         "application/x-www-form-urlencoded";
     }
-    
-    const token = localStorage.getItem("token");
-    if (token) axios.defaults.headers["token"] = token;
-    
+
+    let token = localStorage.getItem("token") || '';
+
     const userId = localStorage.getItem("userId");
     if (userId && url.includes(this.mmsUrl)) {
       axios.defaults.headers["uid"] = btoa(encodeURI(`${userId}`));
     }
+
+    if (url.includes(this.yb_liveUrl)) {
+      url = `${this.liveUrl}/shop/index?url_path=/index.php&r=${url.replace(
+        this.yb_liveUrl,
+        ""
+      )}`;
+      token =
+        "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJPbmxpbmUgSldUIEJ1aWxkZXIiLCJhdWQiOiJodHRwczpcL1wvd3d3LnlvdWJvMi5jbiIsInN1YiI6Impyb2NrZXRAZXhhbXBsZS5jb20iLCJleHAiOjE2OTUxOTAyNTMsInVzZXJfaWQiOjI2ODUyfQ.0NvkehlTEMVAjrjcsdg-6EDIAejmeKdi1AL8RXPMR7w";
+    }
+    if (url.includes(this.yb_mmsUrl)) {
+      url = `${this.liveUrl}/shop/index?url_path=${url.replace(this.yb_mmsUrl, "")}`;
+      token =
+        "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJPbmxpbmUgSldUIEJ1aWxkZXIiLCJhdWQiOiJodHRwczpcL1wvd3d3LnlvdWJvMi5jbiIsInN1YiI6Impyb2NrZXRAZXhhbXBsZS5jb20iLCJleHAiOjE2OTUxOTAyNTMsInVzZXJfaWQiOjI2ODUyfQ.0NvkehlTEMVAjrjcsdg-6EDIAejmeKdi1AL8RXPMR7w";
+    }
+
+    if (token) axios.defaults.headers["token"] = token;
 
     let res = await axios({
       method,

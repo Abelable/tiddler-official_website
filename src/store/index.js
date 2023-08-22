@@ -8,7 +8,8 @@ export default new Vuex.Store({
   state: {
     userInfo: null,
     vestInfo: null,
-    userTagList: []
+    userTagList: [],
+    shopCategoryOptions: []
   },
   getters: {
   },
@@ -21,6 +22,9 @@ export default new Vuex.Store({
     },
     setUserTagList(state, data) {
       state.userTagList = data
+    },
+    setShopCategoryOptions(state, data) {
+      state.shopCategoryOptions = data
     }
   },
   modules: {

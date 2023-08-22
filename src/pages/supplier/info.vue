@@ -116,7 +116,7 @@
     <div class="category-selector row between">
       <div class="label">选择类目</div>
       <div class="content row" @click="categoryPickerPopupVisible = true">
-        <div>玉翠珠宝</div>
+        <div>{{categoryList[categoryIdx].text}}</div>
         <img class="arrow" src="./images/info/arrow.png" alt="" />
       </div>
     </div>
@@ -131,7 +131,12 @@
       />
     </Popup>
 
-    <Popup v-model="categoryPickerPopupVisible" position="bottom" round closeable>
+    <Popup
+      v-model="categoryPickerPopupVisible"
+      position="bottom"
+      round
+      closeable
+    >
       <div class="popup-title">选择类目</div>
       <TreeSelect
         :main-active-index.sync="categoryIdx"
@@ -146,6 +151,7 @@
 import { Popup, Area, TreeSelect } from "vant";
 import Uploader from "@/components/Uploader";
 import { areaList } from "@vant/area-data";
+import { mapState } from "vuex";
 
 export default {
   components: { Popup, Area, Uploader, TreeSelect },
@@ -163,13 +169,27 @@ export default {
       coverPic: "",
       name: "",
       idCardNum: "",
-      categoryList: [
-        { text: '玉翠珠宝', children: [{ text: '和田玉', disabled: true }, { text: '翡翠', disabled: true }] },
-        { text: '紫砂陶瓷', children: [{ text: '和田玉', disabled: true }, { text: '翡翠', disabled: true }] }
-      ],
       areaPickerPopupVisible: false,
       categoryPickerPopupVisible: false,
     };
+  },
+
+  computed: {
+    ...mapState({
+      categoryList: (state) =>
+        state.shopCategoryOptions.map((item) => ({
+          text: item.cat_name,
+          value: item.cat_id,
+          children: item.sub.map((_item) => ({
+            text: _item.cat_name,
+            disabled: true,
+          })),
+        })),
+    }),
+  },
+
+  created() {
+    this.categoryIdx = this.$route.query.categoryIdx;
   },
 
   methods: {
@@ -199,8 +219,8 @@ export default {
     },
 
     categoryConfirm(index) {
-      this.categoryIdx = index
-    }
+      this.categoryIdx = index;
+    },
   },
 };
 </script>
