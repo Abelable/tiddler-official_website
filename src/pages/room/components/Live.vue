@@ -1,7 +1,9 @@
 <template>
   <div class="live">
-    <Player :url="roomInfo.url" :horizontal="roomInfo.direction == 1" :roomInfo="roomInfo" :playerPause="playerPause" />
-
+    <Player :url="roomInfo.url" :horizontal="roomInfo.direction == 1" :roomInfo="roomInfo" :playerPause="playerPause" @checkMute="checkMute" />
+    <div class="muteCls" v-if="mutedBtn" @click="setMute">
+      <Icon name="volume-o" size=".4rem" color="#fff" />
+    </div>
     <Swipe class="cover" v-if="livePlaying" :loop="false" :show-indicators="false">
       <SwipeItem class="cover-inner">
         <div class="top-part">
@@ -140,7 +142,7 @@
 </template>
 
 <script>
-import { Toast, Dialog, Swipe, SwipeItem } from 'vant'
+import { Toast, Dialog, Swipe, SwipeItem, Icon } from 'vant'
 import Player from './Player'
 import AuchorCapsule from './AuchorCapsule'
 import AudienceActionTip from './AudienceActionTip'
@@ -171,6 +173,7 @@ export default {
     InputModal,
     GoodsPopup,
     Praise,
+    Icon
   },
 
   props: {
@@ -188,7 +191,10 @@ export default {
       inputModalVisible: false,
       goodsPopupVisible: false,
       liveStartModalVisible: false,
-      playerPause: false
+      playerPause: false,
+
+      mutedBtn:false,
+      mutedVolume:false,
     }
   },
 
@@ -516,6 +522,22 @@ export default {
     logoutIm() {
       this.tim.logout()
     },
+
+    checkMute(){
+      if(document.getElementById('audio_player').paused){
+        this.mutedBtn = true
+        this.mutedVolume = false
+      }else{
+        this.mutedBtn = false
+      }
+    },
+
+    setMute(){
+      if(!this.mutedVolume){
+        document.getElementById('audio_player').play()
+        this.mutedBtn = false
+      }
+    }
   }
 }
 </script>
@@ -714,4 +736,25 @@ export default {
                 border-radius: .14rem
                 background: #fff
                 white-space: nowrap
+.muteCls
+  position:fixed
+  z-index:2
+  top:1.2rem
+  right:.2rem
+  width:.8rem
+  height:.8rem
+  border-radius:100%
+  background:rgba(255,255,255,.3)
+  display: flex
+  align-items: center
+  justify-content: center
+.muteCls:after
+  content:''
+  width:2px
+  height:.6rem
+  background:#fff
+  position:absolute
+  left:50%
+  top:.08rem
+  transform:rotate(45deg)
 </style>

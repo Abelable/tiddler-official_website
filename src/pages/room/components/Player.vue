@@ -1,11 +1,13 @@
 <template>
   <div class="container" :class="{ horizontal }">
-    <div id="live_player_hw" v-show="roomInfo.live_platform == 'huawei'" class="player" preload="auto" playsinline webkit-playsinline></div>
-    <video id="live_player" v-show="roomInfo.live_platform != 'huawei'"  class="player" preload="auto" playsinline webkit-playsinline></video>
+    <div id="live_player_hw" v-show="roomInfo.live_platform == 'huawei' && rtcPeer" class="player" preload="auto" playsinline webkit-playsinline></div>
+    <video id="live_player" v-show="!(roomInfo.live_platform == 'huawei' && rtcPeer)"  class="player" preload="auto" playsinline webkit-playsinline></video>
+    
   </div>
 </template>
 
 <script>
+let rtcPeer = window.RTCPeerConnection || window.webkitRTCPeerConnection || window.mozRTCPeerConnection;
 export default {
   props: {
     roomInfo: Object,
@@ -17,7 +19,8 @@ export default {
   data() {
     return {
       player: null,
-      HWclient: null
+      HWclient: null,
+      rtcPeer
     }
   },
 
@@ -33,14 +36,15 @@ export default {
     },
     playerPause(truthy) {
       if (truthy) {
-        if(this.roomInfo.live_platform == 'huawei'){
+        if(this.roomInfo.live_platform == 'huawei' && this.rtcPeer){
           this.HWclient.pause()
         }else{
           this.player.pause()
         }
       } else {
-        if(this.roomInfo.live_platform == 'huawei'){
+        if(this.roomInfo.live_platform == 'huawei' && this.rtcPeer){
           this.HWclient.replay()
+          this.checkMute()
         }else{
           this.player.play()
         }
@@ -48,28 +52,42 @@ export default {
     }
   },
 
-  mounted() {
-    if(this.roomInfo.live_platform == 'huawei'){
+  async mounted() {
+    if(this.roomInfo.live_platform == 'huawei' && this.rtcPeer){
       this.$store.commit('setLivePlaying', true)
       this.HWclient = window.HWLLSPlayer.createClient("webrtc")
-      this.HWclient.startPlay(this.roomInfo.webrtc_url,{
+      await this.HWclient.startPlay(this.roomInfo.webrtc_url,{
         elementId:'live_player_hw',
         objectFit:'cover',
         autoPlay:true
       })
+      this.checkMute()
     }else{
       const player = window.TCPlayer('live_player', {
         autoplay: true,
         controlBar: false
       })
-      // player.src(`${this.url.replace('rtmp', 'https')}.m3u8`)
-      player.src(`${this.url.replace('rtmp', 'webrtc')}.flv`)
+      if(this.rtcPeer){
+        player.src(`${this.url.replace('rtmp', 'webrtc')}.flv`)
+      }else{
+        player.src(`${this.url.replace('rtmp', 'https')}.m3u8`)
+      }
       this.player = player
     }
   },
+  methods:{
+    checkMute(){
+      setTimeout(()=>{
+        this.$emit('checkMute')
+      },500)
+      setTimeout(()=>{
+        this.$emit('checkMute')
+      },1000)
+    },
+  },
 
   destroyed() {
-    if(this.roomInfo.live_platform == 'huawei'){
+    if(this.roomInfo.live_platform == 'huawei' && this.rtcPeer){
       this.HWclient.pause()
     }else{
       this.player.pause()
