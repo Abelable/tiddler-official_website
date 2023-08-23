@@ -15,7 +15,7 @@ router.beforeEach((to, from, next) => {
         /(phone|pad|pod|iPhone|iPod|ios|iPad|Android|Mobile|IEMobile)/i
       )
     ) {
-      window.location.href = `https://h5.talking.vip/pc/#/l_p?id=${to.query.id}&parent_user_id=${to.query.parent_user_id}`;
+      window.location.href = `https://h5.talking.vip/pc/#/l_p?id=${to.query.id}&parent_user_id=${to.query.parent_user_id || ''}`;
       return;
     }
   }

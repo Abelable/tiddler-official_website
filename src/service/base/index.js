@@ -77,7 +77,7 @@ class Base {
     }
 
     if (token) axios.defaults.headers["token"] = token;
-
+    if(window.localStorage.getItem('ipip')) axios.defaults.headers['real_ip'] = window.localStorage.getItem('ipip')
     let res = await axios({
       method,
       url,
