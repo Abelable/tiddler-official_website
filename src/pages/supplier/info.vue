@@ -116,12 +116,12 @@
     <div class="category-selector row between">
       <div class="label">选择类目</div>
       <div class="content row" @click="categoryPickerPopupVisible = true">
-        <div>{{categoryList[categoryIdx].text}}</div>
+        <div>{{ categoryList[categoryIdx].text }}</div>
         <img class="arrow" src="./images/info/arrow.png" alt="" />
       </div>
     </div>
 
-    <button class="submit-btn">提交申请</button>
+    <button class="submit-btn" @click="submit">提交申请</button>
 
     <Popup v-model="areaPickerPopupVisible" position="bottom" round>
       <Area
@@ -148,12 +148,13 @@
 </template>
 
 <script>
-import { Popup, Area, TreeSelect } from "vant";
+import { Popup, Area, TreeSelect, Toast } from 'vant';
 import Uploader from "@/components/Uploader";
 import { areaList } from "@vant/area-data";
 import { mapState } from "vuex";
+import SupplierService from "./utils/supplierService";
 
-console.log('areaList', areaList)
+const supplierService = new SupplierService();
 
 export default {
   components: { Popup, Area, Uploader, TreeSelect },
@@ -161,6 +162,7 @@ export default {
   data() {
     return {
       areaList,
+      regionOptions: [],
       categoryIdx: 0,
       shopName: "",
       regionDesc: "",
@@ -171,6 +173,9 @@ export default {
       coverPic: "",
       name: "",
       idCardNum: "",
+      cardFrontPic: "",
+      cardBackendPic: "",
+      holdCardPic: "",
       areaPickerPopupVisible: false,
       categoryPickerPopupVisible: false,
     };
@@ -192,11 +197,49 @@ export default {
 
   created() {
     this.categoryIdx = this.$route.query.categoryIdx;
+    this.setRegionOptions();
   },
 
   methods: {
+    async setRegionOptions() {
+      const res = await supplierService.getRegionOptions();
+      const options = res.data.child;
+      let cityList = [];
+      let countyList = [];
+      const provinceList = options.map((province) => {
+        cityList = [
+          ...cityList,
+          ...province.child.map((city) => {
+            countyList = [
+              ...countyList,
+              ...city.child.map((county) => ({
+                id: county.region_id,
+                name: county.region_name,
+              })),
+            ];
+            return { id: city.region_id, name: city.region_name };
+          }),
+        ];
+        return { id: province.region_id, name: province.region_name };
+      });
+      this.provinceList = provinceList;
+      this.cityList = cityList;
+      this.countyList = countyList;
+    },
+
     areaConfirm(areaList) {
       this.regionDesc = areaList.reduce((a, b) => `${a} ${b.name}`, "");
+
+      this.provinceId = this.provinceList.find((item) =>
+        areaList[0].name.includes(item.name)
+      ).id;
+      this.cityId = this.cityList.find((item) =>
+        areaList[1].name.includes(item.name)
+      ).id;
+      this.countyId = this.countyList.find((item) =>
+        areaList[2].name.includes(item.name)
+      ).id;
+
       this.areaPickerPopupVisible = false;
     },
 
@@ -209,19 +252,90 @@ export default {
     },
 
     setCardFrontPic(pic) {
-      this.coverPic = pic;
+      this.cardFrontPic = pic;
     },
 
     setCardBackendPic(pic) {
-      this.coverPic = pic;
+      this.cardBackendPic = pic;
     },
 
     setHoldCardPic(pic) {
-      this.coverPic = pic;
+      this.holdCardPic = pic;
     },
 
     categoryConfirm(index) {
       this.categoryIdx = index;
+    },
+
+    submit() {
+      if (!this.shopName) {
+        Toast('请输入店铺名称')
+        return
+      }
+      if (!this.regionDesc) {
+        Toast('请选择省市区')
+        return
+      }
+      if (!this.addressDetail) {
+        Toast('请填写详细地址')
+        return
+      }
+      if (!this.mobile) {
+        Toast('请输入您的联系电话')
+        return
+      }
+      if (!this.email) {
+        Toast('请输入您的电子邮箱')
+        return
+      }
+      if (!this.businessPic) {
+        Toast('请上传营业执照')
+        return
+      }
+      if (!this.coverPic) {
+        Toast('请上传店招')
+        return
+      }
+      if (!this.name) {
+        Toast('请填写本人姓名')
+        return
+      }
+      if (!this.idCardNum) {
+        Toast('请填写本人身份证号')
+        return
+      }
+      if (!this.cardFrontPic) {
+        Toast('请上传身份证正面照片')
+        return
+      }
+      if (!this.cardBackendPic) {
+        Toast('请上传身份证反面照片')
+        return
+      }
+      if (!this.holdCardPic) {
+        Toast('请上传手持身份证照片')
+        return
+      }
+
+      supplierService.shopApply({
+        type_id: this.categoryList[this.categoryIdx].value,
+        supplier_name: this.shopName,
+        province: this.provinceId,
+        city: this.cityId,
+        district: this.countyId,
+        address: this.addressDetail,
+        tel: this.mobile,
+        email: this.email,
+        zhizhao: this.businessPic,
+        shop_recruitment: this.coverPic,
+        contacts_name: this.name,
+        id_card_no: this.idCardNum,
+        idcard_front: this.cardFrontPic,
+        idcard_reverse: this.cardBackendPic,
+        handheld_idcard: this.holdCardPic
+      }, () => {
+        this.$router.push('/supplier/status')
+      })
     },
   },
 };
