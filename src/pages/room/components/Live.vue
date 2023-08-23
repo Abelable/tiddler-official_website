@@ -1,7 +1,7 @@
 <template>
   <div class="live">
-    <Player :url="roomInfo.url" :horizontal="roomInfo.direction == 1" :roomInfo="roomInfo" :playerPause="playerPause" @checkMute="checkMute" />
-    <div class="muteCls" v-if="mutedBtn" @click="setMute">
+    <Player v-if="playerShow" :url="roomInfo.url" :horizontal="roomInfo.direction == 1" :roomInfo="roomInfo" :playerPause="playerPause" @checkMute="checkMute" />
+    <div class="muteCls" v-if="mutedBtn&& playerShow" @click="setMute" >
       <Icon name="volume-o" size=".4rem" color="#fff" />
     </div>
     <Swipe class="cover" v-if="livePlaying" :loop="false" :show-indicators="false">
@@ -142,6 +142,17 @@
 </template>
 
 <script>
+var hidden, visibilityChange
+if (typeof document.hidden !== 'undefined') {
+  hidden = 'hidden'
+  visibilityChange = 'visibilitychange'
+} else if (typeof document.msHidden !== 'undefined') {
+  hidden = 'msHidden'
+  visibilityChange = 'msvisibilitychange'
+} else if (typeof document.webkitHidden !== 'undefined') {
+  hidden = 'webkitHidden'
+  visibilityChange = 'webkitvisibilitychange'
+}
 import { Toast, Dialog, Swipe, SwipeItem, Icon } from 'vant'
 import Player from './Player'
 import AuchorCapsule from './AuchorCapsule'
@@ -182,6 +193,7 @@ export default {
 
   data() {
     return {
+      playerShow: true,
       originalMpId: '',
       userPhraseList: [],
       animationList: [],
@@ -233,15 +245,25 @@ export default {
           this.playerPause = true
         }
       })
+    }else{
+      document.addEventListener( visibilityChange, this.handleVisibilityChange, false)
     }
   },
 
   destroyed() {
     this.quitGroup()
     this.logoutIm()
+    if(!window.WeixinJSBridge) document.removeEventListener( visibilityChange, this.handleVisibilityChange, false)
   },
 
   methods: {
+    handleVisibilityChange(){
+      if (!document[hidden]) {
+        this.playerShow = true
+      }else{
+        this.playerShow = false        
+      }
+    },
     async setImInfo() {
       const imInfo = await roomService.getImInfo()
       this.$store.commit('setImInfo', imInfo)
