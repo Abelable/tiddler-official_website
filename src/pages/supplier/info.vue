@@ -153,13 +153,15 @@ import Uploader from "@/components/Uploader";
 import { areaList } from "@vant/area-data";
 import { mapState } from "vuex";
 
+console.log('areaList', areaList)
+
 export default {
   components: { Popup, Area, Uploader, TreeSelect },
 
   data() {
     return {
-      categoryIdx: 0,
       areaList,
+      categoryIdx: 0,
       shopName: "",
       regionDesc: "",
       addressDetail: "",
