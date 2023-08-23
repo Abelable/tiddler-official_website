@@ -1,22 +1,40 @@
 <template>
   <div class="container">
     <img class="illus" src="./images/status/status_0.png" alt="" />
-    <div class="status">等待审核</div>
-    <!-- <div class="status-desc">已提交申请，请耐心等待平台人员处理</div> -->
-    <!-- <div class="status-desc">
-      失败原因：<br>
-      1、失败原因1失败原因1失败原因1<br>
-      2、失败原因2失败原因2失败原因2<br>
-      3、失败原因3失败原因3失败原因3
-    </div> -->
-    <div class="status-desc">
+    <div class="status">
+      {{
+        ["等待审核", "审核失败", "审核通过", "缴纳成功"][
+          statusInfo.review_status - 1
+        ]
+      }}
+    </div>
+    <div class="status-desc" v-if="statusInfo.review_status === 1">
+      已提交申请，请耐心等待平台人员处理
+    </div>
+    <div class="status-desc" v-if="statusInfo.review_status === 2">
+      失败原因：<br />
+      {{ statusInfo.supplier_remark }}
+    </div>
+    <div class="status-desc" v-if="statusInfo.review_status === 3">
       恭喜您成功通过申请，赶快提交保证金
     </div>
-    <div class="status-desc">
+    <div class="status-desc" v-if="statusInfo.review_status === 3">
       开启自己的赚钱之旅吧
     </div>
-    <button class="confirm-btn">返回</button>
-    <div class="tips">
+    <div class="status-desc" v-if="statusInfo.review_status === 4">
+      店铺已开通
+    </div>
+    <button class="confirm-btn" @click="confirm">
+      {{
+        [
+          "返回",
+          "重新申请",
+          `提交保证金（${statusInfo.supplier_bond}元）`,
+          "返回",
+        ][statusInfo.review_status - 1]
+      }}
+    </button>
+    <div class="tips" v-if="statusInfo.review_status === 3">
       <p>
         提交保证金即代表同意平台的
         <span style="color: #FFBD64;">《保证金协议》</span>
@@ -29,7 +47,45 @@
 </template>
 
 <script>
-export default {};
+import { postMsg } from "@/utils/bridge";
+import SupplierService from "./utils/supplierService";
+
+const supplierService = new SupplierService();
+
+export default {
+  data() {
+    return {
+      statusInfo: {},
+    };
+  },
+
+  created() {
+    this.setStatusInfo();
+  },
+
+  methods: {
+    async setStatusInfo() {
+      this.statusInfo = (await supplierService.getStatusInfo()) || {};
+    },
+
+    async confirm() {
+      switch (this.statusInfo.review_status) {
+        case 2:
+          await supplierService.deleteShopApply();
+          this.$router.push("/supplier");
+          break;
+
+        case 3:
+          postMsg({ type: "3" });
+          break;
+
+        default:
+          postMsg({ type: "2" });
+          break;
+      }
+    },
+  },
+};
 </script>
 
 <style lang="stylus" scoped>

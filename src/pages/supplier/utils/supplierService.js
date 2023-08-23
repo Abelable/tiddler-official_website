@@ -50,6 +50,10 @@ class SupplierService extends BaseService {
   async getStatusInfo() {
     return await this.get(`${this.yb_mmsUrl}/api/v4/shop/is-past`);
   }
+
+  async deleteShopApply() {
+    return await this.get(`${this.yb_mmsUrl}/api/v4/shop/delete`)
+  }
 }
 
 export default SupplierService;
