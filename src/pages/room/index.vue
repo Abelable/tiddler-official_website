@@ -110,8 +110,9 @@ export default {
       roomService.getRoomInfo(
         id, this.password, parent_user_id, 
         res => {
-          const { show_subtitle, subtitle, watch_num, user_watch_num, like_num, ...roomInfo } = res
+          const { show_subtitle, subtitle, watch_num, user_watch_num, like_num, is_anonymous, ...roomInfo } = res
           this.roomInfo = roomInfo
+          this.$store.commit('setAnonymoused', Number(is_anonymous))
           this.$store.commit('setSubtitleVisible', show_subtitle == 1)
           this.$store.commit('setSubtitleContent', subtitle)
           this.$store.commit('setAudienceCount', roomInfo.type_name ? Number(watch_num) : Number(user_watch_num))
