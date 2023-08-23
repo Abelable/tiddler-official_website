@@ -55,8 +55,6 @@ class Base {
         "application/x-www-form-urlencoded";
     }
 
-    let token = localStorage.getItem("token") || '';
-
     const userId = localStorage.getItem("userId");
     if (userId && url.includes(this.mmsUrl)) {
       axios.defaults.headers["uid"] = btoa(encodeURI(`${userId}`));
@@ -67,17 +65,19 @@ class Base {
         this.yb_liveUrl,
         ""
       )}`;
-      token =
-        "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJPbmxpbmUgSldUIEJ1aWxkZXIiLCJhdWQiOiJodHRwczpcL1wvd3d3LnlvdWJvMi5jbiIsInN1YiI6Impyb2NrZXRAZXhhbXBsZS5jb20iLCJleHAiOjE2OTUxOTAyNTMsInVzZXJfaWQiOjI2ODUyfQ.0NvkehlTEMVAjrjcsdg-6EDIAejmeKdi1AL8RXPMR7w";
     }
     if (url.includes(this.yb_mmsUrl)) {
-      url = `${this.liveUrl}/shop/index?url_path=${url.replace(this.yb_mmsUrl, "")}`;
-      token =
-        "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJPbmxpbmUgSldUIEJ1aWxkZXIiLCJhdWQiOiJodHRwczpcL1wvd3d3LnlvdWJvMi5jbiIsInN1YiI6Impyb2NrZXRAZXhhbXBsZS5jb20iLCJleHAiOjE2OTUxOTAyNTMsInVzZXJfaWQiOjI2ODUyfQ.0NvkehlTEMVAjrjcsdg-6EDIAejmeKdi1AL8RXPMR7w";
+      url = `${this.liveUrl}/shop/index?url_path=${url.replace(
+        this.yb_mmsUrl,
+        ""
+      )}`;
     }
 
+    const token = localStorage.getItem("token") || "";
     if (token) axios.defaults.headers["token"] = token;
-    if(window.localStorage.getItem('ipip')) axios.defaults.headers['real_ip'] = window.localStorage.getItem('ipip')
+    
+    if (window.localStorage.getItem("ipip"))
+      axios.defaults.headers["real_ip"] = window.localStorage.getItem("ipip");
     let res = await axios({
       method,
       url,
