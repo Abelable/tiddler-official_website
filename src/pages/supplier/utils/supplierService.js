@@ -46,6 +46,10 @@ class SupplierService extends BaseService {
       is_free,
     }, success);
   }
+
+  async getStatusInfo() {
+    return await this.get(`${this.yb_mmsUrl}/api/v4/shop/is-past`);
+  }
 }
 
 export default SupplierService;

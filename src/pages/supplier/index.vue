@@ -67,11 +67,19 @@ export default {
     };
   },
 
-  created() {
+  async created() {
+    await this.setStatusInfo()
     this.setCategoryOptions();
   },
 
   methods: {
+    async setStatusInfo() {
+      const { review_status } = await supplierService.getStatusInfo() || {}
+      if (review_status) {
+        this.$router.push("/supplier/status");
+      }
+    },
+
     async setCategoryOptions() {
       this.categoryOptions = await supplierService.getCategoryOptions();
       this.$store.commit("setShopCategoryOptions", this.categoryOptions);
