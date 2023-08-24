@@ -3,7 +3,7 @@
     <img class="illus" src="./images/status/status_0.png" alt="" />
     <div class="status">
       {{
-        ["等待审核", "审核失败", "审核通过", "缴纳成功"][
+        ["等待审核", "审核失败", "缴纳成功", "审核通过"][
           statusInfo.review_status - 1
         ]
       }}
@@ -15,13 +15,13 @@
       失败原因：<br />
       {{ statusInfo.supplier_remark }}
     </div>
-    <div class="status-desc" v-if="statusInfo.review_status === 3">
+    <div class="status-desc" v-if="statusInfo.review_status === 4">
       恭喜您成功通过申请，赶快提交保证金
     </div>
-    <div class="status-desc" v-if="statusInfo.review_status === 3">
+    <div class="status-desc" v-if="statusInfo.review_status === 4">
       开启自己的赚钱之旅吧
     </div>
-    <div class="status-desc" v-if="statusInfo.review_status === 4">
+    <div class="status-desc" v-if="statusInfo.review_status === 3">
       店铺已开通
     </div>
     <button class="confirm-btn" @click="confirm">
@@ -29,12 +29,12 @@
         [
           "返回",
           "重新申请",
-          `提交保证金（${statusInfo.supplier_bond}元）`,
           "返回",
+          `提交保证金（${statusInfo.supplier_bond}元）`,
         ][statusInfo.review_status - 1]
       }}
     </button>
-    <div class="tips" v-if="statusInfo.review_status === 3">
+    <div class="tips" v-if="statusInfo.review_status === 4">
       <p>
         提交保证金即代表同意平台的
         <span style="color: #FFBD64;">《保证金协议》</span>
@@ -75,8 +75,8 @@ export default {
           this.$router.push("/supplier");
           break;
 
-        case 3:
-          postMsg({ type: "3" });
+        case 4:
+          postMsg({ type: "3", obj: { bond: this.statusInfo.supplier_bond } });
           break;
 
         default:
