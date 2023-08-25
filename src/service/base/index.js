@@ -11,8 +11,8 @@ class Base {
       case "pro":
         this.mmsUrl = "https://mms.youboi.com";
         this.liveUrl = "https://api.talking.vip";
-        this.yb_mmsUrl = "https://mms.youboi.com";
-        this.yb_liveUrl = "https://newlive.youboi.com/index.php?r=";
+        this.yb_mmsUrl = "yb_mms_url";
+        this.yb_liveUrl = "tb_live_url";
         break;
 
       case "dev":
