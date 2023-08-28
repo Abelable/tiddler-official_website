@@ -148,7 +148,7 @@
 </template>
 
 <script>
-import { Popup, Area, TreeSelect, Toast } from 'vant';
+import { Popup, Area, TreeSelect, Toast } from "vant";
 import Uploader from "@/components/Uploader";
 import { areaList } from "@vant/area-data";
 import { mapState } from "vuex";
@@ -269,73 +269,82 @@ export default {
 
     submit() {
       if (!this.shopName) {
-        Toast('请输入店铺名称')
-        return
+        Toast("请输入店铺名称");
+        return;
       }
       if (!this.regionDesc) {
-        Toast('请选择省市区')
-        return
+        Toast("请选择省市区");
+        return;
       }
       if (!this.addressDetail) {
-        Toast('请填写详细地址')
-        return
+        Toast("请填写详细地址");
+        return;
       }
-      if (!this.mobile) {
-        Toast('请输入您的联系电话')
-        return
+      if (!this.mobile || !/^1[345789][0-9]{9}$/.test(this.mobile)) {
+        Toast("请输入正确联系电话");
+        return;
       }
-      if (!this.email) {
-        Toast('请输入您的电子邮箱')
-        return
+      if (
+        !this.email ||
+        !/^[a-zA-Z0-9_-]+@[a-zA-Z0-9_-]+(\.[a-zA-Z0-9_-]+)+$/.test(this.email)
+      ) {
+        Toast("请输入正确电子邮箱");
+        return;
       }
       if (!this.businessPic) {
-        Toast('请上传营业执照')
-        return
+        Toast("请上传营业执照");
+        return;
       }
       if (!this.coverPic) {
-        Toast('请上传店招')
-        return
+        Toast("请上传店招");
+        return;
       }
       if (!this.name) {
-        Toast('请填写本人姓名')
-        return
+        Toast("请填写本人姓名");
+        return;
       }
-      if (!this.idCardNum) {
-        Toast('请填写本人身份证号')
-        return
+      if (
+        !this.idCardNum ||
+        !/(^\d{15}$)|(^\d{18}$)|(^\d{17}(\d|X|x)$)/.test(this.idCardNum)
+      ) {
+        Toast("请填写本人身份证号");
+        return;
       }
       if (!this.cardFrontPic) {
-        Toast('请上传身份证正面照片')
-        return
+        Toast("请上传身份证正面照片");
+        return;
       }
       if (!this.cardBackendPic) {
-        Toast('请上传身份证反面照片')
-        return
+        Toast("请上传身份证反面照片");
+        return;
       }
       if (!this.holdCardPic) {
-        Toast('请上传手持身份证照片')
-        return
+        Toast("请上传手持身份证照片");
+        return;
       }
 
-      supplierService.shopApply({
-        type_id: this.categoryList[this.categoryIdx].value,
-        supplier_name: this.shopName,
-        province: this.provinceId,
-        city: this.cityId,
-        district: this.countyId,
-        address: this.addressDetail,
-        tel: this.mobile,
-        email: this.email,
-        zhizhao: this.businessPic,
-        shop_recruitment: this.coverPic,
-        contacts_name: this.name,
-        id_card_no: this.idCardNum,
-        idcard_front: this.cardFrontPic,
-        idcard_reverse: this.cardBackendPic,
-        handheld_idcard: this.holdCardPic
-      }, () => {
-        this.$router.push('/supplier/status')
-      })
+      supplierService.shopApply(
+        {
+          type_id: this.categoryList[this.categoryIdx].value,
+          supplier_name: this.shopName,
+          province: this.provinceId,
+          city: this.cityId,
+          district: this.countyId,
+          address: this.addressDetail,
+          tel: this.mobile,
+          email: this.email,
+          zhizhao: this.businessPic,
+          shop_recruitment: this.coverPic,
+          contacts_name: this.name,
+          id_card_no: this.idCardNum,
+          idcard_front: this.cardFrontPic,
+          idcard_reverse: this.cardBackendPic,
+          handheld_idcard: this.holdCardPic,
+        },
+        () => {
+          this.$router.push("/supplier/status");
+        }
+      );
     },
   },
 };
