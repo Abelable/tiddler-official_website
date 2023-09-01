@@ -129,8 +129,6 @@ export default {
       this.showPopover = false
     },
 
-    onSelect() {},
-
     sendCode() {
       if (!this.countDown && this.mobile) {
         loginService.getSms(`${this.areaCodeList[this.curAreaCodeIdx].value}-${this.mobile}`);
@@ -152,10 +150,13 @@ export default {
 
     async login() {
       if (this.code) {
-        const { token } = await loginService.login(`${this.areaCodeList[this.curAreaCodeIdx].value}-${this.mobile}`, this.code);
-        if (token) {
+        const { token } = await loginService.login(`${this.areaCodeList[this.curAreaCodeIdx].value}-${this.mobile}`, this.code) || {};
+        const { redirect } = this.$route.query
+        if (redirect) {
           localStorage.setItem("token", token);
-          this.$router.push(`${this.$route.query.redirect}`);
+          this.$router.push(`${redirect}`);
+        } else {
+          window.wx.miniProgram.navigateBack();
         }
       }
     },
