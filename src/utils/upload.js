@@ -18,7 +18,7 @@ export const upload = async (file, limit = 5) => {
   const policy = createPolicy(limit);
   const signature = createSignature(ossConfig.AccessKeySecret, policy);
   const ossHost = "https://wenshang-img.oss-accelerate.aliyuncs.com";
-  const key = `img/${formatDate(new Date(), "YYYY-MM-DD")}/${new Date().getTime()}_${file.name}`;
+  const key = `img/${formatDate(new Date(), "YYYY-MM-DD")}/${randomString(6)}.${file.name.split(".")[1]}`;
   formData.append("key", key);
   formData.append("success_action_status", "200");
   formData.append("x-oss-object-acl", "public-read");
@@ -61,3 +61,11 @@ const createSignature = (accessKeySecret, canonicalString) => {
     crypto.HmacSHA1(canonicalString, accessKeySecret)
   );
 };
+
+const randomString = (length) => {
+  var str = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
+  var result = '';
+  for (var i = length; i > 0; --i) 
+      result += str[Math.floor(Math.random() * str.length)];
+  return result;
+}

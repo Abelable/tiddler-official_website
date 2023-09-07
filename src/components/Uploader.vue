@@ -41,7 +41,7 @@ export default {
   methods: {
     async uploadPic({ file }) {
       this.loading = true
-      this.pic = await upload(file, 1)
+      this.pic = await upload(file)
       this.loading = false
       this.$emit('finish', this.pic)
     }
