@@ -18,7 +18,7 @@ export const upload = async (file, limit = 5) => {
   const policy = createPolicy(limit);
   const signature = createSignature(ossConfig.AccessKeySecret, policy);
   const ossHost = "https://wenshang-img.oss-accelerate.aliyuncs.com";
-  const key = `img/${formatDate(new Date(), "YYYY-MM-DD")}/${file.name}`;
+  const key = `img/${formatDate(new Date(), "YYYY-MM-DD")}/${new Date().getTime()}_${file.name}`;
   formData.append("key", key);
   formData.append("success_action_status", "200");
   formData.append("x-oss-object-acl", "public-read");

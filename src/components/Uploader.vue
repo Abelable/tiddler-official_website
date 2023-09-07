@@ -41,7 +41,7 @@ export default {
   methods: {
     async uploadPic({ file }) {
       this.loading = true
-      this.pic = await upload(file)
+      this.pic = await upload(file, 1)
       this.loading = false
       this.$emit('finish', this.pic)
     }
@@ -59,6 +59,7 @@ export default {
     height: 2rem
     border: 1px solid #f5f6f7
     border-radius: .1rem
+    object-fit: cover
   .desc
     margin-top: 0.16rem
     color: #1F233B
