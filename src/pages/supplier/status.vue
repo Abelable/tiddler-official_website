@@ -37,10 +37,7 @@
     <div class="tips" v-if="statusInfo.review_status === 4">
       <p>
         提交保证金即代表同意平台的
-        <span style="color: #FFBD64;">《保证金协议》</span>
-      </p>
-      <p>
-        <span style="color: #FFBD64;">《商家入驻协议》</span>
+        <span style="color: #FFBD64;" @click="checkAgreement">《商家入驻协议》</span>
       </p>
     </div>
   </div>
@@ -84,6 +81,10 @@ export default {
           break;
       }
     },
+
+    checkAgreement() {
+      window.location.href = 'https://h5.talking.vip/web/supplier/pages/agreement/index.html?head=no'
+    }
   },
 };
 </script>
