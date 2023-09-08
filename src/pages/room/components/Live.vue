@@ -204,7 +204,6 @@ export default {
       goodsPopupVisible: false,
       liveStartModalVisible: false,
       playerPause: false,
-
       mutedBtn:false,
       mutedVolume:false,
     }
