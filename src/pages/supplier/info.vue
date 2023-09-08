@@ -152,6 +152,7 @@ import { Popup, Area, TreeSelect, Toast } from "vant";
 import Uploader from "@/components/Uploader";
 import { areaList } from "@vant/area-data";
 import { mapState } from "vuex";
+import _ from "lodash";
 import SupplierService from "./utils/supplierService";
 
 const supplierService = new SupplierService();
@@ -323,6 +324,10 @@ export default {
         return;
       }
 
+      this.apply()
+    },
+
+    apply: _.once(function() {
       supplierService.shopApply(
         {
           type_id: this.categoryList[this.categoryIdx].value,
@@ -345,7 +350,7 @@ export default {
           this.$router.push("/supplier/status");
         }
       );
-    },
+    }),
   },
 };
 </script>
