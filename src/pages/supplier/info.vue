@@ -196,12 +196,59 @@ export default {
     }),
   },
 
-  created() {
+  async created() {
     this.categoryIdx = this.$route.query.categoryIdx;
-    this.setRegionOptions();
+    await this.setRegionOptions();
   },
 
   methods: {
+    async setSupplierInfo() {
+      const {
+        merchants_steps_fields,
+        seller_shop_info,
+        merchants_shop_infomation,
+      } = (await supplierService.getSupplierInfo()) || {};
+
+      this.categoryIdx = this.categoryList.findIndex(
+        (item) => item.value == merchants_shop_infomation.shop_categoryMain
+      );
+      
+      const {
+        company,
+        company_adress,
+        contactPhone,
+        contactEmail,
+        zhizhao,
+        shop_recruitment,
+        contactName,
+        personalNo,
+        idcard_front,
+        idcard_reverse,
+        handheld_idcard,
+      } = merchants_steps_fields;
+      this.shopName = company;
+      this.addressDetail = company_adress;
+      this.mobile = contactPhone;
+      this.email = contactEmail;
+      this.businessPic = zhizhao;
+      this.coverPic = shop_recruitment;
+      this.name = contactName;
+      this.idCardNum = personalNo;
+      this.cardFrontPic = idcard_front;
+      this.cardBackendPic = idcard_reverse;
+      this.holdCardPic = handheld_idcard;
+
+      const { province, city, district } = seller_shop_info;
+      this.regionDesc = `${
+        this.provinceList.find((item) => item.id == province).name
+      } ${this.cityList.find((item) => item.id == city).name} ${
+        this.countyList.find((item) => item.id == district).name
+      }`;
+      this.provinceId = province;
+      this.cityId = city;
+      this.countyId = district;
+    },
+
     async setRegionOptions() {
       const res = await supplierService.getRegionOptions();
       const options = res.data.child;
@@ -324,7 +371,7 @@ export default {
         return;
       }
 
-      this.apply()
+      this.apply();
     },
 
     apply: _.once(function() {

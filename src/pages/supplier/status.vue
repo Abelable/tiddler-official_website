@@ -68,8 +68,7 @@ export default {
     async confirm() {
       switch (this.statusInfo.review_status) {
         case 2:
-          await supplierService.deleteShopApply();
-          this.$router.push("/supplier");
+          this.$router.push("/supplier/info");
           break;
 
         case 4:
