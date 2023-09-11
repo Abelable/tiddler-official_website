@@ -6,39 +6,33 @@
       class="bg"
     />
 
-    <div class="header">
-      <img
-        :src="require(`./images/home/bg_${curMenuIdx}.png`)"
-        alt=""
-        class="header-bg"
-      />
-      <img
-        :src="require(`./images/home/slogan_${curMenuIdx}.png`)"
-        alt=""
-        class="slogan"
-      />
-      <div class="menu-tabs">
-        <div
-          class="menu-item"
-          :class="{ active: curMenuIdx === index }"
-          v-for="(item, index) in menuList"
-          :key="index"
-          @click="curMenuIdx = index"
-        >
-          {{ item }}
-        </div>
+    <div class="menu-tabs">
+      <div
+        class="menu-item"
+        :class="{ active: curMenuIdx === index }"
+        v-for="(item, index) in menuList"
+        :key="index"
+        @click="curMenuIdx = index"
+      >
+        {{ item }}
       </div>
-      <div class="title-wrap">
-        <img
-          :src="require(`./images/home/title_bg_${curMenuIdx}.png`)"
-          alt=""
-          class="title-bg"
-        />
-        <div class="title" :class="{ voice: curMenuIdx === 1 }">
-          {{ curMenuIdx === 0 ? "制作数字人" : "数字人声音克隆" }}
-        </div>
-        <div class="activity-tag" v-if="curMenuIdx === 0">限时特惠</div>
+    </div>
+
+    <img
+      :src="require(`./images/home/slogan_${curMenuIdx}.png`)"
+      alt=""
+      class="slogan"
+    />
+    <div class="title-wrap">
+      <img
+        :src="require(`./images/home/title_bg_${curMenuIdx}.png`)"
+        alt=""
+        class="title-bg"
+      />
+      <div class="title" :class="{ voice: curMenuIdx === 1 }">
+        {{ curMenuIdx === 0 ? "制作数字人" : "数字人声音克隆" }}
       </div>
+      <div class="activity-tag" v-if="curMenuIdx === 0">限时特惠</div>
     </div>
 
     <div class="content" v-if="curMenuIdx === 0">
@@ -125,84 +119,69 @@ export default {
     width: 100vw
     height: 100vh
     z-index -1
-  .header
+  .menu-tabs
     position: fixed
-    top: 0
-    left: 0
-    font-size: 0
-    width: 100%
-    height: 5.7rem
-    z-index: 100
-    overflow: hidden
-    .header-bg
-      position: absolute
-      top: 0
-      left: 0
-      width: 100vw
-      height: 100vh
-      z-index -1
-    .slogan
-      width: 100%
-      height: 4.44rem
-    .menu-tabs
-      position: absolute
-      top: .4rem
-      left: 50%
-      transform: translateX(-50%)
-      display: flex
-      padding: .06rem
-      width: 3.7rem
-      height: .7rem
-      border-radius: .35rem
-      background: #fff
-      .menu-item
-        display: flex
-        align-items: center
-        justify-content: center
-        flex: 1
-        height: .6rem
-        color: #333
-        font-size: .28rem
-        font-weight: 500
-        border-radius: .3rem
-        &.active
-          color: #fff
-          background: #2C2C30
-    .title-wrap
-      position: relative
+    top: .4rem
+    left: 50%
+    transform: translateX(-50%)
+    display: flex
+    padding: .06rem
+    width: 3.7rem
+    height: .7rem
+    border-radius: .35rem
+    background: #fff
+    z-index 100
+    .menu-item
       display: flex
       align-items: center
-      justify-content: space-between
-      padding-left: .6rem
-      padding-right: .4rem
-      height: 1.26rem
-      background: #fff
-      border-radius: .4rem .4rem 0 0
-      .title-bg
-        position: absolute
-        left: .4rem
-        top: .3rem
-        width: .62rem
-        height: .36rem
-      .title
-        color: #070F8F
-        font-size: .36rem
-        font-weight: 500
-        &.voice
-          color: #720C0C
-      .activity-tag
-        display: flex
-        align-items: center
-        justify-content: center
-        width: 1.4rem
-        height: .48rem
-        color: #070F8F
-        font-size: .24rem
-        background: linear-gradient(135deg, #FDABE4 0%, #A4DCFD 100%)
-        border-radius: .24rem
+      justify-content: center
+      flex: 1
+      height: .6rem
+      color: #333
+      font-size: .28rem
+      font-weight: 500
+      border-radius: .3rem
+      &.active
+        color: #fff
+        background: #2C2C30
+  .slogan
+    width: 100%
+    height: 4.44rem
+  .title-wrap
+    position: relative
+    display: flex
+    align-items: center
+    justify-content: space-between
+    padding-left: .6rem
+    padding-right: .4rem
+    height: 1.26rem
+    background: #fff
+    border-radius: .4rem .4rem 0 0
+    .title-bg
+      position: absolute
+      left: .4rem
+      top: .3rem
+      width: .62rem
+      height: .36rem
+    .title
+      color: #070F8F
+      font-size: .36rem
+      font-weight: 500
+      &.voice
+        color: #720C0C
+    .activity-tag
+      display: flex
+      align-items: center
+      justify-content: center
+      width: 1.4rem
+      height: .48rem
+      color: #070F8F
+      font-size: .24rem
+      background: linear-gradient(135deg, #FDABE4 0%, #A4DCFD 100%)
+      border-radius: .24rem
   .content
     font-size: 0
-    padding: 5.7rem .3rem 1.6rem
+    padding: 0 .3rem 1.6rem
     .functional-module
       display: block
       margin-top: .2rem
