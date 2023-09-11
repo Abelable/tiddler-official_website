@@ -1,5 +1,6 @@
 import ai from "./ai";
 import supplier from "./supplier";
+import digitalHuman from "./digital-human";
 
 const routes = [
   {
@@ -27,6 +28,7 @@ const routes = [
 
   ...ai,
   ...supplier,
+  ...digitalHuman,
 ];
 
 export default routes;
