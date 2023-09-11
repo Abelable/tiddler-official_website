@@ -1,6 +1,7 @@
 <template>
   <div class="container">
-    <Home />
+    <Home v-if="curTabIdx === 0" />
+    <Mine v-if="curTabIdx === 1" />
 
     <div class="tab-bar">
       <div
@@ -27,10 +28,11 @@
 </template>
 
 <script>
-import Home from './home'
+import Home from "./home";
+import Mine from "./mine";
 
 export default {
-  components: { Home },
+  components: { Home, Mine },
   data() {
     return {
       tabList: [

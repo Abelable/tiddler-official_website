@@ -53,10 +53,10 @@
         </div>
         <div class="video-list">
           <div class="video-item">
-            <img src="./images/temp/video-1.jpg" alt="" class="cover">
+            <img src="./images/temp/video-1.jpg" alt="" class="cover" />
           </div>
           <div class="video-item">
-            <img src="./images/temp/video-2.jpg" alt="" class="cover">
+            <img src="./images/temp/video-2.jpg" alt="" class="cover" />
           </div>
         </div>
       </div>
@@ -80,17 +80,17 @@
         </div>
         <div class="voice-list">
           <div class="voice-item">
-            <img src="./images/temp/avatar-1.jpg" alt="" class="avatar">
+            <img src="./images/temp/avatar-1.jpg" alt="" class="avatar" />
             <div class="name">白执法</div>
             <div class="identity">元气少女</div>
-            <img src="./images/voice-wave.png" alt="" class="voice-wave">
+            <img src="./images/voice-wave.png" alt="" class="voice-wave" />
             <div class="date">06-20 06:33</div>
           </div>
           <div class="voice-item">
-            <img src="./images/temp/avatar-2.jpg" alt="" class="avatar">
+            <img src="./images/temp/avatar-2.jpg" alt="" class="avatar" />
             <div class="name">露脸可</div>
             <div class="identity">元气少女</div>
-            <img src="./images/voice-wave.png" alt="" class="voice-wave">
+            <img src="./images/voice-wave.png" alt="" class="voice-wave" />
             <div class="date">06-20 06:33</div>
           </div>
         </div>
@@ -121,7 +121,7 @@ export default {
     z-index -1
   .menu-tabs
     position: fixed
-    top: .4rem
+    top: .6rem
     left: 50%
     transform: translateX(-50%)
     display: flex
@@ -251,7 +251,7 @@ export default {
             width: .84rem
             height: .84rem
             border-radius: 50%
-          .name  
+          .name
             margin-top: .1rem
             color: #575B66
             font-size: .24rem
