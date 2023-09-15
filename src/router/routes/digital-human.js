@@ -47,6 +47,14 @@ const digitalHuman = [
       title: "入驻状态",
     },
   },
+  {
+    name: "digital_human_action_library",
+    path: "/digital_human/action_library",
+    component: () => import("@/pages/digital-human/action-library"),
+    meta: {
+      title: "动作库",
+    },
+  },
 ];
 
 export default digitalHuman;
