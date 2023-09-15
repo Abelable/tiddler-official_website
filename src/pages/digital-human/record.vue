@@ -1,17 +1,46 @@
 <template>
-  <div>
-    <div style="background-color: #ffffff;padding-top:200px;">
-      <div class="video-box">
-        <video
-          ref="video"
-          webkit-playsinline
-          playsinline
-          :controls="false"
-          muted
-          class="video"
-        ></video>
+  <div class="container">
+    <div class="nav-bar">
+      <img src="./images/record/back.png" alt="" class="back-icon" />
+      <div class="nav-bar-title">录制数字人</div>
+      <div class="finish-btn" :style="{ opacity: recording ? 1 : 0 }" @click="finish">录制完成</div>
+    </div>
+    <div class="warning">
+      <img src="./images/record/tips.png" alt="" class="tips-icon">
+      <div>请暂时关闭其他应用，保持手机流畅录制</div>
+    </div>
+
+    <div class="video-wrap">
+      <video
+        class="video"
+        ref="video"
+        webkit-playsinline
+        playsinline
+        :controls="false"
+        muted
+      ></video>
+
+      <div class="controller-wrap">
+        <div class="change-btn" :style="{ opacity: !recording ? 1 : 0 }">
+          <img src="./images/record/change.png" alt="" class="change-icon">
+          <div>换一换</div>
+        </div>
+        <div class="switch-wrap">
+          <div style="margin-right: .1rem">拼音</div>
+          <van-switch v-model="opened" size="18px" inactive-color="#656565" />
+        </div>
       </div>
-      <div class="checkagain" @click="startRecord">开始录制</div>
+
+        <div class="words-wrap">
+          <p class="words">
+            我做自媒体已经差不多有一年的时间了，今天来和大家分享一下。自从我做自媒体训练语言表达之后呢，有很多的朋友一直想了解具体是怎么做的…我做自媒体已经差不多有一年的时间了，今天来和大家分享一下。自从我做自媒体训练语言表达之后呢，有很多的朋友一直想了解具体是怎么做的…
+          </p>
+        </div>
+
+        <div class="outline-wrap">
+          <img src="./images/record/outline.png" alt="" class="outline">
+          <img @click="start" v-if="!recording" src="./images/record/start-btn.png" alt="" class="start-btn">
+        </div>
     </div>
   </div>
 </template>
@@ -20,20 +49,22 @@
 export default {
   data() {
     return {
-      mediaRecorder: {},
-      recorderFile: {},
-      stream: {},
-      stopRecordCallback: null,
-      video: null,
+      recording: false,
+      opened: false
     };
   },
 
   created() {
-    this.openCamera();
+    // this.openCamera();
   },
 
   methods: {
-    openCamera() {
+    start() {
+      this.openCamera(() => {
+        this.startRecord()
+      });
+    },
+    openCamera(callback) {
       this.getUserMedia((error, stream) => {
         if (error) {
           console.log(error);
@@ -52,6 +83,7 @@ export default {
             }
           }
           this.mediaRecorder = new MediaRecorder(stream, options);
+          callback()
           this.stream = stream;
           // 存储数据流
           let chunks = [];
@@ -65,6 +97,7 @@ export default {
           this.mediaRecorder.onstop = () => {
             // 数据流转换为 file
             this.recorderFile = this.getRecorderFile(chunks);
+            console.log("this.recorderFile", this.recorderFile);
           };
         }
       });
@@ -103,16 +136,14 @@ export default {
 
     // 开始录制
     startRecord() {
-      this.mediaRecorder.start(); // start方法里面传入一个时间片，每隔一个 时间片存储 一块数据
-      setTimeout(() => {
-        this.stopRecord(this.stream);
-      }, 3 * 1000);
+      this.mediaRecorder.start();
+      this.recording = true
     },
 
     // 停止录制
-    stopRecord(stream) {
+    stopRecord() {
       this.mediaRecorder.stop();
-      this.closeStream(stream);
+      this.closeStream(this.stream);
     },
 
     // 关闭流
@@ -122,76 +153,108 @@ export default {
         track.stop();
       });
     },
+
+    finish() {
+      if (!this.recording) {
+        return
+      }
+      this.stopRecord()
+    }
   },
 };
 </script>
 
 <style lang="stylus" scoped>
-.checkagain {
-  background-color: #f44242;
-  height: 35px;
-  position: fixed;
-  width: 90%;
-  margin-left: 5%;
-  transform: translateY(2.5%);
-  border-radius: 3px;
-  font-size: 14px;
-  text-align: center;
-  line-height: 35px;
-  bottom: 35px;
-  color: #ffffff;
-}
-.video-box {
-  width: 200px;
-  height: 200px;
-  border-radius: 100%;
-  margin-left: calc((100% - 200px) / 2);
-  -webkit-mask-image: -webkit-radial-gradient(circle, white 100%, black 100%);
-  -webkit-transform: rotate(0.000001deg);
-  -webkit-border-radius: 100%;
-  -moz-border-radius: 100%;
-  .video {
-    width: 200px;
-    height: 200px;
-    border-radius: 50%;
-    object-fit: cover;
-  }
-}
+.container
+  background: #333333
+  height: 100vh
+  .nav-bar
+    padding: 0 .3rem
+    width: 100%
+    height: 1.2rem
+    display: flex
+    align-items: center
+    overflow: hidden
+    z-index: 100
+    .back-icon
+      width: .36rem
+      height: .36rem
+    .nav-bar-title
+      padding-left: .76rem
+      flex: 1
+      color: #fff
+      font-size: .36rem
+      font-weight: 600
+      text-align: center
+    .finish-btn
+      color: #fff
+      font-size: .28rem
+  .warning
+    display: flex
+    justify-content: center
+    height: .6rem
+    color: #9A9B9F
+    font-size: .24rem
+    .tips-icon
+      width: .32rem
+      height: .32rem
+  .video-wrap
+    position: relative
+    display: flex
+    flex-direction: column
+    align-items: center
+    padding: .3rem .4rem .8rem
+    height: calc(100vh - 2rem)
+    .video
+      position: absolute
+      top: 0
+      left: 0
+      width: 100%
+      height: calc(100vh - 1.8rem)
+      object-fit: cover
+    .controller-wrap
+      display: flex
+      align-items: center
+      justify-content: space-between
+      width: 100%
+      .change-btn
+        display: flex
+        align-items: center
+        color: #9A9B9F
+        font-size: .28rem
+        font-weight: 600
+        .change-icon
+          width: .32rem
+          height: .32rem
+      .switch-wrap
+        display: flex
+        align-items: center
+        color: #fff
+        font-size: .24rem
+        font-weight: 600
+    .words-wrap
+      margin-top: .3rem
+      padding: 0 .24rem
+      width: 100%
+      flex: 1
+      border-radius: .2rem
+      background: rgba(0, 0, 0, 0.3)
+      overflow-y: scroll
+      .words
+        padding: .2rem 0
+        color: #fff
+        font-size: .32rem
+    .outline-wrap
+      display: flex
+      flex-direction: column
+      align-items: center
+      height: 8.45rem
+      .outline
+        margin-top: .3rem
+        width: 6.18rem
+        height: 7.7rem
+      .start-btn
+        margin-top: -0.75rem
+        width: 1.5rem
+        height: 1.5rem
 </style>
-
-<!-- <script>
-import { reactive, ref, onMounted } from "vue"
-export default {
-  name: "v-video",
-  setup(props, context) {
-    const   this = reactive({
-      mediaRecorder: {},
-      recorderFile: {},
-      stream: {},
-      stopRecordCallback: null
-    })
-
-    const video = ref(null)
-    
-    onMounted(() => {
-      openCamera()
-    })
-
-    const openCamera = () => {
-      
-    }
-
-    
-
-    return {
-        this,
-      video,
-      startRecord
-    }
-  }
-  
-}
-</script>
-<style scoped lang="scss">
-
-</style> -->
