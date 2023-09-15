@@ -15,6 +15,14 @@ const digitalHuman = [
       title: "录制数字人注意事项",
     },
   },
+  {
+    name: "digital_human_recording_steps",
+    path: "/digital_human/recording_steps",
+    component: () => import("@/pages/digital-human/recording-steps"),
+    meta: {
+      title: "录制数字人步骤",
+    },
+  },
 ];
 
 export default digitalHuman;
