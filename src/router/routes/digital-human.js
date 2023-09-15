@@ -23,6 +23,14 @@ const digitalHuman = [
       title: "录制数字人步骤",
     },
   },
+  {
+    name: "digital_human_upload_notes",
+    path: "/digital_human/upload_notes",
+    component: () => import("@/pages/digital-human/upload-notes"),
+    meta: {
+      title: "视频上传注意事项",
+    },
+  },
 ];
 
 export default digitalHuman;
