@@ -55,6 +55,14 @@ const digitalHuman = [
       title: "动作库",
     },
   },
+  {
+    name: "digital_human_record",
+    path: "/digital_human/record",
+    component: () => import("@/pages/digital-human/record"),
+    meta: {
+      title: "录制数字人",
+    },
+  },
 ];
 
 export default digitalHuman;
