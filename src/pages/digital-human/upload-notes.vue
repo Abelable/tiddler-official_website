@@ -3,65 +3,21 @@
     <img src="./images/home/bg_0.png" alt="" class="bg" />
     <img src="./images/back.png" alt="" class="back-icon" />
 
-    <img src="./images/recording-notes/bg.png" alt="" class="header" />
+    <img src="./images/upload-notes/bg.png" alt="" class="header" />
 
     <div class="title-wrap">
       <img src="./images/home/title_bg_0.png" alt="" class="title-bg" />
-      <div class="title">录制注意事项</div>
+      <div class="title">视频上传注意事项</div>
     </div>
 
     <div class="content">
-      <img src="./images/recording-notes/note_1.png" alt="" class="note" />
-      <img src="./images/recording-notes/note_2.png" alt="" class="note" />
-      <img src="./images/recording-notes/note_3.png" alt="" class="note" />
-      <img src="./images/recording-notes/note_4.png" alt="" class="note" />
-
-      <div class="deduct-wrap">
-        <div class="deduct-header">
-          <img
-            src="./images/recording-notes/clip.png"
-            alt=""
-            class="deduct-icon"
-          />
-          <div class="deduct-title-wrap">
-            <div class="deduct-title">抠除背景</div>
-            <div class="deduct-tips">当您需要扣除背景时，请打开。</div>
-          </div>
-          <van-switch v-model="opened" size="24px" />
-        </div>
-        <div class="deduct-content-wrap">
-          <div class="menu-tabs">
-            <div class="menu-tab active">抠除实景</div>
-            <div class="menu-tab">抠除绿幕</div>
-          </div>
-          <div class="deduct-content">
-            <p>如需在视频制作中替换实景背景，请注意以下</p>
-            <p>1、头发边缘保持整齐，不要有碎发；</p>
-            <p>
-              2、拍摄使用的背景，需要与着装及发色形成明显反差，建议纯色或浅色；
-            </p>
-            <p>
-              3、如画面中出现桌子或其它前景道具，请使用绿幕拍摄并选择“抠除绿幕”功能。
-            </p>
-          </div>
-        </div>
-      </div>
+      <img src="./images/upload-notes/note_1.png" alt="" class="note" />
+      <img src="./images/upload-notes/note_2.png" alt="" class="note" />
+      <img src="./images/upload-notes/note_3.png" alt="" class="note" />
+      <img src="./images/upload-notes/note_4.png" alt="" class="note" />
     </div>
 
-    <div class="agreement" @click="agree = !agree">
-      <img
-        class="agree-icon"
-        :src="
-          require(agree
-            ? './images/recording-notes/selected.png'
-            : './images/recording-notes/unselected.png')
-        "
-        alt=""
-      />
-      <p>我已阅读并同意 <span style="color: #3B75FF">《形象定制规则》</span></p>
-    </div>
-
-    <div class="start-btn" :class="{ active: agree }">开始录制</div>
+    <div class="start-btn">下一步</div>
   </div>
 </template>
 
@@ -69,8 +25,6 @@
 export default {
   data() {
     return {
-      opened: true,
-      agree: false,
     };
   },
 };
@@ -185,12 +139,9 @@ export default {
     margin: .2rem auto 0
     width: 6rem
     height: 1.08rem
-    color: #999
+    color: #fff
     font-size: .32rem
     font-weight: 600
-    background: #ddd
+    background: linear-gradient(90deg, #7DDFDF 0%, #99ABFF 100%)
     border-radius: .54rem
-    &.active
-      color: #fff
-      background: linear-gradient(90deg, #7DDFDF 0%, #99ABFF 100%)
 </style>
