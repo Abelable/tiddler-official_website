@@ -31,6 +31,14 @@ const digitalHuman = [
       title: "视频上传注意事项",
     },
   },
+  {
+    name: "digital_human_upload",
+    path: "/digital_human/upload",
+    component: () => import("@/pages/digital-human/upload"),
+    meta: {
+      title: "上传视频",
+    },
+  },
 ];
 
 export default digitalHuman;
