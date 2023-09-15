@@ -12,7 +12,7 @@ const digitalHuman = [
     path: "/digital_human/recording_notes",
     component: () => import("@/pages/digital-human/recording-notes"),
     meta: {
-      title: "有播数字人",
+      title: "录制数字人注意事项",
     },
   },
 ];

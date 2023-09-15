@@ -3,7 +3,7 @@ import App from './App.vue'
 import Router from 'vue-router'
 import router from './router/index'
 import store from './store/index'
-import { Swipe, SwipeItem, Lazyload, Toast, Dialog, ImagePreview, Popup, List } from 'vant'
+import { Swipe, SwipeItem, Lazyload, Toast, Dialog, ImagePreview, Popup, List, Switch } from 'vant'
 import { judgeHost } from './utils/bridge'
 import './utils/remConfig'
 import './assets/style/index.styl'
@@ -35,6 +35,7 @@ Vue.use(Dialog)
 Vue.use(ImagePreview)
 Vue.use(Popup)
 Vue.use(List)
+Vue.use(Switch)
 
 new Vue({
   router,
