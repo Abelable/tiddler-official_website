@@ -3,10 +3,16 @@
     <div class="nav-bar">
       <img src="./images/record/back.png" alt="" class="back-icon" />
       <div class="nav-bar-title">录制数字人</div>
-      <div class="finish-btn" :style="{ opacity: recording ? 1 : 0 }" @click="finish">录制完成</div>
+      <div
+        class="finish-btn"
+        :style="{ opacity: recording ? 1 : 0 }"
+        @click="finish"
+      >
+        录制完成
+      </div>
     </div>
     <div class="warning">
-      <img src="./images/record/tips.png" alt="" class="tips-icon">
+      <img src="./images/record/tips.png" alt="" class="tips-icon" />
       <div>请暂时关闭其他应用，保持手机流畅录制</div>
     </div>
 
@@ -22,8 +28,11 @@
 
       <div class="controller-wrap">
         <div class="change-btn" :style="{ opacity: !recording ? 1 : 0 }">
-          <img src="./images/record/change.png" alt="" class="change-icon">
+          <img src="./images/record/change.png" alt="" class="change-icon" />
           <div>换一换</div>
+        </div>
+        <div class="count-down" :style="{ opacity: recording ? 1 : 0 }">
+          {{ timeCount | timing }}
         </div>
         <div class="switch-wrap">
           <div style="margin-right: .1rem">拼音</div>
@@ -31,16 +40,22 @@
         </div>
       </div>
 
-        <div class="words-wrap">
-          <p class="words">
-            我做自媒体已经差不多有一年的时间了，今天来和大家分享一下。自从我做自媒体训练语言表达之后呢，有很多的朋友一直想了解具体是怎么做的…我做自媒体已经差不多有一年的时间了，今天来和大家分享一下。自从我做自媒体训练语言表达之后呢，有很多的朋友一直想了解具体是怎么做的…
-          </p>
-        </div>
+      <div class="words-wrap">
+        <p class="words">
+          我做自媒体已经差不多有一年的时间了，今天来和大家分享一下。自从我做自媒体训练语言表达之后呢，有很多的朋友一直想了解具体是怎么做的…我做自媒体已经差不多有一年的时间了，今天来和大家分享一下。自从我做自媒体训练语言表达之后呢，有很多的朋友一直想了解具体是怎么做的…
+        </p>
+      </div>
 
-        <div class="outline-wrap">
-          <img src="./images/record/outline.png" alt="" class="outline">
-          <img @click="start" v-if="!recording" src="./images/record/start-btn.png" alt="" class="start-btn">
-        </div>
+      <div class="outline-wrap">
+        <img src="./images/record/outline.png" alt="" class="outline" />
+        <img
+          @click="start"
+          v-if="!recording"
+          src="./images/record/start-btn.png"
+          alt=""
+          class="start-btn"
+        />
+      </div>
     </div>
   </div>
 </template>
@@ -50,20 +65,32 @@ export default {
   data() {
     return {
       recording: false,
-      opened: false
+      opened: false,
+      timeCount: 0,
     };
   },
 
-  created() {
-    // this.openCamera();
+  filters: {
+    timing(count) {
+      return `${`${Math.floor(count / 60)}`.padStart(2, "0")}:${`${count %
+        60}`.padStart(2, "0")}`;
+    },
   },
 
   methods: {
     start() {
       this.openCamera(() => {
-        this.startRecord()
+        this.startRecord();
+        this.startTiming();
       });
     },
+
+    startTiming() {
+      this.timingInterval = setInterval(() => {
+        this.timeCount += 1;
+      }, 1000);
+    },
+
     openCamera(callback) {
       this.getUserMedia((error, stream) => {
         if (error) {
@@ -83,7 +110,7 @@ export default {
             }
           }
           this.mediaRecorder = new MediaRecorder(stream, options);
-          callback()
+          callback();
           this.stream = stream;
           // 存储数据流
           let chunks = [];
@@ -137,7 +164,7 @@ export default {
     // 开始录制
     startRecord() {
       this.mediaRecorder.start();
-      this.recording = true
+      this.recording = true;
     },
 
     // 停止录制
@@ -156,10 +183,12 @@ export default {
 
     finish() {
       if (!this.recording) {
-        return
+        return;
       }
-      this.stopRecord()
-    }
+      this.stopRecord();
+      clearInterval(this.timingInterval);
+      this.recording = false;
+    },
   },
 };
 </script>
@@ -226,6 +255,16 @@ export default {
         .change-icon
           width: .32rem
           height: .32rem
+      .count-down
+        display: flex
+        align-items: center
+        justify-content: center
+        width: .92rem
+        height: .36rem
+        color: #fff
+        font-size: .26rem
+        border-radius: .08rem
+        background: #99ABFF
       .switch-wrap
         display: flex
         align-items: center
