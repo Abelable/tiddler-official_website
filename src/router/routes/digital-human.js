@@ -39,6 +39,14 @@ const digitalHuman = [
       title: "上传视频",
     },
   },
+  {
+    name: "digital_human_status",
+    path: "/digital_human/status",
+    component: () => import("@/pages/digital-human/status"),
+    meta: {
+      title: "入驻状态",
+    },
+  },
 ];
 
 export default digitalHuman;
