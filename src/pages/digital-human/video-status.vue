@@ -7,7 +7,7 @@
       <img style="opacity: 0;" src="./images/back.png" alt="" class="back-icon" />
     </div>
     <div class="status-wrap">
-      <img src="./images/status/success.png" alt="" class="status-icon">
+      <img src="./images/video-status/success.png" alt="" class="status-icon">
       <div class="status-title">成功提交入驻</div>
       <div class="status-tips">
         <p>你已上传成功，后台正在审核</p>

@@ -40,9 +40,9 @@ const digitalHuman = [
     },
   },
   {
-    name: "digital_human_status",
-    path: "/digital_human/status",
-    component: () => import("@/pages/digital-human/status"),
+    name: "digital_human_video_status",
+    path: "/digital_human/video_status",
+    component: () => import("@/pages/digital-human/video-status"),
     meta: {
       title: "入驻状态",
     },
