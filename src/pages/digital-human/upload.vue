@@ -3,7 +3,7 @@
     <img src="./images/home/bg_0.png" alt="" class="bg" />
     <div class="nav-bar">
       <img src="./images/home/bg_0.png" alt="" class="nav-bar-bg" />
-      <img src="./images/back.png" alt="" class="back-icon" />
+      <img @click="back" src="./images/back.png" alt="" class="back-icon" />
       <div class="nav-bar-title">上传视频</div>
       <img style="opacity: 0;" src="./images/back.png" alt="" class="back-icon" />
     </div>
@@ -76,6 +76,12 @@ export default {
       agree: false,
     };
   },
+
+  methods: {
+    back() {
+      this.$router.back()
+    }
+  }
 }
 </script>
 

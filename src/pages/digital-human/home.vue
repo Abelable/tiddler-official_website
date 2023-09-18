@@ -36,8 +36,8 @@
     </div>
 
     <div class="content" v-if="curMenuIdx === 0">
-      <img src="./images/home/module_1.png" alt="" class="functional-module" />
-      <img src="./images/home/module_2.png" alt="" class="functional-module" />
+      <img @click="navToRecord" src="./images/home/module_1.png" alt="" class="functional-module" />
+      <img @click="navToUpload" src="./images/home/module_2.png" alt="" class="functional-module" />
 
       <div class="list-wrap">
         <div class="list-header">
@@ -106,6 +106,16 @@ export default {
       menuList: ["形象", "声音"],
       curMenuIdx: 0,
     };
+  },
+
+  methods: {
+    navToRecord() {
+      this.$router.push('/digital_human/recording_notes')
+    },
+
+    navToUpload() {
+      this.$router.push('/digital_human/upload_notes')
+    }
   }
 };
 </script>

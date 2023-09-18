@@ -1,7 +1,7 @@
 <template>
   <div class="container">
     <div class="nav-bar">
-      <img src="./images/record/back.png" alt="" class="back-icon" />
+      <img @click="back" src="./images/record/back.png" alt="" class="back-icon" />
       <div class="nav-bar-title">录制数字人</div>
       <div
         class="finish-btn"
@@ -61,6 +61,8 @@
 </template>
 
 <script>
+import { Dialog } from "vant";
+
 export default {
   data() {
     return {
@@ -78,6 +80,10 @@ export default {
   },
 
   methods: {
+    back() {
+      this.$router.back()
+    },
+
     start() {
       this.openCamera(() => {
         this.startRecord();
@@ -182,12 +188,17 @@ export default {
     },
 
     finish() {
-      if (!this.recording) {
-        return;
-      }
-      this.stopRecord();
-      clearInterval(this.timingInterval);
-      this.recording = false;
+      Dialog.confirm({
+        message: "当前音频训练时长过短，不符合克隆音频条件",
+        showCancelButton: false
+      })
+
+      // if (!this.recording) {
+      //   return;
+      // }
+      // this.stopRecord();
+      // clearInterval(this.timingInterval);
+      // this.recording = false;
     },
   },
 };
