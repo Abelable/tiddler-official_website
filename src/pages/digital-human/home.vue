@@ -63,8 +63,8 @@
     </div>
 
     <div class="content" v-if="curMenuIdx === 1">
-      <img src="./images/home/module_4.png" alt="" class="functional-module" />
-      <img src="./images/home/module_3.png" alt="" class="functional-module" />
+      <img src="./images/home/module_4.png" alt="" class="functional-module" @click="$router.push('/digital_human/audio_notes')" />
+      <img src="./images/home/module_3.png" alt="" class="functional-module" @click="$router.push('/digital_human/audio_notes?upload=1')" />
 
       <div class="list-wrap">
         <div class="list-header">
