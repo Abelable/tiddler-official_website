@@ -17,46 +17,21 @@
     </div>
     <div class="scroll-view">
       <div class="items">
-        <div class="item item_cur">
-          <div class="mine">我的</div>
+        <div class="item" :class="{'item_cur':curId == item.id}" v-for="(item,index) in mock_sy" :key="index" v-show="curMenuIdx == item.type">
+          <!-- <div class="mine" v-if="index==0">我的</div> -->
           <div class="img">
-            <img src="./images/icons/success.png" class="avatar" />
-            <img src="./images/icons/play.png" class="play" />
+            <img :src="item.avatar" class="avatar" />
+            <img src="./images/icons/pause.png" class="play" v-if="playId == item.id" @click="pauseFn()" />
+            <img src="./images/icons/play.png" class="play" v-else @click="playFn(item)" />
           </div>
-          <div class="p1">暴枫朋</div>
-          <div class="p2">中文-普通话</div>
-          <div class="btn">正在使用</div>
-        </div>
-        <div class="item ">
-          <div class="img">
-            <img src="./images/icons/success.png" class="avatar" />
-            <img src="./images/icons/play.png" class="play" />
-          </div>
-          <div class="p1">暴枫朋</div>
-          <div class="p2">中文-普通话</div>
-          <div class="btn">使用</div>
-        </div>
-        <div class="item ">
-          <div class="img">
-            <img src="./images/icons/success.png" class="avatar" />
-            <img src="./images/icons/play.png" class="play" />
-          </div>
-          <div class="p1">暴枫朋</div>
-          <div class="p2">中文-普通话</div>
-          <div class="btn">使用</div>
-        </div>
-        <div class="item ">
-          <div class="img">
-            <img src="./images/icons/success.png" class="avatar" />
-            <img src="./images/icons/play.png" class="play" />
-          </div>
-          <div class="p1">暴枫朋</div>
-          <div class="p2">中文-普通话</div>
-          <div class="btn">使用</div>
+          <div class="p1">{{item.name}}</div>
+          <div class="p2">{{item.label}}</div>
+          <div class="btn"  @click="syFn(item)">{{curId == item.id?'正在使用':'使用'}}</div>
         </div>
         
       </div>
     </div>
+    <audio controls :src="playUrl" ref="audio" style="position:fixed;left:0;bottom:0;width:1px;height:1px;opacity:0;"></audio>
   </div>
 </template>
 
@@ -64,14 +39,156 @@
 export default {
   data() {
     return {
+      id:'',
       menuList: ["定制", "官方"],
       curMenuIdx: 0,
+      mock_sy:[],
+      curId:'',
+      video:false,
+      data: [],
+      playId:'',
+      playUrl:''
     };
   },
   created(){
+    let detail_sy = [{
+      id:1,
+      avatar:'https://img.ubo.vip/temp/digital_human/avatar1.png',
+      name:'通艳梁',
+      label:'中文-普通话',
+      url:'https://img.ubo.vip/temp/digital_human/1.wav',
+      type:'0',
+    },{
+      id:2,
+      avatar:'https://img.ubo.vip/temp/digital_human/avatar2.png',
+      name:'邵谦',
+      label:'中文-普通话',
+      url:'https://img.ubo.vip/temp/digital_human/2.wav',
+      type:'0',
+    },{
+      id:3,
+      avatar:'https://img.ubo.vip/temp/digital_human/avatar3.png',
+      name:'蓟玲元',
+      label:'中文-普通话',
+      url:'https://img.ubo.vip/temp/digital_human/3.wav',
+      type:'0',
+    },{
+      id:4,
+      avatar:'https://img.ubo.vip/temp/digital_human/avatar4.png',
+      name:'元彩仁',
+      label:'中文-普通话',
+      url:'https://img.ubo.vip/temp/digital_human/4.wav',
+      type:'1',
+    },{
+      id:5,
+      avatar:'https://img.ubo.vip/temp/digital_human/avatar5.png',
+      name:'初辉',
+      label:'中文-普通话',
+      url:'https://img.ubo.vip/temp/digital_human/5.wav',
+      type:'1',
+    },{
+      id:6,
+      avatar:'https://img.ubo.vip/temp/digital_human/avatar6.png',
+      name:'充玲晨',
+      label:'中文-普通话',
+      url:'https://img.ubo.vip/temp/digital_human/6.wav',
+      type:'1',
+    },{
+      id:7,
+      avatar:'https://img.ubo.vip/temp/digital_human/avatar7.png',
+      name:'邝影祥',
+      label:'中文-普通话',
+      url:'https://img.ubo.vip/temp/digital_human/7.wav',
+      type:'1',
+    },{
+      id:8,
+      avatar:'https://img.ubo.vip/temp/digital_human/avatar8.png',
+      name:'张平子',
+      label:'中文-普通话',
+      url:'https://img.ubo.vip/temp/digital_human/8.wav',
+      type:'1',
+    },{
+      id:9,
+      avatar:'https://img.ubo.vip/temp/digital_human/avatar9.png',
+      name:'朱和',
+      label:'中文-普通话',
+      url:'https://img.ubo.vip/temp/digital_human/9.wav',
+      type:'1',
+    },{
+      id:10,
+      avatar:'https://img.ubo.vip/temp/digital_human/avatar10.png',
+      name:'庾珊',
+      label:'中文-普通话',
+      url:'https://img.ubo.vip/temp/digital_human/10.wav',
+      type:'1',
+    },{
+      id:11,
+      avatar:'https://img.ubo.vip/temp/digital_human/avatar11.png',
+      name:'苟纨',
+      label:'中文-普通话',
+      url:'https://img.ubo.vip/temp/digital_human/11.wav',
+      type:'1',
+    },{
+      id:12,
+      avatar:'https://img.ubo.vip/temp/digital_human/avatar12.png',
+      name:'厉芝',
+      label:'中文-普通话',
+      url:'https://img.ubo.vip/temp/digital_human/12.wav',
+      type:'1',
+    }]
+    let mock_sy = JSON.parse(window.localStorage.getItem('mock_sy') || '[]')
+    if(mock_sy.length == 0){
+      this.mock_sy = detail_sy
+      window.localStorage.setItem('mock_sy',JSON.stringify(this.mock_sy))
+    }else{
+      this.mock_sy = mock_sy || []
+    }
 
+    this.id = this.$route.query.id
+    this.isVideo = this.$route.query.video == 1
+    if(this.isVideo == 1){
+      this.data = JSON.parse(window.localStorage.getItem('mock_videos') || '[]')
+    }else{
+      this.data = JSON.parse(window.localStorage.getItem('mock_audios') || '[]')
+    }
+    let detailObj = {}
+    for(var i=0;i<this.data.length;i++){
+      if(this.data[i].id == this.id){
+        detailObj = this.data[i]
+        break;
+      }
+    }
+    this.curId = detailObj.sy_id
   },
   methods:{
+    playFn(item){
+      this.playId = item.id
+      this.playUrl = item.url
+      setTimeout(()=>{
+        this.$refs.audio.play()
+      })
+    },
+    pauseFn(){
+      this.playId = ''
+      this.playUrl = ''
+    },
+    syFn(item){
+      if(item.id == this.curId) return false
+      this.curId = item.id
+      for(var i=0;i<this.data.length;i++){
+        if(this.data[i].id == this.id){
+          this.data[i].sy_id = item.id
+          this.data[i].avatar = item.avatar
+          this.data[i].name = item.name
+          this.data[i].label = item.label
+        }
+      }
+      if(this.isVideo == 1){
+        window.localStorage.setItem('mock_videos',JSON.stringify(this.data))
+      }else{
+        window.localStorage.setItem('mock_audios',JSON.stringify(this.data))
+      }
+    },
     goBack(){
       this.$router.go(-1)
     },
@@ -93,7 +210,7 @@ export default {
           .mine{position:absolute;left:0;top:0;padding:.04rem .1rem;color:#070F8F;border-radius:.16rem 0 .16rem 0;background-image: linear-gradient(to right, #FDABE4, #A4DCFD);font-size:.2rem;}
           .img{display:inline-block;position:relative;width:.8rem;height:.8rem;margin-top:.2rem;
             .avatar{width:100%;height:100%;border-radius:100%;}
-            .play{width:.24rem;height:.24rem;position:absolute;right:0;bottom:0;}
+            .play{width:.24rem;height:.24rem;position:absolute;right:-.1rem;bottom:-.1rem;padding:.1rem;box-sizing:content-box;}
           }
           .p1{font-size:.28rem;font-weight:bold;color:#181C63;line-height:.4rem;margin-top:.12rem;white-space:nowrap;overflow: hidden;text-overflow: ellipsis;padding:0 .1rem;}
           .p2{font-size:.24rem;color:#999;line-height:.34rem;margin-top:.12rem;white-space:nowrap;overflow: hidden;text-overflow: ellipsis;padding:0 .1rem;}

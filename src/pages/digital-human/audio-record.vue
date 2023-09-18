@@ -68,12 +68,11 @@ export default {
         pinyin:''
       },
       txts:[
-        {txt:'做人要诚恳，这是最经典人生格言之一。诚恳是一种美德，它能够赢得他人的信任和尊重。只有诚恳，我们才能建立起良好的人际关系，与他人和谐相处。',pinyin:'zuo ren yao cheng ken ，zhe shi zui jing dian ren sheng ge yan zhi yi 。cheng ken shi yi zhong mei de ，ta neng gou ying de ta ren de xin ren he zun zhong 。zhi you cheng ken ，wo men cai neng jian li qi liang hao de ren ji guan xi ，yu ta ren he xie xiang chu 。'},
-        {txt:'独创性是指人们在面对新事物时，不依赖他人的意见或经验，而是通过自己的思考和创造来解决问题。',pinyin:'du chuang xing shi zhi ren men zai mian dui xin shi wu shi ，bu yi lai ta ren de yi jian huo jing yan ，er shi tong guo zi ji de si kao he chuang zao lai jie jue wen ti 。'},
-        {txt:'如平直必以准绳，这句经典人生格言告诉我们，只有保持平衡和稳定，才能确保事物的准确和稳定。',pinyin:'ru ping zhi bi yi zhun sheng ，zhe ju jing dian ren sheng ge yan gao su wo men ，zhi you bao chi ping heng he wen ding ，cai neng que bao shi wu de zhun que he wen ding 。'},
-        {txt:'与朋友交,言而有信最可爱的人是心地单纯的人。谁也比不上他们。多交朋友主要靠心地善良、单纯、性格热情、坦率。与朋友交,言而有信最可爱的人是那些真诚、坦率、善良的人。',pinyin:'yu peng you jiao ,yan er you xin zui ke ai de ren shi xin di dan chun de ren 。shui ye bi bu shang ta men 。duo jiao peng you zhu yao kao xin di shan liang 、dan chun 、xing ge re qing 、tan lü 。yu peng you jiao ,yan er you xin zui ke ai de ren shi na xie zhen cheng 、tan lü 、shan liang de ren 。'},
-        {txt:'这句格言的含义是，人们应该能够理解别人的困难和需要，从而帮助他们解决问题并拯救他们。',pinyin:'zhe ju ge yan de han yi shi ，ren men ying gai neng gou li jie bie ren de kun nan he xu yao ，cong er bang zhu ta men jie jue wen ti bing zheng jiu ta men 。'},
-        {txt:'勿以恶小而为之,勿以善小而不为，体现了一个人应该积极行善的态度和为他人着想的心态。',pinyin:'wu yi e xiao er wei zhi ,wu yi shan xiao er bu wei ，ti xian le yi ge ren ying gai ji ji hang shan de tai du he wei ta ren zhe xiang de xin tai 。'},
+        {txt:'两个同龄的年轻人同时受雇于一家店铺，并且拿同样的薪水。',pinyin:'liang ge tong ling de nian qing ren tong shi shou gu yu yi jia dian pu ，bing qie na tong yang de xin shui 。'},
+        {txt:'可是一段时间后，叫阿诺德的那个小伙子青云直上，而那个叫布鲁诺的小伙子却仍在原地踏步。',pinyin:'ke shi yi duan shi jian hou ，jiao a nuo de de na ge xiao huo zi qing yun zhi shang ，er na ge jiao bu lu nuo de xiao huo zi que reng zai yuan di ta bu 。'},
+        {txt:'布鲁诺很不满意老板的不公正待遇。终于有一天他到老板那儿发牢骚了。',pinyin:'bu lu nuo hen bu man yi lao ban de bu gong zheng dai yu 。zhong yu you yi tian ta dao lao ban na er fa lao sao le 。'},
+        {txt:'老板一边耐心地听着他的抱怨，一边在心里盘算着怎样向他解释清楚他和阿诺德之间的差别。',pinyin:'lao ban yi bian nai xin di ting zhe ta de bao yuan ，yi bian zai xin li pan suan zhe zen yang xiang ta jie shi qing chu ta he a nuo de zhi jian de cha bie 。'},
+        {txt:'“布鲁诺先生，”老板开口说话了，“您现在到集市上去一下，看看今天早上有什么卖的。',pinyin:'“bu lu nuo xian sheng ，”lao ban kai kou shuo hua le ，“nin xian zai dao ji shi shang qu yi xia ，kan kan jin tian zao shang you shi me mai de 。'},
       ],
       switchValue:false,
       isRecord:false,
@@ -170,11 +169,12 @@ export default {
         Toast('请先点击完成按钮，再提交')
         return false
       }
-      Toast.loading({ message: '提交中...'})
-      setTimeout(()=>{
-        Toast.clear()
-        this.$router.push('/digital_human/audio_result')
-      },800)
+      Toast('当前音频训练时长果断，不符合克隆音频条件')
+      // Toast.loading({ message: '提交中...'})
+      // setTimeout(()=>{
+      //   Toast.clear()
+      //   this.$router.push('/digital_human/audio_result')
+      // },800)
     }
   }
 };

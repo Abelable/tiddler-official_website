@@ -1,7 +1,7 @@
 <template>
   <div class="container">
-    <Home v-if="curTabIdx === 0" />
-    <Mine v-if="curTabIdx === 1" />
+    <Home v-show="curTabIdx === 0" />
+    <Mine v-show="curTabIdx === 1" />
 
     <div class="tab-bar">
       <div
@@ -32,6 +32,7 @@ import Home from "./home";
 import Mine from "./mine";
 
 export default {
+  name:'digital_human_index',
   components: { Home, Mine },
   data() {
     return {

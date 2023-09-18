@@ -106,7 +106,7 @@ export default {
       menuList: ["形象", "声音"],
       curMenuIdx: 0,
     };
-  },
+  }
 };
 </script>
 

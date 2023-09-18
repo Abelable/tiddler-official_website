@@ -4,23 +4,23 @@
     <div class="header">
       
       {{isVideo?'视频设置':'音频设置'}}
-      <span class="right">
+      <span class="right" @click="delFn">
         取消入驻
       </span>
     </div>
     <div class="scroll-view">
       <div class="flex info">
-        <img src="./images/icons/success.png" class="avatar">
+        <img :src="detailObj.avatar" class="avatar">
         <div class="flex1">
           <div class="title">
-            于琼澜
-            <div class="btn flex" v-if="isVideo">关联动作库</div>
+            {{detailObj.name}}
+            <!-- <div class="btn flex" v-if="isVideo">关联动作库</div> -->
           </div>
           <div class="desc flex">
             <div class="label">
-              <img src="./images/icons/audio2.png"><span>元气少女</span>
+              <img src="./images/icons/audio2.png"><span>{{detailObj.label}}</span>
             </div>
-            <div class="refresh">
+            <div class="refresh" @click="$router.push('/digital_human/audio_change?id='+id+'&video='+(isVideo?'1':'0'))">
               <img src="./images/icons/refresh.png"><span>更改</span>
             </div>
           </div>
@@ -33,15 +33,15 @@
         <span class="b">来听听ta讲话的效果～</span>
       </div>
       <div class="create">
-        <div class="textarea">大家好，今天我在秦始皇陵兵马俑，为大家介绍“兵马俑中的军队是如何排兵布阵的?“秦始皇陵兵马俑的出土，使人们在欣赏这一奇迹表层的同时，也窥到了它隐匿于表层之内的深刻军事战略和军事思想的脉络。</div>
+        <div class="textarea">{{curTxt.obj.txt}}</div>
         <div class="flex create_desc">
           <div class="time">
-            <img src="./images/icons/time.png" /><span>0:10</span>
+            <img src="./images/icons/time.png" /><span>{{curTxt.obj.time}}</span>
           </div>
           <div class="refresh">
-            <span>94/800</span>
-            <img src="./images/icons/refresh_b.png" />
-            <span class="b">换一换</span>
+            <span>{{curTxt.obj.txt.length}}/800</span>
+            <img src="./images/icons/refresh_b.png" @click="huanFn" />
+            <span class="b"  @click="huanFn">换一换</span>
           </div>
         </div>
         <div class="btn flex">{{isVideo?'生成视频':'生成语音'}}</div>
@@ -55,7 +55,7 @@
             <div class="slider">
               <div class="slider_bar"></div>
             </div>
-            <div class="time"><span>19分钟</span>/45分钟</div>
+            <div class="time"><span>32分钟</span>/45分钟</div>
           </div>
         </div>
         <div class="audio_items">
@@ -112,7 +112,7 @@
               <div class="slider">
                 <div class="slider_bar"></div>
               </div>
-              <div class="time"><span>19分钟</span>/45分钟</div>
+              <div class="time"><span>20分钟</span>/45分钟</div>
             </div>
           </div>
           <div class="flex1">
@@ -121,7 +121,7 @@
               <div class="slider">
                 <div class="slider_bar"></div>
               </div>
-              <div class="time"><span>19分钟</span>/45分钟</div>
+              <div class="time"><span>32分钟</span>/45分钟</div>
             </div>
           </div>
         </div>
@@ -160,18 +160,65 @@
 </template>
 
 <script>
-import { Loading } from "vant";
+import { Loading, Dialog } from "vant";
 export default {
   components: { Loading },
   data() {
     return {
-      isVideo:false
+      id:'',
+      isVideo:false,
+      detailObj:{},
+      curTxt:{
+        index:0,
+        obj:{}
+      },
+      txts:[
+        {txt:'两个同龄的年轻人同时受雇于一家店铺，并且拿同样的薪水。',time:'0:10'},
+        {txt:'可是一段时间后，叫阿诺德的那个小伙子青云直上，而那个叫布鲁诺的小伙子却仍在原地踏步。',time:'0:15'},
+        {txt:'布鲁诺很不满意老板的不公正待遇。终于有一天他到老板那儿发牢骚了。',time:'0:11'},
+        {txt:'老板一边耐心地听着他的抱怨，一边在心里盘算着怎样向他解释清楚他和阿诺德之间的差别。',time:'0:14'},
+        {txt:'“布鲁诺先生，”老板开口说话了，“您现在到集市上去一下，看看今天早上有什么卖的。',time:'0:13'},
+      ],
     };
   },
   created(){
     this.isVideo = this.$route.query.video == 1
+    this.id = this.$route.query.id
+    let data = []
+    if(this.isVideo == 1){
+      data = JSON.parse(window.localStorage.getItem('mock_videos') || '[]')
+    }else{
+      data = JSON.parse(window.localStorage.getItem('mock_audios') || '[]')
+    }
+    for(var i=0;i<data.length;i++){
+      if(data[i].id == this.id){
+        this.detailObj = data[i]
+        break;
+      }
+    }
+    this.curTxt.index = 0
+    this.curTxt.obj = this.txts[this.curTxt.index]
   },
   methods:{
+    huanFn(){
+      let index = this.curTxt.index + 1
+      if(index > this.txts.length-1) index = 0
+      this.curTxt.index = index
+      this.curTxt.obj = this.txts[index]
+    },
+    delFn(){
+      Dialog.confirm({
+        title: '温馨提示',
+        message: '是否要取消入驻',
+      })
+      .then(() => {
+        // on confirm
+        this.$router.go(-1)
+      })
+      .catch(() => {
+        // on cancel
+      });
+    },
     goBack(){
       this.$router.go(-1)
     },
