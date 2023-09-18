@@ -68,7 +68,7 @@ const digitalHuman = [
     path: "/digital_human/audio_notes",
     component: () => import("@/pages/digital-human/audio-notes"),
     meta: {
-      title: "有播数字人",
+      title: "录制声音注意事项",
     },
   },
   {
@@ -76,7 +76,7 @@ const digitalHuman = [
     path: "/digital_human/audio_upload",
     component: () => import("@/pages/digital-human/audio-upload"),
     meta: {
-      title: "有播数字人",
+      title: "上传音频",
     },
   },
   {
@@ -84,7 +84,7 @@ const digitalHuman = [
     path: "/digital_human/audio_record",
     component: () => import("@/pages/digital-human/audio-record"),
     meta: {
-      title: "有播数字人",
+      title: "声音克隆",
     },
   },
   {
@@ -92,7 +92,7 @@ const digitalHuman = [
     path: "/digital_human/audio_result",
     component: () => import("@/pages/digital-human/audio-result"),
     meta: {
-      title: "有播数字人",
+      title: "入驻状态",
     },
   },
   {
@@ -100,7 +100,7 @@ const digitalHuman = [
     path: "/digital_human/audio_change",
     component: () => import("@/pages/digital-human/audio-change"),
     meta: {
-      title: "有播数字人",
+      title: "更改声音",
     },
   },
   {
@@ -108,7 +108,7 @@ const digitalHuman = [
     path: "/digital_human/setting_va",
     component: () => import("@/pages/digital-human/setting-va"),
     meta: {
-      title: "有播数字人",
+      title: "设置",
     },
   },
 
