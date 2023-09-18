@@ -1,18 +1,26 @@
 <template>
   <div class="container">
     <img src="./images/recording-steps/bg.png" alt="" class="bg" />
-    <img src="./images/back.png" alt="" class="back-icon" />
+    <img @click="back" src="./images/back.png" alt="" class="back-icon" />
 
     <div class="content">
-      <img src="./images/recording-steps/step_1.png" alt="" class="step">
-      <img src="./images/recording-steps/step_2.png" alt="" class="step">
+      <img @click="record" src="./images/recording-steps/step_1.png" alt="" class="step">
+      <img src="./images/recording-steps/step_2_invalid.png" alt="" class="step">
     </div>
   </div>
 </template>
 
 <script>
 export default {
+  methods: {
+    back() {
+      this.$router.back()
+    },
 
+    record() {
+      this.$router.push('/digital_human/record')
+    }
+  }
 }
 </script>
 

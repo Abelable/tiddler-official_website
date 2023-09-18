@@ -1,7 +1,7 @@
 <template>
   <div class="container">
     <img src="./images/home/bg_0.png" alt="" class="bg" />
-    <img src="./images/back.png" alt="" class="back-icon" />
+    <img @click="navBack" src="./images/back.png" alt="" class="back-icon" />
 
     <img src="./images/recording-notes/bg.png" alt="" class="header" />
 
@@ -61,7 +61,7 @@
       <p>我已阅读并同意 <span style="color: #3B75FF">《形象定制规则》</span></p>
     </div>
 
-    <div class="start-btn" :class="{ active: agree }">开始录制</div>
+    <div class="start-btn" :class="{ active: agree }" @click="navToRecord">开始录制</div>
   </div>
 </template>
 
@@ -73,6 +73,19 @@ export default {
       agree: false,
     };
   },
+
+  methods: {
+    navBack() {
+      this.$router.back()
+    },
+
+    navToRecord() {
+      if (!this.agree) {
+        return
+      }
+      this.$router.push('/digital_human/recording_steps')
+    }
+  }
 };
 </script>
 

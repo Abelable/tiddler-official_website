@@ -1,7 +1,7 @@
 <template>
   <div class="container">
     <img src="./images/home/bg_0.png" alt="" class="bg" />
-    <img src="./images/back.png" alt="" class="back-icon" />
+    <img @click="back" src="./images/back.png" alt="" class="back-icon" />
 
     <img src="./images/upload-notes/bg.png" alt="" class="header" />
 
@@ -17,16 +17,20 @@
       <img src="./images/upload-notes/note_4.png" alt="" class="note" />
     </div>
 
-    <div class="start-btn">下一步</div>
+    <div class="start-btn" @click="next">下一步</div>
   </div>
 </template>
 
 <script>
 export default {
-  data() {
-    return {
-    };
-  },
+  methods: {
+    back() {
+      this.$router.back()
+    },
+    next() {
+      this.$router.push('/digital_human/upload')
+    }
+  }
 };
 </script>
 
