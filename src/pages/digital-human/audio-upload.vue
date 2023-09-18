@@ -14,11 +14,13 @@
       <div class="box_g">
         <img src="./images/icons/audio.png" class="audio"/>
         <div class="p">音频时长需在2-5分钟，文件格式为MP3/WAV等</div>
+        <div class="file_name">{{fileName}}</div>
         <div class="btn">
           <Uploader class="uploader" :after-read="uploadPic" max-count="100"></Uploader>
           <img src="./images/icons/upload.png" class="upload"/>
           <span>上传音频</span>
         </div>
+        
       </div>
     </div>
     <div style="height:2rem;"></div>
@@ -43,14 +45,19 @@ export default {
   data() {
     return {
       agree:true,
+      fileName:'',
     };
   },
   created(){
 
   },
   methods:{
-    uploadPic(){
-      console.log('上传文件')
+    uploadPic(file){
+      Toast.loading({ message: '上传中...', duration: 0})
+      setTimeout(()=>{
+        this.fileName = file.file.name
+        Toast.clear()
+      },3000)
     },
     goBack(){
       this.$router.go(-1)
@@ -60,7 +67,15 @@ export default {
         Toast('请先阅读并同意《声音定制规则》')
         return false
       }
-      this.$router.push('/digital_human/audio_result')
+      if(!this.fileName){
+        Toast('请上传音频')
+        return false
+      }
+      Toast.loading({ message: '提交中...'})
+      setTimeout(()=>{
+        Toast.clear()
+        this.$router.push('/digital_human/audio_result')
+      },800)
     }
   }
 };
@@ -86,8 +101,9 @@ export default {
       background:#fff;margin:.3rem;border-radius:.08rem;padding:.3rem;
       .box_g{background:#FAFAFA;border-radius:.2rem;padding:.32rem .5rem .3rem .5rem;text-align:center;font-size: initial;
         .audio{width:1rem;height:1rem;}
-        .p{font-size:.24rem;color:#999;margin-top:.2rem;}
-        .btn{display:inline-block;background-image: linear-gradient(to right, #FD4851, #EF546B);font-size:.28rem;color:#fff;padding:.16rem .4rem;border-radius:.35rem;margin-top:.6rem;
+        .p{font-size:.24rem;color:#999;margin-top:.2rem;margin-bottom:.6rem;}
+        .file_name{font-size:.24rem;color:#999;margin-bottom:.2rem;white-space:nowrap;overflow: hidden;text-overflow: ellipsis;}
+        .btn{display:inline-block;background-image: linear-gradient(to right, #FD4851, #EF546B);font-size:.28rem;color:#fff;padding:.16rem .4rem;border-radius:.35rem;
           *{display:inline-block;vertical-align:middle;}
           .upload{width:.28rem;height:.28rem;margin-right:.08rem;}
         }
