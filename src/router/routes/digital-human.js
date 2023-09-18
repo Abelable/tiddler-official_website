@@ -64,6 +64,22 @@ const digitalHuman = [
     },
   },
   {
+    name: "digital_human_action_record",
+    path: "/digital_human/action_record",
+    component: () => import("@/pages/digital-human/action-record"),
+    meta: {
+      title: "录制动作库",
+    },
+  },
+  {
+    name: "digital_human_record_finish",
+    path: "/digital_human/record_finish",
+    component: () => import("@/pages/digital-human/record-finish"),
+    meta: {
+      title: "录制完成",
+    },
+  },
+  {
     name: "digital_human_audio_notes",
     path: "/digital_human/audio_notes",
     component: () => import("@/pages/digital-human/audio-notes"),
@@ -111,7 +127,6 @@ const digitalHuman = [
       title: "有播数字人",
     },
   },
-
 ];
 
 export default digitalHuman;
