@@ -50,23 +50,22 @@
       </div>
 
       <div class="video-list" v-if="curMenuIdx === 0">
-        <div class="video-item" v-for="(item,index) in videos" :key="index" v-show="curCategoryIdx == item.status || curCategoryIdx == 0" @click="goSetting(item,'video')">
+        <div class="video-item" v-for="(item,index) in mock_shuzhiren_list" :key="index" v-show="item.type == 'video' && (curCategoryIdx == item.status || curCategoryIdx == 0)" @click="goSetting(item)">
           <img :src="item.cover" alt="" class="video-cover">
           <div class="video-status success" v-if="item.status == 1">已入驻</div>
-          <div class="video-status fail" v-if="item.status == 2">
+          <div class="video-status fail" v-if="item.status == 2" @click.stop="noEnter('video')">
             <div>未入驻</div>
             <img src="./images/mine/question.png" alt="" class="tips-icon">
           </div>
           <div class="video-status doing" v-if="item.status == 3">制作中</div>
           <!-- <div class="action-num">动作库：3</div> -->
-          <div class="video-date">{{item.time}}</div>
+          <div class="video-date">{{parseTime(item.time,'{m}-{d} {h}:{i}')}}</div>
         </div>
       </div>
-
       <div class="voice-list" v-if="curMenuIdx === 1">
-        <div class="voice-item" v-for="(item,index) in audios" :key="index" v-show="curCategoryIdx == item.status || curCategoryIdx == 0" @click="goSetting(item,'audio')">
+        <div class="voice-item" v-for="(item,index) in mock_shuzhiren_list" :key="index" v-show="item.type == 'audio' && (curCategoryIdx == item.status || curCategoryIdx == 0)" @click="goSetting(item)">
           <div class="voice-status success" v-if="item.status == 1">已入驻</div>
-          <div class="voice-status fail" v-if="item.status == 2">
+          <div class="voice-status fail" v-if="item.status == 2" @click.stop="noEnter('audio')">
             <div>未入驻</div>
             <img src="./images/mine/question.png" alt="" class="tips-icon">
           </div>
@@ -74,7 +73,7 @@
           <div class="voice-name">{{item.name}}</div>
           <div class="voice-identity">{{item.label}}</div>
           <img src="./images/voice-wave.png" alt="" class="voice-wave">
-          <div class="voice-date">{{item.time}}</div>
+          <div class="voice-date">{{parseTime(item.time,'{m}-{d} {h}:{i}')}}</div>
         </div>
       </div>
     </div>
@@ -82,30 +81,39 @@
 </template>
 
 <script>
-import { Toast } from "vant";
+import { Toast, Dialog } from "vant";
 export default {
   data() {
     return {
       curMenuIdx: 0,
       curCategoryIdx: 0,
-      videos:[],
-      audios:[],
+      mock_shuzhiren_list:[]
     };
   },
   activated(){
     this.getData()
   },
   methods:{
+    noEnter(type){
+      let message = type == 'video' ? '当前上传视频不符合数字人训练条件': '当前音频训练时长过短，不符合克隆音频条件'
+      Dialog.alert({
+        title: '未入驻',
+        message,
+      }).then(() => {
+        // on close
+      });
+    },
     getData(){
-      let detail_videos = [{
+      let default_list = [{
         id:1,
         cover:'https://img.ubo.vip/temp/digital_human/video-1.jpg',
         sy_id:'1',
         avatar:'https://img.ubo.vip/temp/digital_human/avatar1.png',
         name:'通艳梁',
         label:'中文-普通话',
-        time:'06-20 06:33',
+        time:'1695035314000',
         status:'1',
+        type:'video',
       },{
         id:2,
         cover:'https://img.ubo.vip/temp/digital_human/video-2.jpg',
@@ -113,8 +121,9 @@ export default {
         avatar:'https://img.ubo.vip/temp/digital_human/avatar2.png',
         name:'邵谦',
         label:'中文-普通话',
-        time:'06-20 06:33',
+        time:'1695035314000',
         status:'2',
+        type:'video',
       },{
         id:3,
         cover:'https://img.ubo.vip/temp/digital_human/video-1.jpg',
@@ -122,53 +131,84 @@ export default {
         avatar:'https://img.ubo.vip/temp/digital_human/avatar3.png',
         name:'蓟玲元',
         label:'中文-普通话',
-        time:'06-20 06:33',
+        time:'1695035314000',
         status:'3',
-      }]
-      let detail_audios = [{
-        id:1,
+        type:'video',
+      },{
+        id:4,
         cover:'https://img.ubo.vip/temp/digital_human/video-1.jpg',
         sy_id:'4',
         avatar:'https://img.ubo.vip/temp/digital_human/avatar4.png',
         name:'元彩仁',
         label:'中文-普通话',
-        time:'06-20 06:33',
+        time:'1695035314000',
         status:'1',
+        type:'audio',
       },{
-        id:2,
+        id:5,
         cover:'https://img.ubo.vip/temp/digital_human/video-1.jpg',
         sy_id:'5',
         avatar:'https://img.ubo.vip/temp/digital_human/avatar5.png',
         name:'初辉',
         label:'中文-普通话',
-        time:'06-20 06:33',
+        time:'1695035314000',
         status:'2',
+        type:'audio',
       }]
-      let mock_videos = JSON.parse(window.localStorage.getItem('mock_videos') || '[]')
-      let mock_audios = JSON.parse(window.localStorage.getItem('mock_audios') || '[]')
-      if(mock_videos.length == 0){
-        this.videos = detail_videos
-        window.localStorage.setItem('mock_videos',JSON.stringify(this.videos))
+
+      let mock_shuzhiren_list = JSON.parse(window.localStorage.getItem('mock_shuzhiren_list') || '[]')
+      if(mock_shuzhiren_list.length == 0){
+        this.mock_shuzhiren_list = default_list
+        window.localStorage.setItem('mock_shuzhiren_list',JSON.stringify(this.mock_shuzhiren_list))
       }else{
-        this.videos = mock_videos || []
-      }
-      if(mock_audios.length == 0){
-        this.audios = detail_audios
-        window.localStorage.setItem('mock_audios',JSON.stringify(this.audios))
-      }else{
-        this.audios = mock_audios || []
+        this.mock_shuzhiren_list = mock_shuzhiren_list || []
       }
     },
-    goSetting(item,type){
+    goSetting(item){
       if(item.status != 1) {
         Toast('请先入驻')
         return false
       }
-      if(type=='video'){
-        this.$router.push('/digital_human/setting_va?id='+item.id+'&video=1')
-      }else{
-        this.$router.push('/digital_human/setting_va?id='+item.id)
+      this.$router.push('/digital_human/setting_va?id='+item.id)
+    },
+    parseTime(time, cFormat) {
+      if (arguments.length === 0 || !time) {
+        return null
       }
+      const format = cFormat || '{y}-{m}-{d} {h}:{i}:{s}'
+      let date
+      if (typeof time === 'object') {
+        date = time
+      } else {
+        if ((typeof time === 'string')) {
+          if ((/^[0-9]+$/.test(time))) {
+            time = parseInt(time)
+          } else {
+            time = time.replace(new RegExp(/-/gm), '/')
+          }
+        }
+
+        if ((typeof time === 'number') && (time.toString().length === 10)) {
+          time = time * 1000
+        }
+        date = new Date(time)
+      }
+      const formatObj = {
+        y: date.getFullYear(),
+        m: date.getMonth() + 1,
+        d: date.getDate(),
+        h: date.getHours(),
+        i: date.getMinutes(),
+        s: date.getSeconds(),
+        a: date.getDay()
+      }
+      const time_str = format.replace(/{([ymdhisa])+}/g, (result, key) => {
+        const value = formatObj[key]
+        // Note: getDay() returns 0 on Sunday
+        if (key === 'a') { return ['日', '一', '二', '三', '四', '五', '六'][value ] }
+        return value.toString().padStart(2, '0')
+      })
+      return time_str
     }
   }
 };

@@ -169,7 +169,7 @@ export default {
         Toast('请先点击完成按钮，再提交')
         return false
       }
-      Toast('当前音频训练时长果断，不符合克隆音频条件')
+      Toast('当前音频训练时长过短，不符合克隆音频条件')
       // Toast.loading({ message: '提交中...'})
       // setTimeout(()=>{
       //   Toast.clear()

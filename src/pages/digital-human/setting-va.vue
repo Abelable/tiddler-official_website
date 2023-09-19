@@ -3,7 +3,7 @@
     <img src="./images/icons/back.png" class="back" @click="goBack" />
     <div class="header">
       
-      {{isVideo?'视频设置':'音频设置'}}
+      {{detailObj.type == 'video'?'视频设置':'音频设置'}}
       <span class="right" @click="delFn">
         取消入驻
       </span>
@@ -14,13 +14,13 @@
         <div class="flex1">
           <div class="title">
             {{detailObj.name}}
-            <!-- <div class="btn flex" v-if="isVideo">关联动作库</div> -->
+            <!-- <div class="btn flex" v-if="detailObj.type == 'video'">关联动作库</div> -->
           </div>
           <div class="desc flex">
             <div class="label">
               <img src="./images/icons/audio2.png"><span>{{detailObj.label}}</span>
             </div>
-            <div class="refresh" @click="$router.push('/digital_human/audio_change?id='+id+'&video='+(isVideo?'1':'0'))">
+            <div class="refresh" @click="$router.push('/digital_human/audio_change?id='+id)">
               <img src="./images/icons/refresh.png"><span>更改</span>
             </div>
           </div>
@@ -36,7 +36,7 @@
         <div class="textarea">{{curTxt.obj.txt}}</div>
         <div class="flex create_desc">
           <div class="time">
-            <img src="./images/icons/time.png" /><span>{{curTxt.obj.time}}</span>
+            <img src="./images/icons/time.png" /><span>{{changeTime(curTxt.obj.time)}}</span>
           </div>
           <div class="refresh">
             <span>{{curTxt.obj.txt.length}}/800</span>
@@ -44,10 +44,10 @@
             <span class="b"  @click="huanFn">换一换</span>
           </div>
         </div>
-        <div class="btn flex">{{isVideo?'生成视频':'生成语音'}}</div>
+        <div class="btn flex" @click="saveFn">{{detailObj.type == 'video'?'生成视频':'生成语音'}}</div>
         <div class="notice">仅供测试使用，生成音频将使用音频时长权益</div>
       </div>
-      <div class="box" v-if="!isVideo">
+      <div class="box" v-if="detailObj.type != 'video'">
         <div class="title">生成音频将消耗音频时长权益</div>
         <div class="quanyis">
           <div class="quanyi">
@@ -59,51 +59,36 @@
           </div>
         </div>
         <div class="audio_items">
-          <div class="audio_item">
-            <div class="p1">大家好，今天在秦始皇...</div>
-            <div class="p2"><span>00:03</span>/00:59</div>
-            <img src="./images/icons/pause2.png" class="btn" />
-            <div class="slider">
-              <div class="slider_bar"></div>
-            </div>
-            <div class="p3">06-20 06:33</div>
-          </div>
-          <div class="audio_item">
-            <div class="uploading_mask flex">
+          <div class="audio_item" v-for="(item,index) in mock_shipin_list" :key="index" v-show="item.pid == id">
+            <div class="uploading_mask flex" v-if="item.status == 0">
               <div>
                 <Loading size="48" color="#7DDDE0" />
-                <div class="t">25%</div>
+                <div class="t">{{item.progress}}%</div>
                 <div class="t">生成中...</div>
               </div>
             </div>
-            <div class="p1">大家好，今天在秦始皇...</div>
-            <div class="uploading"></div>
+            <div class="p1">{{item.content}}</div>
+            <div class="uploading" v-if="item.status == 0"></div>
+            <div class="p2" v-else>
+              <!-- <span class="green">00:03</span>
+              <span>/</span> -->
+              <span>{{changeTime(item.duration)}}</span>
+            </div>
+            <img src="./images/icons/pause2.png" v-if="item.status == 1 && playId == item.id" @click="pauseFn()" class="btn" />
+            <img src="./images/icons/play2.png" v-if="item.status == 1 && playId != item.id" @click="playFn(item)" class="btn" />
+            
+            <!-- <div class="slider">
+              <div class="slider_bar"></div>
+            </div> -->
             <div class="audio_anim">
               <img src="./images/icons/audio_anim.png" />
             </div>
-            <div class="p3">06-20 06:33</div>
+            <div class="p3">{{parseTime(item.time,'{m}-{d} {h}:{i}')}}</div>
           </div>
-          <div class="audio_item">
-            <div class="p1">大家好，今天在秦始皇...</div>
-            <div class="p2">00:59</div>
-            <img src="./images/icons/play2.png" class="btn" />
-            <div class="audio_anim">
-              <img src="./images/icons/audio_anim.png" />
-            </div>
-            <div class="p3">06-20 06:33</div>
-          </div>
-          <div class="audio_item">
-            <div class="p1">大家好，今天在秦始皇...</div>
-            <div class="p2">00:59</div>
-            <img src="./images/icons/play2.png" class="btn" />
-            <div class="audio_anim">
-              <img src="./images/icons/audio_anim.png" />
-            </div>
-            <div class="p3">06-20 06:33</div>
-          </div>
+          
         </div>
       </div>
-      <div class="box video" v-if="isVideo">
+      <div class="box video" v-if="detailObj.type == 'video'">
         <div class="title">生成视频将消耗视频及音频时长权益</div>
         <div class="quanyis flex">
           <div class="flex1">
@@ -126,80 +111,125 @@
           </div>
         </div>
         <div class="video_items">
-          <div class="video_item">
-            <div class="bg" ></div>
-            <img src="./images/icons/pause2.png" class="btn" />
-            <div class="p3">06-20 06:33</div>
-          </div>
-          <div class="video_item">
-            <div class="uploading_mask flex">
+          <div class="video_item" v-for="(item,index) in mock_shipin_list" :key="index" v-show="item.pid == id">
+            <div class="uploading_mask flex" v-if="item.status == 0">
               <div>
                 <Loading size="48" color="#7DDDE0" />
-                <div class="t">25%</div>
+                <div class="t">{{item.progress}}%</div>
                 <div class="t">生成中...</div>
               </div>
             </div>
-            <div class="bg" ></div>
-            <div class="p3">06-20 06:33</div>
-          </div>
-          <div class="video_item">
-            <div class="bg" ></div>
-            <img src="./images/icons/play2.png" class="btn" />
-            <div class="p3">06-20 06:33</div>
-          </div>
-          <div class="video_item">
-            <div class="bg" ></div>
-            <img src="./images/icons/play2.png" class="btn" />
-            <div class="p3">06-20 06:33</div>
+            <div class="bg" :style="'background:url('+item.cover+') no-repeat;'"></div>
+            <video class="video" :ref="'video'+item.id" autoplay :src="item.url" v-if="item.status == 1&&item.videoShow"></video>
+            <img src="./images/icons/pause2.png" v-if="item.status == 1 && item.videoShow" class="btn" @click="pauseVideo(item)" />
+            <img src="./images/icons/play2.png" v-if="item.status == 1 && !item.videoShow" class="btn"  @click="playVideo(item)" />
+            <div class="p3">{{parseTime(item.time,'{m}-{d} {h}:{i}')}}</div>
           </div>
         </div>
       </div>
-      
     </div>
+    <audio controls :src="playUrl" ref="audio" style="position:fixed;left:0;bottom:0;width:1px;height:1px;opacity:0;"></audio>
   </div>
 </template>
 
 <script>
-import { Loading, Dialog } from "vant";
+import { Loading, Dialog, Toast } from "vant";
 export default {
   components: { Loading },
   data() {
     return {
       id:'',
-      isVideo:false,
       detailObj:{},
       curTxt:{
         index:0,
         obj:{}
       },
       txts:[
-        {txt:'两个同龄的年轻人同时受雇于一家店铺，并且拿同样的薪水。',time:'0:10'},
-        {txt:'可是一段时间后，叫阿诺德的那个小伙子青云直上，而那个叫布鲁诺的小伙子却仍在原地踏步。',time:'0:15'},
-        {txt:'布鲁诺很不满意老板的不公正待遇。终于有一天他到老板那儿发牢骚了。',time:'0:11'},
-        {txt:'老板一边耐心地听着他的抱怨，一边在心里盘算着怎样向他解释清楚他和阿诺德之间的差别。',time:'0:14'},
-        {txt:'“布鲁诺先生，”老板开口说话了，“您现在到集市上去一下，看看今天早上有什么卖的。',time:'0:13'},
+        {txt:'两个同龄的年轻人同时受雇于一家店铺，并且拿同样的薪水。',time:10},
+        {txt:'可是一段时间后，叫阿诺德的那个小伙子青云直上，而那个叫布鲁诺的小伙子却仍在原地踏步。',time:15},
+        {txt:'布鲁诺很不满意老板的不公正待遇。终于有一天他到老板那儿发牢骚了。',time:11},
+        {txt:'老板一边耐心地听着他的抱怨，一边在心里盘算着怎样向他解释清楚他和阿诺德之间的差别。',time:14},
+        {txt:'“布鲁诺先生，”老板开口说话了，“您现在到集市上去一下，看看今天早上有什么卖的。',time:13},
       ],
+      mock_shipin_list:[],
+      playId:'',
+      playUrl:'',
     };
   },
   created(){
-    this.isVideo = this.$route.query.video == 1
     this.id = this.$route.query.id
-    let data = []
-    if(this.isVideo == 1){
-      data = JSON.parse(window.localStorage.getItem('mock_videos') || '[]')
-    }else{
-      data = JSON.parse(window.localStorage.getItem('mock_audios') || '[]')
-    }
-    for(var i=0;i<data.length;i++){
-      if(data[i].id == this.id){
-        this.detailObj = data[i]
-        break;
-      }
-    }
     this.curTxt.index = 0
     this.curTxt.obj = this.txts[this.curTxt.index]
+    
+    this.setIntervalFn()
+    this.getData()
+  },
+  mounted(){
+    this.$refs.audio.addEventListener('ended',()=>{
+      this.pauseFn()
+    })
+  },
+  destroyed(){
+    clearInterval(this.intervalTime)
   },
   methods:{
+    pauseVideo(item){
+      item.videoShow = false
+    },
+    playVideo(item){
+      item.videoShow = true
+    },
+    playFn(item){
+      this.pauseFn()
+      setTimeout(()=>{
+        this.playId = item.id
+        this.playUrl = item.url
+        setTimeout(()=>{
+          this.$refs.audio.play()
+        })
+      })
+    },
+    pauseFn(){
+      this.playId = ''
+      this.playUrl = ''
+    },
+    getRandom(){
+      return Math.floor(Math.random()*10)+10
+    },
+    setIntervalFn(){
+      this.intervalTime = setInterval(()=>{
+        let mock_shipin_list = [...this.mock_shipin_list]
+        let hasChange = false
+        for(var i=0;i<mock_shipin_list.length;i++){
+          if(mock_shipin_list[i].status == 0){
+            let progress = mock_shipin_list[i].progress + this.getRandom()
+            mock_shipin_list[i].progress = progress > 100 ? 100 : progress
+            if(mock_shipin_list[i].progress>=100){
+              mock_shipin_list[i].status = 1
+            }
+            hasChange = true
+          }
+        }
+        if(hasChange){
+          this.mock_shipin_list = mock_shipin_list
+          window.localStorage.setItem('mock_shipin_list',JSON.stringify(this.mock_shipin_list))
+        }
+      },2000)
+    },
+    getData(){
+      let mock_shuzhiren_list = JSON.parse(window.localStorage.getItem('mock_shuzhiren_list') || '[]')
+      for(var i=0;i<mock_shuzhiren_list.length;i++){
+        if(mock_shuzhiren_list[i].id == this.id){
+          this.detailObj = mock_shuzhiren_list[i]
+          break;
+        }
+      }
+      let mock_shipin_list = JSON.parse(window.localStorage.getItem('mock_shipin_list') || '[]')
+      for(var j=0;j<mock_shipin_list.length;j++){
+        mock_shipin_list[j].videoShow = false
+      }
+      this.mock_shipin_list = mock_shipin_list || []
+    },
     huanFn(){
       let index = this.curTxt.index + 1
       if(index > this.txts.length-1) index = 0
@@ -219,9 +249,86 @@ export default {
         // on cancel
       });
     },
+    saveFn(){
+      Toast.loading({ message: '提交中...'})
+      setTimeout(()=>{
+        Toast.clear()
+        this.mock_shipin_list.unshift({
+          id:new Date().getTime(),
+          pid:this.detailObj.id,
+          content:this.curTxt.obj.txt,
+          cover:this.detailObj.cover,
+          url:this.detailObj.type == 'video'?'https://img.ubo.vip/videos/2020/12/21/fc750684d71a2ece6c1ae616a95e57ad.mp4':'https://img.ubo.vip/temp/digital_human/2.wav',
+          time:Date.parse(new Date()),
+          duration:this.curTxt.obj.time,
+          type:this.detailObj.type,
+          status:0,
+          progress:0,
+          sy_id:this.detailObj.sy_id,
+          avatar:this.detailObj.avatar,
+          name:this.detailObj.name,
+          label:this.detailObj.label,
+          videoShow:false,
+        })
+        window.localStorage.setItem('mock_shipin_list',JSON.stringify(this.mock_shipin_list))
+      },1000)
+    },
     goBack(){
       this.$router.go(-1)
     },
+    add0(V){
+			return V < 10 ? '0' + V : V
+		},
+		changeTime(time){
+			let T = Number(time)
+			let h = Math.floor(T/3600)
+			let m = Math.floor((T - h * 3600) / 60)
+			let s = T%60
+      if(h>0){
+        return this.add0(h) + ':' + this.add0(m) + ':' + this.add0(s)
+      }else{
+        return this.add0(m) + ':' + this.add0(s)
+      }
+		},
+    parseTime(time, cFormat) {
+      if (arguments.length === 0 || !time) {
+        return null
+      }
+      const format = cFormat || '{y}-{m}-{d} {h}:{i}:{s}'
+      let date
+      if (typeof time === 'object') {
+        date = time
+      } else {
+        if ((typeof time === 'string')) {
+          if ((/^[0-9]+$/.test(time))) {
+            time = parseInt(time)
+          } else {
+            time = time.replace(new RegExp(/-/gm), '/')
+          }
+        }
+
+        if ((typeof time === 'number') && (time.toString().length === 10)) {
+          time = time * 1000
+        }
+        date = new Date(time)
+      }
+      const formatObj = {
+        y: date.getFullYear(),
+        m: date.getMonth() + 1,
+        d: date.getDate(),
+        h: date.getHours(),
+        i: date.getMinutes(),
+        s: date.getSeconds(),
+        a: date.getDay()
+      }
+      const time_str = format.replace(/{([ymdhisa])+}/g, (result, key) => {
+        const value = formatObj[key]
+        // Note: getDay() returns 0 on Sunday
+        if (key === 'a') { return ['日', '一', '二', '三', '四', '五', '六'][value ] }
+        return value.toString().padStart(2, '0')
+      })
+      return time_str
+    }
   }
 };
 </script>
@@ -304,7 +411,7 @@ export default {
             .p1{line-height:.34rem;font-size:.24rem;color:#575B66;white-space:nowrap;overflow: hidden;text-overflow: ellipsis;text-align:left;font-weight:bold;}
             .uploading{height:1.3rem;}
             .p2{margin-top:.2rem;line-height:.28rem;font-size:.2rem;color:#999;margin-top:.2rem;
-              span{color:#48AADB;}
+              .green{color:#48AADB;}
             }
             .btn{width:.52rem;height:.52rem;margin-top:.32rem;}
             .slider{width:100%;height:.08rem;border-radius:.04rem;background:#DAEDFF;margin-top:.3rem;margin-bottom:.16rem;
@@ -321,9 +428,10 @@ export default {
             .uploading_mask{position:absolute;left:0;top:0;right:0;bottom:0;background:rgba(34, 33, 55, .4);border-radius:.16rem;z-index:2;text-align:center;
               .t{font-size:.24rem;color:#fff;margin-top:.1rem;}
             }
-            .bg{background-size:cover!important;width:100%;height:100%;border-radius:.16rem;background:url(./images/temp/video-1.jpg) no-repeat center;}
-            .btn{width:.52rem;height:.52rem;position:absolute;z-index:1;left:50%;top:50%;margin-left:-.26rem;margin-top:-.26rem;}
-            .p3{text-align:left;font-size:.24rem;color:#fff;line-height:.34rem;position:absolute;z-index:1;left:.18rem;bottom:.18rem;right:.18rem;}
+            .bg{background-size:cover!important;width:100%;height:100%;border-radius:.16rem;}
+            .video{width:100%;height:100%;border-radius:.16rem;position:absolute;left:0;top:0;z-index:1;object-fit:cover;}
+            .btn{width:.52rem;height:.52rem;position:absolute;z-index:2;left:50%;top:50%;margin-left:-.26rem;margin-top:-.26rem;}
+            .p3{text-align:left;font-size:.24rem;color:#fff;line-height:.34rem;position:absolute;z-index:2;left:.18rem;bottom:.18rem;right:.18rem;}
           }
         }
 

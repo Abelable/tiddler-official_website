@@ -44,8 +44,7 @@ export default {
       curMenuIdx: 0,
       mock_sy:[],
       curId:'',
-      video:false,
-      data: [],
+      mock_shuzhiren_list: [],
       playId:'',
       playUrl:''
     };
@@ -145,27 +144,31 @@ export default {
     }
 
     this.id = this.$route.query.id
-    this.isVideo = this.$route.query.video == 1
-    if(this.isVideo == 1){
-      this.data = JSON.parse(window.localStorage.getItem('mock_videos') || '[]')
-    }else{
-      this.data = JSON.parse(window.localStorage.getItem('mock_audios') || '[]')
-    }
+    this.mock_shuzhiren_list = JSON.parse(window.localStorage.getItem('mock_shuzhiren_list') || '[]')
     let detailObj = {}
-    for(var i=0;i<this.data.length;i++){
-      if(this.data[i].id == this.id){
-        detailObj = this.data[i]
+    for(var i=0;i<this.mock_shuzhiren_list.length;i++){
+      if(this.mock_shuzhiren_list[i].id == this.id){
+        detailObj = this.mock_shuzhiren_list[i]
         break;
       }
     }
     this.curId = detailObj.sy_id
+    
+  },
+  mounted(){
+    this.$refs.audio.addEventListener('ended',()=>{
+      this.pauseFn()
+    })
   },
   methods:{
     playFn(item){
-      this.playId = item.id
-      this.playUrl = item.url
+      this.pauseFn()
       setTimeout(()=>{
-        this.$refs.audio.play()
+        this.playId = item.id
+        this.playUrl = item.url
+        setTimeout(()=>{
+          this.$refs.audio.play()
+        })
       })
     },
     pauseFn(){
@@ -175,19 +178,15 @@ export default {
     syFn(item){
       if(item.id == this.curId) return false
       this.curId = item.id
-      for(var i=0;i<this.data.length;i++){
-        if(this.data[i].id == this.id){
-          this.data[i].sy_id = item.id
-          this.data[i].avatar = item.avatar
-          this.data[i].name = item.name
-          this.data[i].label = item.label
+      for(var i=0;i<this.mock_shuzhiren_list.length;i++){
+        if(this.mock_shuzhiren_list[i].id == this.id){
+          this.mock_shuzhiren_list[i].sy_id = item.id
+          this.mock_shuzhiren_list[i].avatar = item.avatar
+          this.mock_shuzhiren_list[i].name = item.name
+          this.mock_shuzhiren_list[i].label = item.label
         }
       }
-      if(this.isVideo == 1){
-        window.localStorage.setItem('mock_videos',JSON.stringify(this.data))
-      }else{
-        window.localStorage.setItem('mock_audios',JSON.stringify(this.data))
-      }
+      window.localStorage.setItem('mock_shuzhiren_list',JSON.stringify(this.mock_shuzhiren_list))
     },
     goBack(){
       this.$router.go(-1)

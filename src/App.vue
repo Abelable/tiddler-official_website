@@ -1,6 +1,8 @@
 <template>
   <div id="app">
-    <router-view></router-view>
+    <keep-alive :include="['digital_human_index']">
+      <router-view></router-view>
+    </keep-alive>
   </div>
 </template>
 
@@ -8,6 +10,7 @@
 import axios from 'axios'
 export default {
   name: "App",
+
   created() {
     axios({
       method: 'get',
