@@ -4,7 +4,7 @@ const supplier = [
     path: "/supplier",
     component: () => import("@/pages/supplier/index"),
     meta: {
-      title: "瑞播商家入驻",
+      title: "有播商家入驻",
       requireAuth: true,
     },
   },
