@@ -1,68 +1,96 @@
-import axios from 'axios'
-import qs from 'qs'
-import { Toast } from 'vant'
-import { env } from '../../utils/config'
-import sign from './sign'
+import axios from "axios";
+import qs from "qs";
+import { Toast } from "vant";
+import { env } from "../../utils/config";
+import sign from "./sign";
 class Base {
   constructor() {
     switch (env) {
-      case 'pro':
-        this.mmsUrl = 'https://mms.youboi.com'
-        this.liveUrl = 'https://youbojia.youboi.com'
-        break
+      case "pro":
+        this.mmsUrl = "https://mms.youboi.com";
+        this.liveUrl = "https://youbojia.youboi.com";
+        this.yb_mmsUrl = "yb_mms_url";
+        this.yb_liveUrl = "tb_live_url";
+        break;
 
-      case 'dev':
-        this.mmsUrl = 'https://mms.youboe.com'
-        this.liveUrl = 'https://youbojia.youboe.com'
-        break
+      case "dev":
+        this.mmsUrl = "https://mms.youboe.com";
+        this.liveUrl = "https://youbojia.youboe.com";
+        break;
     }
   }
 
   async get(url, params, success, fail) {
-    return await this._axios({ url, params, success, fail })
+    return await this._axios({ url, params, success, fail });
   }
 
   async post(url, data, success, fail) {
-    return await this._axios({ method: 'POST', url, data, success, fail })
+    return await this._axios({ method: "POST", url, data, success, fail });
   }
 
-  async _axios({ method = 'GET', url, params, data, success, fail }) {
-    axios.defaults.headers['platform'] = 'official_account'
-    axios.defaults.headers['application_key'] = window.location.href.includes('sm') ? 'cjjs_h5' : 'ybj_h5'
-    if (method === 'POST') axios.defaults.headers['Content-Type'] = 'application/x-www-form-urlencoded'
-    const token = localStorage.getItem('token')
-    if (token) axios.defaults.headers['token'] = token
+  async _axios({ method = "GET", url, params, data, success, fail }) {
+    axios.defaults.headers["platform"] = "official_account";
+    axios.defaults.headers["application_key"] = window.location.href.includes(
+      "sm"
+    )
+      ? "cjjs_h5"
+      : "ybj_h5";
+    if (method === "POST")
+      axios.defaults.headers["Content-Type"] =
+        "application/x-www-form-urlencoded";
 
-    let res = await axios({ method, url, params, 
-      data: (method === 'POST' && url.indexOf(this.liveUrl) >= 0) ? qs.stringify(sign(data)) : qs.stringify(data),
+    if (url.includes(this.yb_liveUrl)) {
+      url = `${this.liveUrl}/shop/index?url_path=/index.php&r=${url.replace(
+        this.yb_liveUrl,
+        ""
+      )}`;
+    }
+    if (url.includes(this.yb_mmsUrl)) {
+      url = `${this.liveUrl}/shop/index?url_path=${url.replace(
+        this.yb_mmsUrl,
+        ""
+      )}`;
+    }
+
+    const token = localStorage.getItem("token");
+    if (token) axios.defaults.headers["token"] = token;
+
+    let res = await axios({
+      method,
+      url,
+      params,
+      data:
+        method === "POST" && url.indexOf(this.liveUrl) >= 0
+          ? qs.stringify(sign(data))
+          : qs.stringify(data),
     }).catch(() => {
-      localStorage.removeItem('token')
-      Toast('服务繁忙, 请重试')
-    })
+      localStorage.removeItem("token");
+      Toast("服务繁忙, 请重试");
+    });
 
     if (res) {
       if ([200, 201, 204].includes(res.status)) {
         if ([200, 1001].includes(res.data.code)) {
-          if (success) success(res.data.data)
-          else return res.data.data
+          if (success) success(res.data.data);
+          else return res.data.data;
         } else if ([4040, 0].includes(res.data.code)) {
           if (fail) {
-            fail(res)
+            fail(res);
           } else {
-            localStorage.removeItem('token')
-            Toast('身份已失效，请重新点击链接进入')
-            return false
+            localStorage.removeItem("token");
+            Toast("身份已失效，请重新点击链接进入");
+            return false;
           }
         } else {
-          fail ? fail(res) : Toast(res.data.message)
-          return false
+          fail ? fail(res) : Toast(res.data.message);
+          return false;
         }
       } else {
-        Toast(res.errMsg)
-        return false
+        Toast(res.errMsg);
+        return false;
       }
     }
   }
 }
 
-export default Base
+export default Base;

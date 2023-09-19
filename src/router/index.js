@@ -1,4 +1,5 @@
 import Router from 'vue-router'
+import routes from './routes/index'
 
 const router = new Router({
   routes: [
@@ -25,6 +26,7 @@ const router = new Router({
       path: '/auth',
       component: () => import('../pages/auth/index')
     },
+    ...routes
   ],
   scrollBehavior() {
     return { x: 0, y: 0 }
