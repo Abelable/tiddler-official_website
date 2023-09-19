@@ -162,7 +162,7 @@
 </template>
 
 <script>
-import { Popup, Area, TreeSelect, Toast } from 'vant';
+import { Popup, Area, TreeSelect, Toast } from "vant";
 import Uploader from "@/components/Uploader";
 import { areaList } from "@vant/area-data";
 import { mapState } from "vuex";
@@ -212,10 +212,10 @@ export default {
 
   async created() {
     this.categoryIdx = this.$route.query.categoryIdx || 0;
-    Toast.loading({ message: '加载中...'})
+    Toast.loading({ message: "加载中..." });
     await this.setRegionOptions();
     await this.setSupplierInfo();
-    Toast.clear()
+    Toast.clear();
   },
 
   methods: {
@@ -226,44 +226,46 @@ export default {
         merchants_shop_infomation,
       } = (await supplierService.getSupplierInfo()) || {};
 
-      this.categoryIdx = this.categoryList.findIndex(
-        (item) => item.value == merchants_shop_infomation.shop_categoryMain
-      );
+      if (merchants_steps_fields) {
+        this.categoryIdx = this.categoryList.findIndex(
+          (item) => item.value == merchants_shop_infomation.shop_categoryMain
+        );
 
-      const {
-        company_name,
-        company_adress,
-        contactPhone,
-        contactEmail,
-        zhizhao,
-        shop_recruitment,
-        contactName,
-        personalNo,
-        idcard_front,
-        idcard_reverse,
-        handheld_idcard,
-      } = merchants_steps_fields;
-      this.shopName = company_name;
-      this.addressDetail = company_adress;
-      this.mobile = contactPhone;
-      this.email = contactEmail;
-      this.businessPic = zhizhao;
-      this.coverPic = shop_recruitment;
-      this.name = contactName;
-      this.idCardNum = personalNo;
-      this.cardFrontPic = idcard_front;
-      this.cardBackendPic = idcard_reverse;
-      this.holdCardPic = handheld_idcard;
+        const {
+          company_name,
+          company_adress,
+          contactPhone,
+          contactEmail,
+          zhizhao,
+          shop_recruitment,
+          contactName,
+          personalNo,
+          idcard_front,
+          idcard_reverse,
+          handheld_idcard,
+        } = merchants_steps_fields;
+        this.shopName = company_name;
+        this.addressDetail = company_adress;
+        this.mobile = contactPhone;
+        this.email = contactEmail;
+        this.businessPic = zhizhao;
+        this.coverPic = shop_recruitment;
+        this.name = contactName;
+        this.idCardNum = personalNo;
+        this.cardFrontPic = idcard_front;
+        this.cardBackendPic = idcard_reverse;
+        this.holdCardPic = handheld_idcard;
 
-      const { province, city, district } = seller_shop_info;
-      this.regionDesc = `${
-        this.provinceList.find((item) => item.id == province).name
-      } ${this.cityList.find((item) => item.id == city).name} ${
-        this.countyList.find((item) => item.id == district).name
-      }`;
-      this.provinceId = province;
-      this.cityId = city;
-      this.countyId = district;
+        const { province, city, district } = seller_shop_info;
+        this.regionDesc = `${
+          this.provinceList.find((item) => item.id == province).name
+        } ${this.cityList.find((item) => item.id == city).name} ${
+          this.countyList.find((item) => item.id == district).name
+        }`;
+        this.provinceId = province;
+        this.cityId = city;
+        this.countyId = district;
+      }
     },
 
     async setRegionOptions() {
