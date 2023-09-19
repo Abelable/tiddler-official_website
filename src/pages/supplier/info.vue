@@ -51,12 +51,17 @@
     <div class="card">
       <div class="uploader-wrap">
         <Uploader
-          :defaultImg="require('./images/info/business-uploader-default.png')"
+          :defaultImg="
+            businessPic ||
+              require('./images/info/business-uploader-default.png')
+          "
           desc="点击上传营业执照"
           @finish="setBusinessPic"
         />
         <Uploader
-          :defaultImg="require('./images/info/uploader-default.png')"
+          :defaultImg="
+            coverPic || require('./images/info/uploader-default.png')
+          "
           desc="点击上传店招或办公场地"
           @finish="setCoverPic"
         />
@@ -90,20 +95,27 @@
     <div class="card">
       <div class="uploader-wrap">
         <Uploader
-          :defaultImg="require('./images/info/card-front-uploader-default.png')"
+          :defaultImg="
+            cardFrontPic ||
+              require('./images/info/card-front-uploader-default.png')
+          "
           desc="点击上传身份证正面"
           @finish="setCardFrontPic"
         />
         <Uploader
           :defaultImg="
-            require('./images/info/card-backend-uploader-default.png')
+            cardBackendPic ||
+              require('./images/info/card-backend-uploader-default.png')
           "
           desc="点击上传身份证反面"
           @finish="setCardBackendPic"
         />
         <Uploader
           style="margin-top: 0.3rem;"
-          :defaultImg="require('./images/info/hold-card-uploader-default.png')"
+          :defaultImg="
+            holdCardPic ||
+              require('./images/info/hold-card-uploader-default.png')
+          "
           desc="点击上传手持身份证照片"
           @finish="setHoldCardPic"
         />
@@ -116,7 +128,9 @@
     <div class="category-selector row between">
       <div class="label">选择类目</div>
       <div class="content row" @click="categoryPickerPopupVisible = true">
-        <div>{{ categoryList[categoryIdx].text }}</div>
+        <div>
+          {{ categoryList.length ? categoryList[categoryIdx].text : "" }}
+        </div>
         <img class="arrow" src="./images/info/arrow.png" alt="" />
       </div>
     </div>
@@ -148,7 +162,7 @@
 </template>
 
 <script>
-import { Popup, Area, TreeSelect, Toast } from "vant";
+import { Popup, Area, TreeSelect, Toast } from 'vant';
 import Uploader from "@/components/Uploader";
 import { areaList } from "@vant/area-data";
 import { mapState } from "vuex";
@@ -197,8 +211,11 @@ export default {
   },
 
   async created() {
-    this.categoryIdx = this.$route.query.categoryIdx;
+    this.categoryIdx = this.$route.query.categoryIdx || 0;
+    Toast.loading({ message: '加载中...'})
     await this.setRegionOptions();
+    await this.setSupplierInfo();
+    Toast.clear()
   },
 
   methods: {
@@ -212,9 +229,9 @@ export default {
       this.categoryIdx = this.categoryList.findIndex(
         (item) => item.value == merchants_shop_infomation.shop_categoryMain
       );
-      
+
       const {
-        company,
+        company_name,
         company_adress,
         contactPhone,
         contactEmail,
@@ -226,7 +243,7 @@ export default {
         idcard_reverse,
         handheld_idcard,
       } = merchants_steps_fields;
-      this.shopName = company;
+      this.shopName = company_name;
       this.addressDetail = company_adress;
       this.mobile = contactPhone;
       this.email = contactEmail;
