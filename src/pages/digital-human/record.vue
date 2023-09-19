@@ -191,6 +191,8 @@ export default {
       Dialog.confirm({
         message: "当前音频训练时长过短，不符合克隆音频条件",
         showCancelButton: false
+      }).then(() => {
+        this.$router.back()
       })
 
       // if (!this.recording) {

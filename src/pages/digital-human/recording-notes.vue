@@ -31,8 +31,15 @@
         </div>
         <div class="deduct-content-wrap">
           <div class="menu-tabs">
-            <div class="menu-tab active">抠除实景</div>
-            <div class="menu-tab">抠除绿幕</div>
+            <div
+              class="menu-tab"
+              :class="{ active: deductIdx === index }"
+              v-for="(item, index) in ['抠除实景', '抠除绿幕']"
+              :key="index"
+              @click="deductIdx = index"
+            >
+              {{ item }}
+            </div>
           </div>
           <div class="deduct-content">
             <p>如需在视频制作中替换实景背景，请注意以下</p>
@@ -61,7 +68,9 @@
       <p>我已阅读并同意 <span style="color: #3B75FF">《形象定制规则》</span></p>
     </div>
 
-    <div class="start-btn" :class="{ active: agree }" @click="navToRecord">开始录制</div>
+    <div class="start-btn" :class="{ active: agree }" @click="navToRecord">
+      开始录制
+    </div>
   </div>
 </template>
 
@@ -71,21 +80,22 @@ export default {
     return {
       opened: true,
       agree: false,
+      deductIdx: 0,
     };
   },
 
   methods: {
     navBack() {
-      this.$router.back()
+      this.$router.back();
     },
 
     navToRecord() {
       if (!this.agree) {
-        return
+        return;
       }
-      this.$router.push('/digital_human/recording_steps')
-    }
-  }
+      this.$router.push("/digital_human/recording_steps");
+    },
+  },
 };
 </script>
 

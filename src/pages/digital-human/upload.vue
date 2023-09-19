@@ -43,11 +43,12 @@
             <p>一致，将导致训练失败。</p>
           </div>
         </div>
-        <div class="recorder">
+        <div class="record-btn" @click="navToRecord">录制视频</div>
+        <!-- <div class="recorder">
           <img src="./images/temp/video-2.jpg" alt="" class="recorder-cover">
           <img src="./images/upload/play.png" alt="" class="recorder-icon">
         </div>
-        <img src="./images/upload/record.png" alt="" class="recorder-btn">
+        <img src="./images/upload/record.png" alt="" class="recorder-btn"> -->
       </div>
 
       <div class="agreement" @click="agree = !agree">
@@ -80,6 +81,10 @@ export default {
   methods: {
     back() {
       this.$router.back()
+    },
+
+    navToRecord() {
+      this.$router.push('/digital_human/record')
     }
   }
 }
@@ -200,6 +205,17 @@ export default {
       .tips-icon
         width: .32rem
         height: .32rem
+    .record-btn
+      display: flex
+      align-items: center
+      justify-content: center
+      margin-top: .3rem
+      width: 2.28rem
+      height: .6rem
+      color: #fff
+      font-size: .28rem
+      border-radius: .3rem
+      background: linear-gradient(90deg, #7DDFDF 0%, #99ABFF 100%)
     .recorder
       position: relative
       margin-top: .2rem
