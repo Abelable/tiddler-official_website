@@ -7,6 +7,11 @@ import { Swipe, SwipeItem, Lazyload, Toast, Dialog, ImagePreview, Popup, List } 
 import { judgeHost } from './utils/bridge'
 import './utils/remConfig'
 import './assets/style/index.styl'
+// import Vconsole from 'vconsole'
+
+// const vconsole = new Vconsole()
+// Vue.use(vconsole)
+
 Vue.prototype.$host = judgeHost()
 Vue.config.productionTip = false
 Vue.config.ignoredElements = ['wx-open-launch-weapp']
