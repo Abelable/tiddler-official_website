@@ -2,7 +2,12 @@
   <div class="container">
     <img class="bg" src="./images/bg.png" alt="" />
     <div class="step-content" v-if="step === 1">
-      <img class="title" src="./images/title.png" alt="" />
+      <div
+        class="title"
+        :style="{ backgroundImage: `url(${require('./images/title_bg.png')})` }"
+      >
+        选择主营类目
+      </div>
       <ul class="menu-list">
         <li
           class="menu-item"
@@ -10,7 +15,7 @@
           :style="{
             backgroundImage:
               curCategoryIdx === index
-                ? `url(${require(`./images/menu_bg_${index}.png`)})`
+                ? `url(${require('./images/menu_bg.png')})`
                 : '',
           }"
           v-for="(item, index) in categoryOptions"
@@ -22,11 +27,12 @@
       </ul>
     </div>
     <div class="step-content" v-else>
-      <img
+      <div
         class="title"
-        :src="require(`./images/sub_title_${curCategoryIdx}.png`)"
-        alt=""
-      />
+        :style="{ backgroundImage: `url(${require('./images/title_bg.png')})` }"
+      >
+        {{ categoryOptions[curCategoryIdx].cat_name }}
+      </div>
       <ul class="sub-menu-list">
         <li
           class="sub-menu-item"
@@ -68,13 +74,13 @@ export default {
   },
 
   async created() {
-    await this.setStatusInfo()
+    await this.setStatusInfo();
     this.setCategoryOptions();
   },
 
   methods: {
     async setStatusInfo() {
-      const { review_status } = await supplierService.getStatusInfo() || {}
+      const { review_status } = (await supplierService.getStatusInfo()) || {};
       if (review_status) {
         this.$router.push("/supplier/status");
       }
@@ -108,9 +114,18 @@ export default {
     position relative
     height: 100%
     .title
-      display: block
+      display: flex
+      align-items: center
+      justify-content: center
       margin: .4rem auto 0
-      width: 3.2rem
+      padding-bottom: .1rem
+      width: 3.72rem
+      height: .92rem
+      color: #FFE5BD
+      font-size: .32rem
+      font-weight: 500
+      background-size: 100%
+      background-repeat: no-repeat
     .menu-list
       display: flex
       flex-wrap: wrap
