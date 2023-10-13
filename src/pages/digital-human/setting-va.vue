@@ -145,7 +145,7 @@ export default {
         obj:{}
       },
       txts:[
-        {txt:'两个同龄的年轻人同时受雇于一家店铺，并且拿同样的薪水。',time:10},
+        {txt:'尊敬的盛行长、各位领导、亲爱的同事们：大家好！在这个美好的时刻，我们怀着无比激动的心情，热烈欢迎盛行长及各位领导莅临我司考察指导。您的到来是我们前进道路上的一股强大动力，我们将以更加饱满的热情、更加务实的作风，迎接挑战，追求卓越。在此，我谨代表全体员工，向盛行长及各位领导表示最诚挚的感谢和最热烈的欢迎！',time:30},
         {txt:'可是一段时间后，叫阿诺德的那个小伙子青云直上，而那个叫布鲁诺的小伙子却仍在原地踏步。',time:15},
         {txt:'布鲁诺很不满意老板的不公正待遇。终于有一天他到老板那儿发牢骚了。',time:11},
         {txt:'老板一边耐心地听着他的抱怨，一边在心里盘算着怎样向他解释清楚他和阿诺德之间的差别。',time:14},
@@ -177,7 +177,8 @@ export default {
       item.videoShow = false
     },
     playVideo(item){
-      item.videoShow = true
+      window.location.href = item.url
+      // item.videoShow = true
     },
     playFn(item){
       this.pauseFn()
@@ -225,6 +226,77 @@ export default {
         }
       }
       let mock_shipin_list = JSON.parse(window.localStorage.getItem('mock_shipin_list') || '[]')
+
+      let default_list = [
+        {
+          "id":1695209629195,
+          "pid":1,
+          "content":"君不见，黄河之水天上来，奔流到海不复回。君不见，高堂明镜悲白发，朝如青丝暮成雪。人生得意须尽欢，莫使金樽空对月。天生我材必有用，千金散尽还复来。烹羊宰牛且为乐，会须一饮三百杯。岑夫子，丹丘生，将进酒，杯莫停。与君歌一曲，请君为我倾耳听。钟鼓馔玉不足贵，但愿长醉不愿醒。古来圣贤皆寂寞，惟有饮者留其名。陈王昔时宴平乐，斗酒十千恣欢谑。主人何为言少钱，径须沽取对君酌。",
+          "cover":"https://img.ubo.vip/temp/digital_human/video-1.jpg",
+          "url":"https://img.ubo.vip/temp/digital_human/111.mp4",
+          "time":1695209629000,
+          "duration":39,
+          "type":"video",
+          "status":1,
+          "progress":100,
+          "sy_id":"1",
+          "avatar":"https://img.ubo.vip/temp/digital_human/avatar1.png",
+          "name":"通艳梁",
+          "label":"中文-普通话"
+        },
+        {
+          "id":1695209640195,
+          "pid":1,
+          "content":"有播是一个以移动直播为核心的综合电商平台，公司位于杭州未来科技城创新园",
+          "cover":"https://img.ubo.vip/temp/digital_human/video-1.jpg",
+          "url":"https://img.ubo.vip/temp/digital_human/222.mp4",
+          "time":1695209640000,
+          "duration":68,
+          "type":"video",
+          "status":1,
+          "progress":100,
+          "sy_id":"1",
+          "avatar":"https://img.ubo.vip/temp/digital_human/avatar1.png",
+          "name":"通艳梁",
+          "label":"中文-普通话"
+        },
+        {
+          "id":1695210220994,
+          "pid":4,
+          "content":"大家好，我是今天的主播很高兴能和大家一起来品尝和推荐可口可乐",
+          "cover":"https://img.ubo.vip/temp/digital_human/video-1.jpg",
+          "url":"https://img.ubo.vip/temp/digital_human/111.wav",
+          "time":1695210220000,
+          "duration":115,
+          "type":"audio",
+          "status":1,
+          "progress":100,
+          "sy_id":"4",
+          "avatar":"https://img.ubo.vip/temp/digital_human/avatar4.png",
+          "name":"元彩仁",
+          "label":"中文-普通话"
+        },
+        {
+          "id":1695210330994,
+          "pid":4,
+          "content":"有播作为一家专业的微直播电商平台，通过立足于微信生态的直播产品工具",
+          "cover":"https://img.ubo.vip/temp/digital_human/video-1.jpg",
+          "url":"https://img.ubo.vip/temp/digital_human/222.wav",
+          "time":1695210330000,
+          "duration":45,
+          "type":"audio",
+          "status":1,
+          "progress":100,
+          "sy_id":"4",
+          "avatar":"https://img.ubo.vip/temp/digital_human/avatar4.png",
+          "name":"元彩仁",
+          "label":"中文-普通话"
+        }
+      ]
+      if(mock_shipin_list.length == 0){
+        mock_shipin_list = default_list
+        window.localStorage.setItem('mock_shipin_list',JSON.stringify(mock_shipin_list))
+      }
       for(var j=0;j<mock_shipin_list.length;j++){
         mock_shipin_list[j].videoShow = false
       }
@@ -250,6 +322,7 @@ export default {
       });
     },
     saveFn(){
+
       Toast.loading({ message: '提交中...'})
       setTimeout(()=>{
         Toast.clear()
@@ -258,7 +331,7 @@ export default {
           pid:this.detailObj.id,
           content:this.curTxt.obj.txt,
           cover:this.detailObj.cover,
-          url:this.detailObj.type == 'video'?'https://img.ubo.vip/videos/2020/12/21/fc750684d71a2ece6c1ae616a95e57ad.mp4':'https://img.ubo.vip/temp/digital_human/2.wav',
+          url:this.detailObj.type == 'video'?'https://img.ubo.vip/temp/digital_human/333.mp4':'https://img.ubo.vip/temp/digital_human/333.wav',
           time:Date.parse(new Date()),
           duration:this.curTxt.obj.time,
           type:this.detailObj.type,

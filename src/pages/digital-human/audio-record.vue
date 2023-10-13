@@ -68,7 +68,7 @@ export default {
         pinyin:''
       },
       txts:[
-        {txt:'两个同龄的年轻人同时受雇于一家店铺，并且拿同样的薪水。',pinyin:'liang ge tong ling de nian qing ren tong shi shou gu yu yi jia dian pu ，bing qie na tong yang de xin shui 。'},
+        {txt:'尊敬的盛行长、各位领导、亲爱的同事们：大家好！在这个美好的时刻，我们怀着无比激动的心情，热烈欢迎盛行长及各位领导莅临我司考察指导。您的到来是我们前进道路上的一股强大动力，我们将以更加饱满的热情、更加务实的作风，迎接挑战，追求卓越。在此，我谨代表全体员工，向盛行长及各位领导表示最诚挚的感谢和最热烈的欢迎！',pinyin:'zun jing de sheng hang zhang 、ge wei ling dao 、qin ai de tong shi men ：da jia hao ！zai zhe ge mei hao de shi ke ，wo men huai zhe wu bi ji dong de xin qing ，re lie huan ying sheng hang zhang ji ge wei ling dao li lin wo si kao cha zhi dao 。nin de dao lai shi wo men qian jin dao lu shang de yi gu qiang da dong li ，wo men jiang yi geng jia bao man de re qing 、geng jia wu shi de zuo feng ，ying jie tiao zhan ，zhui qiu zhuo yue 。zai ci ，wo jin dai biao quan ti yuan gong ，xiang sheng hang zhang ji ge wei ling dao biao shi zui cheng zhi de gan xie he zui re lie de huan ying ！'},
         {txt:'可是一段时间后，叫阿诺德的那个小伙子青云直上，而那个叫布鲁诺的小伙子却仍在原地踏步。',pinyin:'ke shi yi duan shi jian hou ，jiao a nuo de de na ge xiao huo zi qing yun zhi shang ，er na ge jiao bu lu nuo de xiao huo zi que reng zai yuan di ta bu 。'},
         {txt:'布鲁诺很不满意老板的不公正待遇。终于有一天他到老板那儿发牢骚了。',pinyin:'bu lu nuo hen bu man yi lao ban de bu gong zheng dai yu 。zhong yu you yi tian ta dao lao ban na er fa lao sao le 。'},
         {txt:'老板一边耐心地听着他的抱怨，一边在心里盘算着怎样向他解释清楚他和阿诺德之间的差别。',pinyin:'lao ban yi bian nai xin di ting zhe ta de bao yuan ，yi bian zai xin li pan suan zhe zen yang xiang ta jie shi qing chu ta he a nuo de zhi jian de cha bie 。'},
