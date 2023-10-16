@@ -46,24 +46,24 @@
     </div>
 
     <div class="other-login">
-      <img src="./images/title.png" alt="" class="other-login-title">
+      <img src="./images/title.png" alt="" class="other-login-title" />
       <div class="login-btn-wrap">
         <div class="login-btn" @click="lineLogin">
-          <img src="./images/line.png" alt="" class="login-btn-icon">
+          <img src="./images/line.png" alt="" class="login-btn-icon" />
           <div class="login-btn-desc">LINE</div>
         </div>
-        <div class="login-btn">
-          <img src="./images/tiktok.png" alt="" class="login-btn-icon">
+        <!-- <div class="login-btn">
+          <img src="./images/tiktok.png" alt="" class="login-btn-icon" />
           <div class="login-btn-desc">TikTok</div>
         </div>
         <div class="login-btn">
-          <img src="./images/wechat.png" alt="" class="login-btn-icon">
+          <img src="./images/wechat.png" alt="" class="login-btn-icon" />
           <div class="login-btn-desc">微信</div>
         </div>
         <div class="login-btn">
-          <img src="./images/facebook.png" alt="" class="login-btn-icon">
+          <img src="./images/facebook.png" alt="" class="login-btn-icon" />
           <div class="login-btn-desc">facebook</div>
-        </div>
+        </div> -->
       </div>
     </div>
   </div>
@@ -111,12 +111,12 @@ export default {
           window.location.href = await this.setLineLoginUrl();
         }
       } else {
-        this.finishLogin()
+        this.finishLogin();
       }
     } else {
       const isAuthCallback = localStorage.getItem("isAuthCallback");
       if (isAuthCallback) {
-        this.finishLogin()
+        this.finishLogin();
       } else {
         this.loginPageVisible = true;
         this.setAreaCodeList();
@@ -131,9 +131,11 @@ export default {
       const redirect = localStorage.getItem("redirect");
       if (redirect) {
         const token = this.$route.query.token || getUrlParam("token") || "";
-        localStorage.setItem("token", token);
-        localStorage.removeItem("redirect");
-        this.$router.push(`${redirect}`);
+        if (token) {
+          localStorage.setItem("token", token);
+          localStorage.removeItem("redirect");
+          this.$router.push(`${redirect}`);
+        }
       } else {
         window.wx.miniProgram.navigateBack();
       }
