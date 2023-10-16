@@ -73,7 +73,6 @@ export default {
 
   async created() {
     const ua = navigator.userAgent.toLowerCase();
-    console.log('ua', ua);
     
     if (ua.match(/wxwork/i)) {
       // 企业微信环境
