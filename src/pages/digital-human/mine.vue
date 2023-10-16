@@ -4,7 +4,7 @@
 
     <div class="header">
       <div class="user-info">
-        <img src="./images/temp/avatar-1.jpg" alt="" class="avatar" />
+        <img src="./images/temp/avatar-1.jpg" alt="" class="avatar" @click="clearStorage" />
         <div class="nickname">九爷</div>
       </div>
 
@@ -94,6 +94,12 @@ export default {
     this.getData()
   },
   methods:{
+    clearStorage(){
+      localStorage.removeItem('mock_shuzhiren_list')
+      localStorage.removeItem('mock_shipin_list')
+      localStorage.removeItem('mock_sy')
+      window.location.reload()
+    },
     noEnter(type){
       let message = type == 'video' ? '当前上传视频不符合数字人训练条件': '当前音频训练时长过短，不符合克隆音频条件'
       Dialog.alert({
