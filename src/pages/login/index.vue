@@ -71,30 +71,31 @@ export default {
     };
   },
 
-  created() {
+  async created() {
     const ua = navigator.userAgent.toLowerCase();
-    if (
-      (ua.match(/wxwork/i) &&
-        ua.match(/wxwork/i).length &&
-        ua.match(/wxwork/i)[0] === "wxwork") ||
-      !ua.match(/MicroMessenger/i)
-    ) {
+    console.log('ua', ua);
+    
+    if (ua.match(/wxwork/i)) {
+      // 企业微信环境
       this.loginPageVisible = true;
       this.setAreaCodeList();
     } else {
-      // 公众号授权返回标识
-      const isWxAuthCallback = localStorage.getItem("isWxAuthCallback");
-
-      if (!isWxAuthCallback) {
-        // 公众号授权
+      const isAuthCallback = localStorage.getItem("isAuthCallback");
+      if (!isAuthCallback) {
         const { redirect = "" } = this.$route.query || {};
         redirect && localStorage.setItem("redirect", redirect);
-        localStorage.setItem("isWxAuthCallback", true);
+        localStorage.setItem("isAuthCallback", true);
 
-        const state = encodeURIComponent("login_type=1");
-        window.location.href = `https://open.weixin.qq.com/connect/oauth2/authorize?appid=wx21737bccb934bd94&redirect_uri=https%3A%2F%2Fapi.talking.vip%2Fofficial-account%2Foauth-callback&response_type=code&scope=snsapi_userinfo&state=${state}#wechat_redirect`;
+        if (ua.match(/MicroMessenger/i)) {
+          // 微信环境
+          const state = encodeURIComponent("login_type=1");
+          window.location.href = `https://open.weixin.qq.com/connect/oauth2/authorize?appid=wx21737bccb934bd94&redirect_uri=https%3A%2F%2Fapi.talking.vip%2Fofficial-account%2Foauth-callback&response_type=code&scope=snsapi_userinfo&state=${state}#wechat_redirect`;
+        } else if (ua.match(/line/i)) {
+          // line环境
+          window.location.href = await this.setLineLoginUrl()
+        }
       } else {
-        localStorage.removeItem("isWxAuthCallback");
+        localStorage.removeItem("isAuthCallback");
 
         const redirect = localStorage.getItem("redirect");
         if (redirect) {
@@ -107,9 +108,49 @@ export default {
         }
       }
     }
+
+    // if (
+    //   (ua.match(/wxwork/i) &&
+    //     ua.match(/wxwork/i).length &&
+    //     ua.match(/wxwork/i)[0] === "wxwork") ||
+    //   !ua.match(/MicroMessenger/i)
+    // ) {
+    //   this.loginPageVisible = true;
+    //   this.setAreaCodeList();
+    // } else {
+    //   // 公众号授权返回标识
+    //   const isWxAuthCallback = localStorage.getItem("isWxAuthCallback");
+
+    //   if (!isWxAuthCallback) {
+    //     // 公众号授权
+    //     const { redirect = "" } = this.$route.query || {};
+    //     redirect && localStorage.setItem("redirect", redirect);
+    //     localStorage.setItem("isWxAuthCallback", true);
+
+    //     const state = encodeURIComponent("login_type=1");
+    //     window.location.href = `https://open.weixin.qq.com/connect/oauth2/authorize?appid=wx21737bccb934bd94&redirect_uri=https%3A%2F%2Fapi.talking.vip%2Fofficial-account%2Foauth-callback&response_type=code&scope=snsapi_userinfo&state=${state}#wechat_redirect`;
+    //   } else {
+    //     localStorage.removeItem("isWxAuthCallback");
+
+    //     const redirect = localStorage.getItem("redirect");
+    //     if (redirect) {
+    //       const token = this.$route.query.token || getUrlParam("token") || "";
+    //       localStorage.setItem("token", token);
+    //       localStorage.removeItem("redirect");
+    //       this.$router.push(`${redirect}`);
+    //     } else {
+    //       window.wx.miniProgram.navigateBack();
+    //     }
+    //   }
+    // }
   },
 
   methods: {
+    async setLineLoginUrl() {
+      const { url } =  await loginService.getLineLoginUrl() || {}
+      return url
+    },
+
     async setAreaCodeList() {
       const list = await loginService.getAreaCodeList();
       this.areaCodeList = [

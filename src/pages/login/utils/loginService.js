@@ -12,6 +12,10 @@ class LoginService extends BaseService {
   async getAreaCodeList() {
     return await this.post(`${this.liveUrl}/user/mobile-area-code`)
   }
+
+  async getLineLoginUrl() {
+    return await this.get(`${this.liveUrl}/line/login-url`)
+  }
 }
 
 export default LoginService
