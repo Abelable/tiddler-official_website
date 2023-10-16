@@ -152,6 +152,7 @@ export default {
       localStorage.setItem("isAuthCallback", true);
 
       window.location.href = await this.setLineLoginUrl();
+      window.close();
     },
 
     async setAreaCodeList() {
