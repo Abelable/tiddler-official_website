@@ -16,6 +16,10 @@ class LoginService extends BaseService {
   async getLineLoginUrl() {
     return await this.get(`${this.liveUrl}/line/login-url`)
   }
+
+  async getFacebookLoginUrl() {
+    return await this.get(`${this.liveUrl}/facebook/login-url`)
+  }
 }
 
 export default LoginService

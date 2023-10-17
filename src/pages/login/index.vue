@@ -59,11 +59,11 @@
         <div class="login-btn">
           <img src="./images/wechat.png" alt="" class="login-btn-icon" />
           <div class="login-btn-desc">微信</div>
-        </div>
-        <div class="login-btn">
+        </div> -->
+        <div class="login-btn" @click="facebookLogin">
           <img src="./images/facebook.png" alt="" class="login-btn-icon" />
           <div class="login-btn-desc">facebook</div>
-        </div> -->
+        </div>
       </div>
     </div>
   </div>
@@ -95,7 +95,11 @@ export default {
   async created() {
     const ua = navigator.userAgent.toLowerCase();
 
-    if (ua.match(/MicroMessenger/i) || ua.match(/line/i)) {
+    if (
+      ua.match(/MicroMessenger/i) ||
+      ua.match(/line/i) ||
+      ua.match(/facebook/i)
+    ) {
       const isAuthCallback = localStorage.getItem("isAuthCallback");
       if (!isAuthCallback) {
         const { redirect = "" } = this.$route.query || {};
@@ -109,6 +113,9 @@ export default {
         } else if (ua.match(/line/i)) {
           // line环境
           window.location.href = await this.setLineLoginUrl();
+        } else if (ua.match(/facebook/i)) {
+          // facebook环境
+          window.location.href = await this.setFacebookLoginUrl();
         }
       } else {
         this.finishLogin();
@@ -150,12 +157,25 @@ export default {
       return url;
     },
 
+    async setFacebookLoginUrl() {
+      const { url } = (await loginService.getFaceBookLoginUrl()) || {};
+      return url;
+    },
+
     async lineLogin() {
       const { redirect = "" } = this.$route.query || {};
       redirect && localStorage.setItem("redirect", redirect);
       localStorage.setItem("isAuthCallback", true);
 
       window.location.href = await this.setLineLoginUrl();
+    },
+
+    async facebookLogin() {
+      const { redirect = "" } = this.$route.query || {};
+      redirect && localStorage.setItem("redirect", redirect);
+      localStorage.setItem("isAuthCallback", true);
+
+      window.location.href = await this.setFacebookLoginUrl();
     },
 
     async setAreaCodeList() {
