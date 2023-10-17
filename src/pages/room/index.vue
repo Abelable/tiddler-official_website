@@ -7,7 +7,7 @@
     />
 
     <Live
-      v-if="roomInfo && roomInfo.status == 1 && !liveEnding"
+      v-if="roomInfo && roomInfo.status == 1 && !liveEnding && !userBlacked"
       :roomInfo="roomInfo"
     />
     <LiveBreak v-if="(roomInfo && roomInfo.status == 0) || liveBreak" />
@@ -66,6 +66,7 @@ export default {
     ...mapState({
       liveBreak: (state) => state.im.liveBreak,
       liveEnding: (state) => state.im.liveEnding,
+      userBlacked: (state) => state.im.userBlacked,
     }),
   },
 
@@ -115,9 +116,11 @@ export default {
             user_watch_num,
             like_num,
             is_anonymous,
+            user_is_ban,
             ...roomInfo
           } = res;
           this.roomInfo = roomInfo;
+          if (user_is_ban == 1) this.$store.commit("setCurUserIsBan", 1);
           this.$store.commit("setAnonymoused", Number(is_anonymous));
           this.$store.commit("setSubtitleVisible", show_subtitle == 1);
           this.$store.commit("setSubtitleContent", subtitle);

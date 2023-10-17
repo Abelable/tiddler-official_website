@@ -104,11 +104,6 @@ export default {
         }
       }
 
-      // // 当前用户被禁言
-      // if (curUserIsBan) {
-      //   return
-      // }
-
       roomService.saveLiveMsg(room_id, userName, userAvatar, type_name, JSON.stringify(this.tagList), msg, chatMsg.time)
       const message = this.tim.createTextMessage({
         to: group_id,

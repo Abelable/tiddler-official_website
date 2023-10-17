@@ -491,6 +491,7 @@ export default {
               Dialog.alert({
                 message: '抱歉，您已被主播拉黑',
               })
+              this.$store.commit('blackUser')
             }
             break
 
