@@ -129,12 +129,16 @@ export default {
       localStorage.removeItem("isAuthCallback");
 
       const redirect = localStorage.getItem("redirect");
+
       if (redirect) {
         const token = this.$route.query.token || getUrlParam("token") || "";
         if (token) {
           localStorage.setItem("token", token);
           localStorage.removeItem("redirect");
           this.$router.push(`${redirect}`);
+        } else {
+          this.loginPageVisible = true;
+          this.setAreaCodeList();
         }
       } else {
         window.wx.miniProgram.navigateBack();
@@ -152,7 +156,6 @@ export default {
       localStorage.setItem("isAuthCallback", true);
 
       window.location.href = await this.setLineLoginUrl();
-      window.close();
     },
 
     async setAreaCodeList() {
