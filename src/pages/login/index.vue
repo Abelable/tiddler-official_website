@@ -158,7 +158,7 @@ export default {
     },
 
     async setFacebookLoginUrl() {
-      const { url } = (await loginService.getFaceBookLoginUrl()) || {};
+      const { url } = (await loginService.getFacebookLoginUrl()) || {};
       return url;
     },
 
