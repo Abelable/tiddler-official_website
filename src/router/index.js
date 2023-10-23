@@ -24,21 +24,6 @@ router.beforeEach((to, from, next) => {
 
   if (to.meta.title) document.title = to.meta.title;
 
-  if (to.name === "live_play") {
-    const { cover, title } = to.query;
-    const head = document.getElementsByTagName("head");
-
-    const coverMeta = document.createElement("meta");
-    coverMeta.property = "og:image";
-    coverMeta.content = cover;
-    head[0].appendChild(coverMeta);
-
-    const titleMeta = document.createElement("meta");
-    titleMeta.property = "og:title";
-    titleMeta.content = title;
-    head[0].appendChild(titleMeta);
-  }
-
   const token = localStorage.getItem("token");
   if (to.meta.requireAuth) {
     if (!token) {

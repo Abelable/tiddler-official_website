@@ -1,26 +1,28 @@
 <template>
   <div class="container">
     <div class="user-info">
-      <img class="avatar" :src="roomInfo.head_img" >
+      <img class="avatar" :src="roomInfo.head_img" />
       <div class="name-wrap">
-        <div class="name">{{roomInfo.studio_title}}</div>
+        <div class="name">{{ roomInfo.studio_title }}</div>
         <div class="desc">本次直播已结束</div>
       </div>
     </div>
 
     <div class="cover-wrap">
-      <img class="cover" :src="roomInfo.cover" >
+      <img class="cover" :src="roomInfo.cover" />
       <div class="room-info">
-        <div class="title">{{roomInfo.title}}</div>
-        <div class="time">{{roomInfo.lv_start_time | timeFormat}}</div>
+        <div class="title">{{ roomInfo.title }}</div>
+        <div class="time">{{ roomInfo.lv_start_time | timeFormat }}</div>
       </div>
     </div>
 
     <div class="bottom-bar">
       <div v-if="roomInfo.show_replay == 2">
-        <wx-open-launch-weapp 
-          :username="originalMpId" 
-          :path="`pages/subpages/home/live-play/index?id=${roomInfo.id}&parent_user_id=${shareId}`"
+        <wx-open-launch-weapp
+          :username="originalMpId"
+          :path="
+            `pages/subpages/home/live-play/index?id=${roomInfo.id}&parent_user_id=${shareId}`
+          "
         >
           <script type="text/wxtag-template">
             <style>
@@ -43,9 +45,11 @@
         </wx-open-launch-weapp>
       </div>
       <div v-if="roomInfo.show_replay == 1">
-        <wx-open-launch-weapp 
-          :username="originalMpId" 
-          :path="`pages/subpages/home/live-play/index?id=${roomInfo.id}&parent_user_id=${shareId}`"
+        <wx-open-launch-weapp
+          :username="originalMpId"
+          :path="
+            `pages/subpages/home/live-play/index?id=${roomInfo.id}&parent_user_id=${shareId}`
+          "
         >
           <script type="text/wxtag-template">
             <style>
@@ -73,35 +77,52 @@
 </template>
 
 <script>
+import { mapState } from "vuex";
+
 export default {
   props: {
-    roomInfo: Object
+    roomInfo: Object,
   },
 
   data() {
     return {
-      originalMpId: ''
-    }
+      originalMpId: "",
+    };
   },
 
   filters: {
     timeFormat(timeStamp) {
-      timeStamp = timeStamp.toString().length === 10 ? timeStamp * 1000 : timeStamp
-      const date = new Date(timeStamp)
-      const year = date.getFullYear()
-      const month = `${date.getMonth() + 1}`.padStart(2, '0')
-      const day = `${date.getDate()}`.padStart(2, '0')
-      const hours = `${date.getHours()}`.padStart(2, '0')
-      const minutes = `${date.getMinutes()}`.padStart(2, '0')
-      const seconds = `${date.getSeconds()}`.padStart(2, '0')
-      return 'YYYY年MM月DD日 hh:mm:ss'.replace('YYYY', year).replace('MM', month).replace('DD', day).replace('hh', hours).replace('mm', minutes).replace('ss', seconds)
-    }
+      timeStamp =
+        timeStamp.toString().length === 10 ? timeStamp * 1000 : timeStamp;
+      const date = new Date(timeStamp);
+      const year = date.getFullYear();
+      const month = `${date.getMonth() + 1}`.padStart(2, "0");
+      const day = `${date.getDate()}`.padStart(2, "0");
+      const hours = `${date.getHours()}`.padStart(2, "0");
+      const minutes = `${date.getMinutes()}`.padStart(2, "0");
+      const seconds = `${date.getSeconds()}`.padStart(2, "0");
+      return "YYYY年MM月DD日 hh:mm:ss"
+        .replace("YYYY", year)
+        .replace("MM", month)
+        .replace("DD", day)
+        .replace("hh", hours)
+        .replace("mm", minutes)
+        .replace("ss", seconds);
+    },
+  },
+
+  computed: {
+    ...mapState({
+      shareId: (state) => state.im.shareId,
+    }),
   },
 
   created() {
-    this.originalMpId = window.location.href.includes('sm') ? 'gh_fede7ed137e1' : 'gh_7fa0cd4796ba'
-  }
-}
+    this.originalMpId = window.location.href.includes("sm")
+      ? "gh_fede7ed137e1"
+      : "gh_7fa0cd4796ba";
+  },
+};
 </script>
 
 <style lang="stylus" scoped>
