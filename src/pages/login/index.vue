@@ -93,8 +93,13 @@ export default {
   },
 
   async created() {
-    const ua = navigator.userAgent.toLowerCase();
+    if (this.$route.query.showLoginPage) {
+      this.loginPageVisible = true;
+      this.setAreaCodeList();
+      return;
+    }
 
+    const ua = navigator.userAgent.toLowerCase();
     if (
       ua.match(/MicroMessenger/i) ||
       ua.match(/line/i) ||

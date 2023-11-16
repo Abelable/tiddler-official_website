@@ -25,6 +25,14 @@ const routes = [
       title: "流量统计",
     },
   },
+  {
+    name: "invite",
+    path: "/invite_assistant",
+    component: () => import("@/pages/invite-assistant"),
+    meta: {
+      title: "助手邀请",
+    },
+  },
 
   ...ai,
   ...supplier,
