@@ -256,7 +256,7 @@ export default {
     height 100%
     z-index -1
   .content
-    padding 1.2rem .4rem .36rem
+    padding .8rem .4rem .36rem
     .title
       color #333
       font-size .68rem
@@ -266,7 +266,7 @@ export default {
       font-size .3rem
       color #333
     .input-wrap
-      margin-top 2.4rem
+      margin-top 2rem
       font-size .28rem
       .input-list
         display flex
