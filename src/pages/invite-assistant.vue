@@ -3,12 +3,12 @@
     <img class="avatar" v-if="avatar" :src="avatar" />
     <div class="title" v-if="name">
       【{{ name }}】邀请您成为 {{ studioName }} 的{{
-        type === 3 ? "小助手" : "直播助手"
+        type == 3 ? "小助手" : "直播助手"
       }}
     </div>
     <div class="invite-btn" v-if="!isManager" @click="accept">接受邀请</div>
     <div class="invalid-btn" v-if="isManager">
-      您已经是该直播间的{{ type === 3 ? "小助手" : "直播助手" }}
+      您已经是该直播间的{{ type == 3 ? "小助手" : "直播助手" }}
     </div>
   </div>
 </template>
@@ -61,7 +61,7 @@ export default {
 
     accept() {
       baseService.createStudioManager(this.studioId, this.type, () => {
-        Toast(`您已成为该直播间的${this.type === 3 ? "小助手" : "直播助手"}`);
+        Toast(`您已成为该直播间的${this.type == 3 ? "小助手" : "直播助手"}`);
         this.isManager = true;
       });
     },
@@ -73,6 +73,7 @@ export default {
 .container
   height: 100vh
   background: #fff
+  overflow: hidden
   .avatar
     display: block
     margin: .80rem auto 0
