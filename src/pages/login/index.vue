@@ -309,13 +309,10 @@ export default {
       color #B2372B
       text-decoration none
   .other-login
-    position: absolute
-    left: 50%;
-    bottom: 2rem
-    transform: translateX(-50%)
     display: flex
     flex-direction: column
     align-items: center
+    margin-top: 2rem
     width 100vw
     .other-login-title
       height: .4rem
