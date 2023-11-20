@@ -226,7 +226,7 @@ export default {
   },
 
   async created() {
-    this.originalMpId = 'gh_49d405c089a5'
+    this.originalMpId = 'gh_6a8e1c4701d2'
     await this.setImInfo()
     this.initTim()
     this.setMsgHistory()

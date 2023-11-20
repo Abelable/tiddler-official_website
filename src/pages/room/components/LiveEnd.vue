@@ -120,7 +120,7 @@ export default {
   created() {
     this.originalMpId = window.location.href.includes("sm")
       ? "gh_fede7ed137e1"
-      : "gh_7fa0cd4796ba";
+      : "gh_6a8e1c4701d2";
   },
 };
 </script>
