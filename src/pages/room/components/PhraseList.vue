@@ -56,8 +56,9 @@ export default {
         JSON.stringify(this.tagList),
         msg,
         Date.parse(new Date()) / 1000,
+        0,
         (res) => {
-          const { tag, ...rest } = res.data.data;
+          const { tag, ...rest } = res;
           const chatMsg = { tag: this.tagList, ...rest };
           this.$store.commit("setLiveChatMsgList", chatMsg);
           const message = this.tim.createTextMessage({
