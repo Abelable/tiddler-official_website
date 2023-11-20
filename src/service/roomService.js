@@ -38,8 +38,8 @@ class RoomService extends BaseService {
     return await this.get(`${this.liveUrl}/live-studio/live-phrase-list`, { studio_id, type })
   }
 
-  async saveLiveMsg(room_id, nick_name, head_img, type_name, tag, message, time, is_vest = 0) {
-    return await this.post(`${this.liveUrl}/live-stream/save-chat-message`, { room_id, nick_name, head_img, type_name, tag, message, time, is_vest })
+  async saveLiveMsg(room_id, nick_name, head_img, type_name, tag, message, time, is_vest = 0, success) {
+    return await this.post(`${this.liveUrl}/live-stream/save-chat-message`, { room_id, nick_name, head_img, type_name, tag, message, time, is_vest }, success)
   }
 
   async setCurUserTagList(studio_id, user_id) {

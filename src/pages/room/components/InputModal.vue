@@ -4,19 +4,26 @@
       <div class="phrase-wrap" v-if="phraseList.length">
         <div class="tips">常用语：</div>
         <div class="phrase-list">
-          <div class="phrase" v-for="(item, index) in phraseList" :key="index" @click="sendPhrase(item.content)">{{item.content}}</div>
+          <div
+            class="phrase"
+            v-for="(item, index) in phraseList"
+            :key="index"
+            @click="sendPhrase(item.content)"
+          >
+            {{ item.content }}
+          </div>
         </div>
       </div>
 
       <div class="input-main">
-        <input 
-          class="input" 
-          type="text" 
+        <input
+          class="input"
+          type="text"
           v-model="content"
-          placeholder="说点什么~" 
+          placeholder="说点什么~"
           confirm-type="send"
           autofocus
-          />
+        />
         <div class="send-btn" @click="send">发送</div>
       </div>
     </div>
@@ -24,102 +31,109 @@
 </template>
 
 <script>
-import TIM from 'tim-js-sdk'
-import { Toast } from 'vant'
-import RoomService from '@/service/roomService'
+import TIM from "tim-js-sdk";
+import { Toast } from "vant";
+import RoomService from "@/service/roomService";
 
-const roomService = new RoomService()
+const roomService = new RoomService();
 
 export default {
   props: {
     roomInfo: Object,
-    phraseList: Array
+    phraseList: Array,
   },
 
   data() {
     return {
-      content: ''
-    }
+      content: "",
+    };
   },
 
   created() {
-    this.setTagList()
-    this.setSensitiveWordList()
+    this.setTagList();
+    this.setSensitiveWordList();
   },
 
   methods: {
-     async setTagList() {
-      const { list = [] } = await roomService.setCurUserTagList(this.roomInfo.studio_id, this.$store.state.im.userID) || {}
-      this.tagList = list
-      this.$store.commit('setUserTagList', list)
+    async setTagList() {
+      const { list = [] } =
+        (await roomService.setCurUserTagList(
+          this.roomInfo.studio_id,
+          this.$store.state.im.userID
+        )) || {};
+      this.tagList = list;
+      this.$store.commit("setUserTagList", list);
     },
 
     async setSensitiveWordList() {
-      const { list = [] } = await roomService.getPhraseList(this.roomInfo.studio_id, 3) || {}
-      this.sensitiveWordList = list
+      const { list = [] } =
+        (await roomService.getPhraseList(this.roomInfo.studio_id, 3)) || {};
+      this.sensitiveWordList = list;
     },
 
     send() {
       if (!this.content.trim()) {
-        Toast('消息不能为空')
-        return
+        Toast("消息不能为空");
+        return;
       }
-      this.sendMsg(this.content)
-      this.hide()
+      this.sendMsg(this.content);
+      this.hide();
     },
 
     sendPhrase(content) {
-      this.sendMsg(content)
-      this.hide()
+      this.sendMsg(content);
+      this.hide();
     },
 
     async sendMsg(msg) {
-      const { id: room_id, group_id, type_name } = this.roomInfo
-      let { userID, userName, userAvatar, curUserIsBan } = this.$store.state.im
+      const { id: room_id, group_id, type_name } = this.roomInfo;
+      let { userName, userAvatar } = this.$store.state.im;
 
       // 马甲
       if (type_name && this.$store.state.vestInfo) {
-        userName = this.$store.state.vestInfo.name
-        userAvatar = this.$store.state.vestInfo.head_img
+        userName = this.$store.state.vestInfo.name;
+        userAvatar = this.$store.state.vestInfo.head_img;
       }
-
-      const chatMsg = {
-        user_id: userID,
-        nick_name: userName, 
-        head_img: userAvatar,
-        type_name,
-        tag: this.tagList,
-        message: msg,
-        is_ban: curUserIsBan,
-        time: Date.parse(new Date()) / 1000
-      }
-
-      this.$store.commit('setLiveChatMsgList', chatMsg)
 
       // 敏感词过滤
       if (!type_name) {
-        const index = this.sensitiveWordList.findIndex(item => msg.replace(/\s*/g,"").includes(item.content))
+        const index = this.sensitiveWordList.findIndex((item) =>
+          msg.replace(/\s*/g, "").includes(item.content)
+        );
         if (index !== -1) {
-          return
+          return;
         }
       }
 
-      roomService.saveLiveMsg(room_id, userName, userAvatar, type_name, JSON.stringify(this.tagList), msg, chatMsg.time)
-      const message = this.tim.createTextMessage({
-        to: group_id,
-        conversationType: TIM.TYPES.CONV_GROUP,
-        payload: {
-          text: JSON.stringify({ data: chatMsg })
+      roomService.saveLiveMsg(
+        room_id,
+        userName,
+        userAvatar,
+        type_name,
+        JSON.stringify(this.tagList),
+        msg,
+        Date.parse(new Date()) / 1000,
+        (res) => {
+          const { tag, ...rest } = res.data.data;
+          const chatMsg = { tag: this.tagList, ...rest };
+          this.$store.commit("setLiveChatMsgList", chatMsg);
+          const message = this.tim.createTextMessage({
+            to: group_id,
+            conversationType: TIM.TYPES.CONV_GROUP,
+            payload: {
+              text: JSON.stringify({ data: chatMsg }),
+            },
+          });
+          this.tim.sendMessage(message);
         }
-      })
-      this.tim.sendMessage(message)
+      );
     },
 
     hide() {
-      this.$emit('hide')
-    }
-  }
-}
+      this.$emit("hide");
+    },
+  },
+};
 </script>
 
 <style lang="stylus" scoped>
