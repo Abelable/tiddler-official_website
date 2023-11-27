@@ -139,11 +139,24 @@
           </wx-open-launch-weapp>
         </div>
 
-        <!-- <div class="shortcut-btns">
-          <img class="shortcut-btn" v-if="roomInfo.type_name" src="../../../assets/images/live/short.png" >
-          <img class="shortcut-btn" v-if="roomInfo.type_name" src="../../../assets/images/live/users.png" >
-          <img class="shortcut-btn" v-if="roomInfo.type_name" src="../../../assets/images/live/add-user-icon.png" >
-        </div> -->
+        <div class="shortcut-btns">
+          <img
+            class="shortcut-btn"
+            v-if="roomInfo.type_name"
+            @click.stop="assistantCommentsPopupVisible = true"
+            src="../../../assets/images/live/short.png"
+          />
+          <img
+            class="shortcut-btn"
+            v-if="roomInfo.type_name"
+            src="../../../assets/images/live/users.png"
+          />
+          <img
+            class="shortcut-btn"
+            v-if="roomInfo.type_name"
+            src="../../../assets/images/live/add-user-icon.png"
+          />
+        </div>
 
         <div class="bottom-part">
           <AudienceActionTip />
@@ -196,6 +209,11 @@
       :recommendGoodsId="`${recommendGoods ? recommendGoods.id : ''}`"
       @hide="goodsPopupVisible = false"
     />
+    <AssistantCommentsPopup
+      v-if="assistantCommentsPopupVisible"
+      :roomInfo="roomInfo"
+      @hide="assistantCommentsPopupVisible = false"
+    />
   </div>
 </template>
 
@@ -219,6 +237,7 @@ import Comment from "./Comment";
 import PhraseList from "./PhraseList";
 import InputModal from "./InputModal";
 import GoodsPopup from "./GoodsPopup";
+import AssistantCommentsPopup from "./AssistantCommentsPopup";
 import Praise from "./Praise";
 
 import TIM from "tim-js-sdk";
@@ -241,6 +260,7 @@ export default {
     PhraseList,
     InputModal,
     GoodsPopup,
+    AssistantCommentsPopup,
     Praise,
     Icon,
   },
@@ -260,6 +280,7 @@ export default {
       recommendGoodsSliderVisible: false,
       inputModalVisible: false,
       goodsPopupVisible: false,
+      assistantCommentsPopupVisible: false,
       liveStartModalVisible: false,
       playerPause: false,
       mutedBtn: false,
@@ -285,6 +306,7 @@ export default {
 
   async created() {
     this.originalMpId = "gh_6a8e1c4701d2";
+    this.setStudioInfo();
     await this.setImInfo();
     this.initTim();
     this.setMsgHistory();
@@ -333,6 +355,11 @@ export default {
     async setImInfo() {
       const imInfo = await roomService.getImInfo();
       this.$store.commit("setImInfo", imInfo);
+    },
+
+    async setStudioInfo() {
+      const studioInfo = await roomService.getUserStudioInfo();
+      this.$store.commit("setStudioInfo", studioInfo);
     },
 
     refresh() {
