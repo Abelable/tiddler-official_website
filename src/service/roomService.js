@@ -138,11 +138,23 @@ class RoomService extends BaseService {
   }
 
   async createPhrase(studio_id, type, content, success) {
-    return await this.post(`${this.liveUrl}/live-studio/live-phrase-create`, {
-      studio_id,
-      type,
-      content,
-    }, success);
+    return await this.post(
+      `${this.liveUrl}/live-studio/live-phrase-create`,
+      {
+        studio_id,
+        type,
+        content,
+      },
+      success
+    );
+  }
+
+  async updateVest(id, name, head_img, success) {
+    return await this.post(
+      `${this.liveUrl}/live-stream/update-vest`,
+      { id, name, head_img },
+      success
+    );
   }
 }
 

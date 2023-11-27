@@ -56,7 +56,7 @@
               <div
                 class="edit-btn"
                 v-if="userList[vestIndex].id"
-                @click.stop="editAssistantModalVisible = true"
+                @click.stop="assistantModalVisible = true"
               >
                 编辑
               </div>
@@ -117,6 +117,12 @@
       </div>
     </div>
 
+    <AssitantModal
+      v-if="assistantModalVisible"
+      :vest="userList[vestIndex]"
+      @confirm="confirmEditAssistant"
+      @hide="assistantModalVisible = false"
+    />
     <AssitantCommentModal
       v-if="commentModalVisible"
       @confirm="confirmAddComment"
@@ -126,7 +132,9 @@
 </template>
 
 <script>
+import AssitantModal from "./AssitantModal";
 import AssitantCommentModal from "./AssitantCommentModal";
+
 import TIM from "tim-js-sdk";
 import { Dialog, Toast } from "vant";
 import { mapState } from "vuex";
@@ -135,7 +143,7 @@ import RoomService from "@/service/roomService";
 const roomService = new RoomService();
 
 export default {
-  components: { AssitantCommentModal },
+  components: { AssitantModal, AssitantCommentModal },
 
   props: {
     roomInfo: Object,
@@ -150,7 +158,7 @@ export default {
       userList: [],
       userFixed: false,
       commentModalVisible: false,
-      editAssistantModalVisible: false,
+      assistantModalVisible: false,
     };
   },
 
@@ -291,7 +299,7 @@ export default {
 
     confirmEditAssistant() {
       this.setUserList();
-      this.hideModal();
+      this.assistantModalVisible = false;
     },
 
     confirmAddComment() {
