@@ -1,17 +1,35 @@
 <template>
   <div class="live">
-    <Player v-if="playerShow" :url="roomInfo.url" :horizontal="roomInfo.direction == 1" :roomInfo="roomInfo" :playerPause="playerPause" @checkMute="checkMute" />
-    <div class="muteCls" v-if="mutedBtn&& playerShow" @click="setMute" >
+    <Player
+      v-if="playerShow"
+      :url="roomInfo.url"
+      :horizontal="roomInfo.direction == 1"
+      :roomInfo="roomInfo"
+      :playerPause="playerPause"
+      @checkMute="checkMute"
+    />
+    <div class="muteCls" v-if="mutedBtn && playerShow" @click="setMute">
       <Icon name="volume-o" size=".4rem" color="#fff" />
     </div>
-    <Swipe class="cover" v-if="livePlaying" :loop="false" :show-indicators="false">
+    <Swipe
+      class="cover"
+      v-if="livePlaying"
+      :loop="false"
+      :show-indicators="false"
+    >
       <SwipeItem class="cover-inner">
         <div class="top-part">
           <div class="row center between">
             <AuchorCapsule :roomInfo="roomInfo" />
-            <div class="user-count-wrap" @click="roomInfo.type_name ? 'showUsersManagementPopup' : ''">
-              <img class="users-icon" src="../../../assets/images/live/user.png" >
-              <div class="user-count">{{audienceCount}}</div>
+            <div
+              class="user-count-wrap"
+              @click="roomInfo.type_name ? 'showUsersManagementPopup' : ''"
+            >
+              <img
+                class="users-icon"
+                src="../../../assets/images/live/user.png"
+              />
+              <div class="user-count">{{ audienceCount }}</div>
             </div>
           </div>
           <div class="row">
@@ -20,24 +38,38 @@
               <img class="recommend-goods-pic" :src="recommendGoods.goods_img" >
             </div> -->
             <div class="rolling-caption-wrap">
-              <div class="rolling-caption" v-if="subtitleVisible && subtitleContent" @click="adVisible = !adVisible">
+              <div
+                class="rolling-caption"
+                v-if="subtitleVisible && subtitleContent"
+                @click="adVisible = !adVisible"
+              >
                 <div class="rolling-caption-content-wrap">
-                  <div class="rolling-caption-content">{{subtitleContent}}</div>
+                  <div class="rolling-caption-content">
+                    {{ subtitleContent }}
+                  </div>
                 </div>
-                <img class="open-arrow" src="../../../assets/images/live/open-arrow.png" >
+                <img
+                  class="open-arrow"
+                  src="../../../assets/images/live/open-arrow.png"
+                />
               </div>
               <div class="ad-content-wrap" v-show="adVisible">
-                <img class="ad-content-title" src="../../../assets/images/live/ad-title.png">
-                <div class="ad-content">{{subtitleContent}}</div>
+                <img
+                  class="ad-content-title"
+                  src="../../../assets/images/live/ad-title.png"
+                />
+                <div class="ad-content">{{ subtitleContent }}</div>
               </div>
             </div>
           </div>
         </div>
 
         <div class="full-screen-btn" v-if="roomInfo.direction == 1">
-          <wx-open-launch-weapp 
-            :username="originalMpId" 
-            :path="`pages/subpages/home/live-play/index?id=${roomInfo.id}&parent_user_id=${shareId}`"
+          <wx-open-launch-weapp
+            :username="originalMpId"
+            :path="
+              `pages/subpages/home/live-play/index?id=${roomInfo.id}&parent_user_id=${shareId}`
+            "
           >
             <script type="text/wxtag-template">
               <style>
@@ -69,11 +101,12 @@
           </wx-open-launch-weapp>
         </div>
 
-
         <div class="hd-btn">
-          <wx-open-launch-weapp 
-            :username="originalMpId" 
-            :path="`pages/subpages/home/live-play/index?id=${roomInfo.id}&parent_user_id=${shareId}`"
+          <wx-open-launch-weapp
+            :username="originalMpId"
+            :path="
+              `pages/subpages/home/live-play/index?id=${roomInfo.id}&parent_user_id=${shareId}`
+            "
           >
             <script type="text/wxtag-template">
               <style>
@@ -107,27 +140,42 @@
         </div>
 
         <!-- <div class="shortcut-btns">
-          <img class="shortcut-btn" @click="refresh" src="../../../assets/images/live/refresh.png" >
           <img class="shortcut-btn" v-if="roomInfo.type_name" src="../../../assets/images/live/short.png" >
           <img class="shortcut-btn" v-if="roomInfo.type_name" src="../../../assets/images/live/users.png" >
           <img class="shortcut-btn" v-if="roomInfo.type_name" src="../../../assets/images/live/add-user-icon.png" >
-          <img class="shortcut-btn" v-if="roomInfo.type_name && animationList.length" src="../../../assets/images/live/animation.png" >
         </div> -->
 
         <div class="bottom-part">
           <AudienceActionTip />
           <Comment :roomId="roomInfo.id" :isAnchor="!!roomInfo.type_name" />
-          <PhraseList v-if="userPhraseList.length" :roomInfo="roomInfo" :phraseList="userPhraseList" />
+          <PhraseList
+            v-if="userPhraseList.length"
+            :roomInfo="roomInfo"
+            :phraseList="userPhraseList"
+          />
           <Praise :manual="manualPraise" :count="praiseCount" />
           <div class="interactive-area">
-            <div class="chat-btn" :class="{ 'is-ban': isBan }" @click="inputModalVisible = true">
-              <img class="ban-icon" v-if="isBan" src="../../../assets/images/live/ban.png" >
+            <div
+              class="chat-btn"
+              :class="{ 'is-ban': isBan }"
+              @click="inputModalVisible = true"
+            >
+              <img
+                class="ban-icon"
+                v-if="isBan"
+                src="../../../assets/images/live/ban.png"
+              />
               <div>说点什么......</div>
             </div>
             <div class="btns">
               <div class="btn" @click="praise">
-                <img class="icon" src="https://img.ubo.vip/mp/index/room/praise-icon.png" >
-                <div class="praise-count" v-if="praiseCount">{{praiseCount}}</div>
+                <img
+                  class="icon"
+                  src="https://img.ubo.vip/mp/index/room/praise-icon.png"
+                />
+                <div class="praise-count" v-if="praiseCount">
+                  {{ praiseCount }}
+                </div>
               </div>
             </div>
           </div>
@@ -136,46 +184,56 @@
       <SwipeItem></SwipeItem>
     </Swipe>
 
-    <InputModal v-if="inputModalVisible" :roomInfo="roomInfo" :phraseList="userPhraseList" @hide="inputModalVisible = false" />
-    <GoodsPopup v-if="goodsPopupVisible" :roomId="roomInfo.id" :recommendGoodsId="`${recommendGoods ? recommendGoods.id : ''}`" @hide="goodsPopupVisible = false" />
+    <InputModal
+      v-if="inputModalVisible"
+      :roomInfo="roomInfo"
+      :phraseList="userPhraseList"
+      @hide="inputModalVisible = false"
+    />
+    <GoodsPopup
+      v-if="goodsPopupVisible"
+      :roomId="roomInfo.id"
+      :recommendGoodsId="`${recommendGoods ? recommendGoods.id : ''}`"
+      @hide="goodsPopupVisible = false"
+    />
   </div>
 </template>
 
 <script>
-var hidden, visibilityChange
-if (typeof document.hidden !== 'undefined') {
-  hidden = 'hidden'
-  visibilityChange = 'visibilitychange'
-} else if (typeof document.msHidden !== 'undefined') {
-  hidden = 'msHidden'
-  visibilityChange = 'msvisibilitychange'
-} else if (typeof document.webkitHidden !== 'undefined') {
-  hidden = 'webkitHidden'
-  visibilityChange = 'webkitvisibilitychange'
+var hidden, visibilityChange;
+if (typeof document.hidden !== "undefined") {
+  hidden = "hidden";
+  visibilityChange = "visibilitychange";
+} else if (typeof document.msHidden !== "undefined") {
+  hidden = "msHidden";
+  visibilityChange = "msvisibilitychange";
+} else if (typeof document.webkitHidden !== "undefined") {
+  hidden = "webkitHidden";
+  visibilityChange = "webkitvisibilitychange";
 }
-import { Toast, Dialog, Swipe, SwipeItem, Icon } from 'vant'
-import Player from './Player'
-import AuchorCapsule from './AuchorCapsule'
-import AudienceActionTip from './AudienceActionTip'
-import Comment from './Comment'
-import PhraseList from './PhraseList'
-import InputModal from './InputModal'
-import GoodsPopup from './GoodsPopup'
-import Praise from './Praise'
+import { Toast, Dialog, Swipe, SwipeItem, Icon } from "vant";
+import Player from "./Player";
+import AuchorCapsule from "./AuchorCapsule";
+import AudienceActionTip from "./AudienceActionTip";
+import Comment from "./Comment";
+import PhraseList from "./PhraseList";
+import InputModal from "./InputModal";
+import GoodsPopup from "./GoodsPopup";
+import Praise from "./Praise";
 
-import TIM from 'tim-js-sdk'
-import TIMUploadPlugin from 'tim-upload-plugin'
-import _ from "lodash"
-import Vue from 'vue'
-import { mapState } from 'vuex'
-import RoomService from '@/service/roomService'
+import TIM from "tim-js-sdk";
+import TIMUploadPlugin from "tim-upload-plugin";
+import _ from "lodash";
+import Vue from "vue";
+import { mapState } from "vuex";
+import RoomService from "@/service/roomService";
 
-const roomService = new RoomService()
+const roomService = new RoomService();
 
 export default {
   components: {
     Player,
-    Swipe, 
+    Swipe,
     SwipeItem,
     AuchorCapsule,
     AudienceActionTip,
@@ -184,17 +242,17 @@ export default {
     InputModal,
     GoodsPopup,
     Praise,
-    Icon
+    Icon,
   },
 
   props: {
-    roomInfo: Object
+    roomInfo: Object,
   },
 
   data() {
     return {
       playerShow: true,
-      originalMpId: '',
+      originalMpId: "",
       userPhraseList: [],
       animationList: [],
       adVisible: false,
@@ -204,364 +262,415 @@ export default {
       goodsPopupVisible: false,
       liveStartModalVisible: false,
       playerPause: false,
-      mutedBtn:false,
-      mutedVolume:false,
-    }
+      mutedBtn: false,
+      mutedVolume: false,
+    };
   },
 
   computed: {
     ...mapState({
-      shareId: state => state.im.shareId,
-      sdkAppID: state => state.im.sdkAppID,
-      userID: state => state.im.userID,
-      userSig: state => state.im.userSig,
-      livePlaying: state => state.im.livePlaying,
-      audienceCount: state => state.im.audienceCount,
-      manualPraise: state => state.im.manualPraise,
-      praiseCount: state => state.im.praiseCount,
-      subtitleVisible: state => state.im.subtitleVisible,
-      subtitleContent: state => state.im.subtitleContent,
-      isBan: state => state.im.isBan,
-    })
+      shareId: (state) => state.im.shareId,
+      sdkAppID: (state) => state.im.sdkAppID,
+      userID: (state) => state.im.userID,
+      userSig: (state) => state.im.userSig,
+      livePlaying: (state) => state.im.livePlaying,
+      audienceCount: (state) => state.im.audienceCount,
+      manualPraise: (state) => state.im.manualPraise,
+      praiseCount: (state) => state.im.praiseCount,
+      subtitleVisible: (state) => state.im.subtitleVisible,
+      subtitleContent: (state) => state.im.subtitleContent,
+      isBan: (state) => state.im.isBan,
+    }),
   },
 
   async created() {
-    this.originalMpId = 'gh_6a8e1c4701d2'
-    await this.setImInfo()
-    this.initTim()
-    this.setMsgHistory()
-    this.setUserPhraseList()
-    this.setRecommendGoods()
-    this.setAnimationList()
+    this.originalMpId = "gh_6a8e1c4701d2";
+    await this.setImInfo();
+    this.initTim();
+    this.setMsgHistory();
+    this.setUserPhraseList();
+    this.setRecommendGoods();
+    this.setAnimationList();
   },
 
   mounted() {
     if (window.WeixinJSBridge) {
-      window.WeixinJSBridge.on('onPageStateChange', (res) => {
+      window.WeixinJSBridge.on("onPageStateChange", (res) => {
         if (res && res.active) {
-          this.playerPause = false
+          this.playerPause = false;
         } else {
-          this.playerPause = true
+          this.playerPause = true;
         }
-      })
-    }else{
-      document.addEventListener( visibilityChange, this.handleVisibilityChange, false)
+      });
+    } else {
+      document.addEventListener(
+        visibilityChange,
+        this.handleVisibilityChange,
+        false
+      );
     }
   },
 
   destroyed() {
-    this.quitGroup()
-    this.logoutIm()
-    if(!window.WeixinJSBridge) document.removeEventListener( visibilityChange, this.handleVisibilityChange, false)
+    this.quitGroup();
+    this.logoutIm();
+    if (!window.WeixinJSBridge)
+      document.removeEventListener(
+        visibilityChange,
+        this.handleVisibilityChange,
+        false
+      );
   },
 
   methods: {
-    handleVisibilityChange(){
+    handleVisibilityChange() {
       if (!document[hidden]) {
-        this.playerShow = true
-      }else{
-        this.playerShow = false        
+        this.playerShow = true;
+      } else {
+        this.playerShow = false;
       }
     },
     async setImInfo() {
-      const imInfo = await roomService.getImInfo()
-      this.$store.commit('setImInfo', imInfo)
+      const imInfo = await roomService.getImInfo();
+      this.$store.commit("setImInfo", imInfo);
     },
 
     refresh() {
-      Toast.loading({ message: '加载中...' })
-      this.$set(this.roomInfo, 'url', this.roomInfo.url)
+      Toast.loading({ message: "加载中..." });
+      this.$set(this.roomInfo, "url", this.roomInfo.url);
       setTimeout(() => {
-        Toast.clear()
-      }, 1000)
+        Toast.clear();
+      }, 1000);
     },
 
     async setMsgHistory() {
-      const msgList = await roomService.getMsgHistory(this.roomInfo.id)
+      const msgList = await roomService.getMsgHistory(this.roomInfo.id);
       if (!this.$store.state.im.liveChatMsgList.length) {
-        this.$store.commit('setLiveChatMsgList', msgList)
+        this.$store.commit("setLiveChatMsgList", msgList);
       }
     },
 
     async setUserPhraseList() {
-      const { list = [] } = await roomService.getPhraseList(this.roomInfo.studio_id, 2) || {}
-      this.userPhraseList = list
+      const { list = [] } =
+        (await roomService.getPhraseList(this.roomInfo.studio_id, 2)) || {};
+      this.userPhraseList = list;
     },
 
     async setRecommendGoods() {
-      this.recommendGoods = await roomService.getRecommendGoods(this.roomInfo.id)
+      this.recommendGoods = await roomService.getRecommendGoods(
+        this.roomInfo.id
+      );
       if (this.recommendGoods) {
-        this.recommendGoodsSliderVisible = true
+        this.recommendGoodsSliderVisible = true;
         setTimeout(() => {
-          this.recommendGoodsSliderVisible = false
-        }, 10000)
+          this.recommendGoodsSliderVisible = false;
+        }, 10000);
       }
     },
 
     async setAnimationList() {
-      const { list = [] } = await roomService.getAnimationList() || {}
-      this.animationList = list
+      const { list = [] } = (await roomService.getAnimationList()) || {};
+      this.animationList = list;
     },
 
     praise() {
-      !this.manualPraise && this.$store.commit('setManualPraise', true)
-      this.$store.commit('setPraiseCount', this.praiseCount + 1)
-      if (!this.tempPraiseCount) this.tempPraiseCount = 0
-      ++this.tempPraiseCount
-      this.savePraise()
+      !this.manualPraise && this.$store.commit("setManualPraise", true);
+      this.$store.commit("setPraiseCount", this.praiseCount + 1);
+      if (!this.tempPraiseCount) this.tempPraiseCount = 0;
+      ++this.tempPraiseCount;
+      this.savePraise();
     },
 
-    savePraise: _.debounce(function () {
-      roomService.savePraise(this.roomInfo.id, this.tempPraiseCount)
-      this.tempPraiseCount = 0
+    savePraise: _.debounce(function() {
+      roomService.savePraise(this.roomInfo.id, this.tempPraiseCount);
+      this.tempPraiseCount = 0;
     }, 1000),
 
     initTim() {
-      const tim = TIM.create({ SDKAppID: this.sdkAppID })
+      const tim = TIM.create({ SDKAppID: this.sdkAppID });
       if (tim) {
-        tim.setLogLevel(1)
-        tim.registerPlugin({'tim-upload-plugin': TIMUploadPlugin})
+        tim.setLogLevel(1);
+        tim.registerPlugin({ "tim-upload-plugin": TIMUploadPlugin });
         tim.on(TIM.EVENT.SDK_READY, this.onReadyStateUpdate, this);
-        tim.on(TIM.EVENT.MESSAGE_RECEIVED, this.onMsgReceive, this)
-        tim.login({ userID: this.userID, userSig: this.userSig })
-        this.tim = tim
-        Vue.prototype.tim = tim
+        tim.on(TIM.EVENT.MESSAGE_RECEIVED, this.onMsgReceive, this);
+        tim.login({ userID: this.userID, userSig: this.userSig });
+        this.tim = tim;
+        Vue.prototype.tim = tim;
       }
     },
 
     onReadyStateUpdate() {
-      this.joinGroup()
+      this.joinGroup();
     },
 
     onMsgReceive({ data = [] }) {
-      data.forEach(item => {
-        const { conversationType, type, payload } = item
+      data.forEach((item) => {
+        const { conversationType, type, payload } = item;
         switch (conversationType) {
           case TIM.TYPES.CONV_SYSTEM:
             if (type === TIM.TYPES.MSG_GRP_SYS_NOTICE) {
-              this.handleLiveCustomMsg(payload)
+              this.handleLiveCustomMsg(payload);
             }
-            break
+            break;
 
           case TIM.TYPES.CONV_GROUP:
             if (type === TIM.TYPES.MSG_TEXT) {
-              this.handleLiveChatMsg(payload)
+              this.handleLiveChatMsg(payload);
             } else if (type === TIM.TYPES.MSG_CUSTOM) {
-              this.handleLiveCustomMsg(payload)
+              this.handleLiveCustomMsg(payload);
             }
-            break
+            break;
         }
-      })
+      });
     },
 
     handleLiveChatMsg(payload) {
-      const { nick_name, ...rest } = typeof(payload.text) === 'string' ? JSON.parse(payload.text.replace(/&quot;/g, "\"")).data : {}
-      const liveMsg = nick_name ? { nick_name, ...rest } : null
+      const { nick_name, ...rest } =
+        typeof payload.text === "string"
+          ? JSON.parse(payload.text.replace(/&quot;/g, '"')).data
+          : {};
+      const liveMsg = nick_name ? { nick_name, ...rest } : null;
 
-      if (!this.liveMsgCache) this.liveMsgCache = []
-      liveMsg && this.liveMsgCache.push(liveMsg)
+      if (!this.liveMsgCache) this.liveMsgCache = [];
+      liveMsg && this.liveMsgCache.push(liveMsg);
 
       if (!this.setLiveMsgListTimeout) {
         this.setLiveMsgListTimeout = setTimeout(() => {
-          this.$store.commit('setLiveChatMsgList', this.liveMsgCache)
-          this.liveMsgCache = []
-          this.setLiveMsgListTimeout = null
-        }, 100 * this.liveMsgCache.length)
+          this.$store.commit("setLiveChatMsgList", this.liveMsgCache);
+          this.liveMsgCache = [];
+          this.setLiveMsgListTimeout = null;
+        }, 100 * this.liveMsgCache.length);
       }
     },
 
     handleLiveCustomMsg(payload) {
-      let content
+      let content;
       if (payload.userDefinedField) {
-        if (payload.userDefinedField.includes('{')) {
-          content = JSON.parse(payload.userDefinedField)
-        } else if (payload.userDefinedField.includes('欢迎')) {
-          content = { type: 'user_coming', message: payload.userDefinedField }
+        if (payload.userDefinedField.includes("{")) {
+          content = JSON.parse(payload.userDefinedField);
+        } else if (payload.userDefinedField.includes("欢迎")) {
+          content = { type: "user_coming", message: payload.userDefinedField };
         }
       } else if (payload.data) {
-        content = JSON.parse(payload.data)
+        content = JSON.parse(payload.data);
       }
       if (content && content.type) {
-        this.handleCustomMsg(content)
+        this.handleCustomMsg(content);
       }
     },
 
     handleCustomMsg(customMsg) {
       if (customMsg) {
-        const { userID, audienceCount, manualPraise, praiseCount, liveBreak } = this.$store.state.im
+        const {
+          userID,
+          audienceCount,
+          manualPraise,
+          praiseCount,
+          liveBreak,
+        } = this.$store.state.im;
 
         switch (customMsg.type) {
-          case 'user_coming':
-            this.setAudienceActionTip(customMsg.message)
-            break
+          case "user_coming":
+            this.setAudienceActionTip(customMsg.message);
+            break;
 
-          case 'robot_in_group':
-            this.setAudienceActionTip(customMsg.message)
+          case "robot_in_group":
+            this.setAudienceActionTip(customMsg.message);
             if (!this.roomInfo.type_name) {
-              this.$store.commit('setAudienceCount', audienceCount + Number(customMsg.user_num))
+              this.$store.commit(
+                "setAudienceCount",
+                audienceCount + Number(customMsg.user_num)
+              );
             }
-            break
+            break;
 
-          case 'user_comed':
+          case "user_comed":
             if (this.roomInfo.type_name) {
               if (customMsg.zhubo_total_num != audienceCount) {
-                this.$store.commit('setAudienceCount', Number(customMsg.zhubo_total_num))
+                this.$store.commit(
+                  "setAudienceCount",
+                  Number(customMsg.zhubo_total_num)
+                );
               }
             } else {
-              this.$store.commit('setAudienceCount', audienceCount + Number(customMsg.user_num))
+              this.$store.commit(
+                "setAudienceCount",
+                audienceCount + Number(customMsg.user_num)
+              );
             }
-            break
+            break;
 
-          case 'show_user_change':
+          case "show_user_change":
             if (!this.roomInfo.type_name) {
-              this.$store.commit('setAudienceCount', Number(customMsg.user_num))
+              this.$store.commit(
+                "setAudienceCount",
+                Number(customMsg.user_num)
+              );
             }
-            break
+            break;
 
-          case 'user_leaving':
+          case "user_leaving":
             if (this.roomInfo.type_name) {
               if (customMsg.zhubo_total_num) {
-                this.$store.commit('setAudienceCount', Number(customMsg.zhubo_total_num))
+                this.$store.commit(
+                  "setAudienceCount",
+                  Number(customMsg.zhubo_total_num)
+                );
               } else {
-                const newCount = audienceCount - 1
-                this.$store.commit('setAudienceCount', newCount < 0 ? 0 : newCount)
+                const newCount = audienceCount - 1;
+                this.$store.commit(
+                  "setAudienceCount",
+                  newCount < 0 ? 0 : newCount
+                );
               }
             } else {
-              const newCount = audienceCount - Number(customMsg.user_num)
-              this.$store.commit('setAudienceCount', newCount < 0 ? 0 : newCount)
+              const newCount = audienceCount - Number(customMsg.user_num);
+              this.$store.commit(
+                "setAudienceCount",
+                newCount < 0 ? 0 : newCount
+              );
             }
-            break
+            break;
 
-          case 'live_room_like':
+          case "live_room_like":
             if (Number(customMsg.like_num) > praiseCount) {
-              manualPraise && this.$store.commit('setManualPraise', false)
-              this.$store.commit('setPraiseCount', Number(customMsg.like_num))
+              manualPraise && this.$store.commit("setManualPraise", false);
+              this.$store.commit("setPraiseCount", Number(customMsg.like_num));
             }
-            break
-          
-          case 'ban_group_msg':
-            this.$store.commit('setIsBan', Number(customMsg.is_ban))
-            break
+            break;
 
-          case 'ban_user':
-            var userIdList = customMsg.user_id.split(',')
+          case "ban_group_msg":
+            this.$store.commit("setIsBan", Number(customMsg.is_ban));
+            break;
+
+          case "ban_user":
+            var userIdList = customMsg.user_id.split(",");
             if (userIdList.includes(`${userID}`)) {
-              this.$store.commit('setCurUserIsBan', 1)
+              this.$store.commit("setCurUserIsBan", 1);
             }
-            break
-          
-          case 'unban_user':
-            var unbanUserIds = customMsg.user_id.split(',')
+            break;
+
+          case "unban_user":
+            var unbanUserIds = customMsg.user_id.split(",");
             if (unbanUserIds.includes(`${userID}`)) {
-              this.$store.commit('setCurUserIsBan', 0)
+              this.$store.commit("setCurUserIsBan", 0);
             }
-            break
+            break;
 
-          case 'group_subtitle':
-            this.$store.commit('setSubtitleVisible', customMsg.show_subtitle == 1)
-            this.$store.commit('setSubtitleContent', customMsg.subtitle)
-            break
-          
-          case 'send_premiere':
-            this.liveStartModalVisible = true
-            break
+          case "group_subtitle":
+            this.$store.commit(
+              "setSubtitleVisible",
+              customMsg.show_subtitle == 1
+            );
+            this.$store.commit("setSubtitleContent", customMsg.subtitle);
+            break;
 
-          case 'clear_group_msg':
-            this.$store.commit('clearLiveMsgList')
-            break
+          case "send_premiere":
+            this.liveStartModalVisible = true;
+            break;
 
-          case 'delete_group_msg':
-            this.$store.commit('deleteLiveMsg', customMsg.delete)
-            break
-          
-          case 'drop_live_stream':
-            !liveBreak && this.$store.commit('setLiveBreak', true)
-            break
+          case "clear_group_msg":
+            this.$store.commit("clearLiveMsgList");
+            break;
 
-          case 'resume_live_stream':
-            liveBreak && this.$store.commit('setLiveBreak', false)
-            break
+          case "delete_group_msg":
+            this.$store.commit("deleteLiveMsg", customMsg.delete);
+            break;
 
-          case 'room_anonymous':
-            this.$store.commit('setAnonymoused', Number(customMsg.is_anonymous))
-            break
-        
-          case 'black_user':
-            if (customMsg.user_id.split(',').includes(`${userID}`)) {
+          case "drop_live_stream":
+            !liveBreak && this.$store.commit("setLiveBreak", true);
+            break;
+
+          case "resume_live_stream":
+            liveBreak && this.$store.commit("setLiveBreak", false);
+            break;
+
+          case "room_anonymous":
+            this.$store.commit(
+              "setAnonymoused",
+              Number(customMsg.is_anonymous)
+            );
+            break;
+
+          case "black_user":
+            if (customMsg.user_id.split(",").includes(`${userID}`)) {
               Dialog.alert({
-                message: '抱歉，您已被主播拉黑',
-              })
-              this.$store.commit('blackUser')
+                message: "抱歉，您已被主播拉黑",
+              });
+              this.$store.commit("blackUser");
             }
-            break
+            break;
 
-          case 'close_live_room':
-            liveBreak && this.$store.commit('setLiveBreak', false)
-            this.$store.commit('setLiveDuration', customMsg.play_time)
-            this.$store.commit('setLiveEnding', true)
-            break
+          case "close_live_room":
+            liveBreak && this.$store.commit("setLiveBreak", false);
+            this.$store.commit("setLiveDuration", customMsg.play_time);
+            this.$store.commit("setLiveEnding", true);
+            break;
 
-          case 'recommend_goods':
-            this.setRecommendGoods()
-            break
+          case "recommend_goods":
+            this.setRecommendGoods();
+            break;
 
-          case 'animation':
-            this.$store.commit('setAnimationIndex', Number(customMsg.index))
-            break
-          case 'studio_freeze':
-            if(this.roomInfo.id == customMsg.room_id){
-              Toast.fail(customMsg.msg)
-              setTimeout(()=>{
-                location.reload()
-              },2000)
+          case "animation":
+            this.$store.commit("setAnimationIndex", Number(customMsg.index));
+            break;
+          case "studio_freeze":
+            if (this.roomInfo.id == customMsg.room_id) {
+              Toast.fail(customMsg.msg);
+              setTimeout(() => {
+                location.reload();
+              }, 2000);
             }
-            break
+            break;
         }
       }
     },
 
     setAudienceActionTip(message) {
       if (!this.$store.state.im.audienceActionTip) {
-        this.$store.commit('setAudienceActionTip', {
-          type: 'coming',
+        this.$store.commit("setAudienceActionTip", {
+          type: "coming",
           isRobot: this.roomInfo.type_name ? 1 : 0,
-          message
-        })
-        setTimeout(() => { 
-          this.$store.commit('setAudienceActionTip', null)
-        }, 2000)
+          message,
+        });
+        setTimeout(() => {
+          this.$store.commit("setAudienceActionTip", null);
+        }, 2000);
       }
     },
 
     joinGroup() {
-      this.tim.joinGroup({ groupID: this.roomInfo.group_id, type: TIM.TYPES.GRP_AVCHATROOM })
+      this.tim.joinGroup({
+        groupID: this.roomInfo.group_id,
+        type: TIM.TYPES.GRP_AVCHATROOM,
+      });
     },
 
     quitGroup() {
-      this.tim.quitGroup(this.roomInfo.group_id)
+      this.tim.quitGroup(this.roomInfo.group_id);
     },
 
     logoutIm() {
-      this.tim.logout()
+      this.tim.logout();
     },
 
-    checkMute(){
-      if(document.getElementById('audio_player').paused){
-        this.mutedBtn = true
-        this.mutedVolume = false
-      }else{
-        this.mutedBtn = false
+    checkMute() {
+      if (document.getElementById("audio_player").paused) {
+        this.mutedBtn = true;
+        this.mutedVolume = false;
+      } else {
+        this.mutedBtn = false;
       }
     },
 
-    setMute(){
-      if(!this.mutedVolume){
-        document.getElementById('audio_player').play()
-        this.mutedBtn = false
+    setMute() {
+      if (!this.mutedVolume) {
+        document.getElementById("audio_player").play();
+        this.mutedBtn = false;
       }
-    }
-  }
-}
+    },
+  },
+};
 </script>
 
 <style lang="stylus" scoped>
@@ -579,7 +688,7 @@ export default {
     align-items: center
 .live
   position relative
-  .cover 
+  .cover
     position absolute
     top 0
     left 0
@@ -675,7 +784,7 @@ export default {
               width: 0
               height: 0
               border: .16rem solid transparent
-              border-bottom-color: #fff 
+              border-bottom-color: #fff
             .ad-content-title
               width: .92rem
               height: .32rem
