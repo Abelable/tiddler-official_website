@@ -62,15 +62,20 @@ class RoomService extends BaseService {
     is_white = 0,
     is_black = 0,
     is_focus = 0,
+    success,
   }) {
-    return await this.post(`${this.liveUrl}/live-studio/live-user-update`, {
-      studio_id,
-      user_id,
-      is_ban,
-      is_white,
-      is_black,
-      is_focus,
-    });
+    return await this.post(
+      `${this.liveUrl}/live-studio/live-user-update`,
+      {
+        studio_id,
+        user_id,
+        is_ban,
+        is_white,
+        is_black,
+        is_focus,
+      },
+      success
+    );
   }
 
   async getPhraseList(studio_id, type) {
@@ -155,6 +160,52 @@ class RoomService extends BaseService {
       { id, name, head_img },
       success
     );
+  }
+
+  async getUserCategoryTagList(studio_id, room_id, type) {
+    return await this.get(`${this.liveUrl}/live-studio/user-tag`, {
+      studio_id,
+      room_id,
+      type,
+    });
+  }
+
+  async getRoomOnlineUserList({
+    studio_id,
+    room_id,
+    type = "",
+    tag_id = "",
+    parent_user_id = "",
+  }) {
+    return await this.get(`${this.liveUrl}/live-studio/online-user`, {
+      studio_id,
+      room_id,
+      type,
+      tag_id,
+      parent_user_id,
+    });
+  }
+
+  async getHandledUserList({
+    studio_id,
+    type,
+    tag_id = "",
+    room_id = "",
+    page = 1,
+    page_size = 10,
+  }) {
+    return await this.get(`${this.liveUrl}/live-studio/is-user-list`, {
+      studio_id,
+      tag_id,
+      room_id,
+      type,
+      page,
+      page_size,
+    });
+  }
+
+  async getOnlineUserListNotify() {
+    return await this.post(`${this.liveUrl}/live-stream/online-message`);
   }
 }
 

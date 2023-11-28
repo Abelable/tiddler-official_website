@@ -149,6 +149,7 @@
           <img
             class="shortcut-btn"
             v-if="roomInfo.type_name"
+            @click.stop="usersManagementPopupVisible = true"
             src="../../../assets/images/live/users.png"
           />
           <img
@@ -214,6 +215,11 @@
       :roomInfo="roomInfo"
       @hide="assistantCommentsPopupVisible = false"
     />
+    <UsersManagementPopup
+      v-if="usersManagementPopupVisible"
+      :roomInfo="roomInfo"
+      @hide="usersManagementPopupVisible = false"
+    />
   </div>
 </template>
 
@@ -238,6 +244,7 @@ import PhraseList from "./PhraseList";
 import InputModal from "./InputModal";
 import GoodsPopup from "./GoodsPopup";
 import AssistantCommentsPopup from "./AssistantCommentsPopup";
+import UsersManagementPopup from "./UsersManagementPopup";
 import Praise from "./Praise";
 
 import TIM from "tim-js-sdk";
@@ -261,6 +268,7 @@ export default {
     InputModal,
     GoodsPopup,
     AssistantCommentsPopup,
+    UsersManagementPopup,
     Praise,
     Icon,
   },
@@ -281,6 +289,7 @@ export default {
       inputModalVisible: false,
       goodsPopupVisible: false,
       assistantCommentsPopupVisible: false,
+      usersManagementPopupVisible: false,
       liveStartModalVisible: false,
       playerPause: false,
       mutedBtn: false,
