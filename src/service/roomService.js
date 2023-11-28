@@ -245,6 +245,35 @@ class RoomService extends BaseService {
       success
     );
   }
+
+  async getEnterAnimationList(studio_id, user_id, type) {
+    return await this.get(`${this.liveUrl}/gift/enter-room-user-list`, {
+      studio_id,
+      user_id,
+      type,
+    });
+  }
+
+  async getEnterAnimationTimeOptions() {
+    return await this.post(`${this.liveUrl}/gift/enter-room-time`);
+  }
+
+  async updateEnterAnimation(studio_id, user_id, gift_id, use_time, success) {
+    return await this.post(`${this.liveUrl}/gift/update-enter-room-user`, {
+      studio_id,
+      user_id,
+      gift_id,
+      use_time,
+    }, success);
+  }
+
+  async deleteEnterAnimation(studio_id, user_id, id, success) {
+    return await this.post(`${this.liveUrl}/gift/enter-room-delete`, {
+      studio_id,
+      user_id,
+      id,
+    }, success);
+  }
 }
 
 export default RoomService;

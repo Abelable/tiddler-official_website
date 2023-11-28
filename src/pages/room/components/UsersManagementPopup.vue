@@ -217,12 +217,19 @@
       @confirm="finishBindTag"
       @hide="addTagModalVisible = false"
     />
+    <EnterAnimationPopup
+      v-if="enterAnimationPopupVisible"
+      :studioId="studioInfo.id"
+      :userId="userId"
+      @hide="enterAnimationPopupVisible = false"
+    />
   </div>
 </template>
 
 <script>
 import { Dialog, Toast } from "vant";
 import TagModal from "./TagModal";
+import EnterAnimationPopup from "./EnterAnimationPopup";
 
 import { mapState } from "vuex";
 import _ from "lodash";
@@ -230,7 +237,7 @@ import RoomService from "@/service/roomService";
 const roomService = new RoomService();
 
 export default {
-  components: { TagModal },
+  components: { TagModal, EnterAnimationPopup },
 
   props: {
     roomInfo: Object,
@@ -245,6 +252,7 @@ export default {
       userList: [],
       userId: "",
       addTagModalVisible: false,
+      enterAnimationPopupVisible: false,
       notifyContent: "",
       notifyBarVisible: true,
     };
@@ -478,7 +486,8 @@ export default {
     },
 
     showEnterAnimationPopup(id) {
-      this.$emit("showEnterAnimationPopup", id);
+      this.enterAnimationPopupVisible = true;
+      this.userId = id;
     },
 
     hide() {
