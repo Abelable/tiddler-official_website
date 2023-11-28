@@ -12,7 +12,9 @@ export default new Vuex.Store({
     vestIndex: 0,
     userFixed: false,
     userTagList: [],
-    shopCategoryOptions: []
+    shopCategoryOptions: [],
+    animationList: [],
+    animationVisible: false,
   },
   getters: {
   },
@@ -37,7 +39,13 @@ export default new Vuex.Store({
     },
     setShopCategoryOptions(state, data) {
       state.shopCategoryOptions = data
-    }
+    },
+    setAnimationList(state, data) {
+      state.animationList = data
+    },
+    setAnimationVisible(state, data) {
+      state.animationVisible = data
+    },
   },
   modules: {
     im

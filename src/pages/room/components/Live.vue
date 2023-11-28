@@ -222,6 +222,7 @@
       @at="atUser"
       @hide="usersManagementPopupVisible = false"
     />
+    <Animation />
   </div>
 </template>
 
@@ -247,13 +248,14 @@ import InputModal from "./InputModal";
 import GoodsPopup from "./GoodsPopup";
 import AssistantCommentsPopup from "./AssistantCommentsPopup";
 import UsersManagementPopup from "./UsersManagementPopup";
+import Animation from "./Animation";
 import Praise from "./Praise";
 
 import TIM from "tim-js-sdk";
 import TIMUploadPlugin from "tim-upload-plugin";
 import _ from "lodash";
 import Vue from "vue";
-import { mapState } from "vuex";
+import { mapState, state } from "vuex";
 import RoomService from "@/service/roomService";
 
 const roomService = new RoomService();
@@ -271,6 +273,7 @@ export default {
     GoodsPopup,
     AssistantCommentsPopup,
     UsersManagementPopup,
+    Animation,
     Praise,
     Icon,
   },
@@ -284,7 +287,6 @@ export default {
       playerShow: true,
       originalMpId: "",
       userPhraseList: [],
-      animationList: [],
       adVisible: false,
       recommendGoods: null,
       recommendGoodsSliderVisible: false,
@@ -324,7 +326,6 @@ export default {
     this.setMsgHistory();
     this.setUserPhraseList();
     this.setRecommendGoods();
-    this.setAnimationList();
   },
 
   mounted() {
@@ -405,11 +406,6 @@ export default {
           this.recommendGoodsSliderVisible = false;
         }, 10000);
       }
-    },
-
-    async setAnimationList() {
-      const { list = [] } = (await roomService.getAnimationList()) || {};
-      this.animationList = list;
     },
 
     praise() {
@@ -511,6 +507,10 @@ export default {
         switch (customMsg.type) {
           case "user_coming":
             this.setAudienceActionTip(customMsg.message);
+            break;
+
+          case "room_new_user":
+            this.handleEnterAnimation(customMsg);
             break;
 
           case "robot_in_group":
@@ -663,6 +663,39 @@ export default {
             break;
         }
       }
+    },
+
+    handleEnterAnimation({ head_img, nick_name, data }) {
+      const enterAnimationInfo = {
+        type: 1,
+        head_img,
+        nick_name,
+      };
+      const animationList = JSON.parse(data);
+      for (let i = 0; i < animationList.length; i++) {
+        const { gift_id, type, play_type, play_img } = animationList[i];
+        if (type == 2) {
+          this.$store.commit("setLiveChatMsgList", [
+            ...state.animationList,
+            { id: gift_id, svga: play_img },
+          ]);
+          this.$nextTick(() => {
+            if (!state.animationVisible) {
+              this.$store.commit("setAnimationVisible", true);
+            }
+          });
+        }
+        if (type == 3) {
+          if (play_type == 2) {
+            enterAnimationInfo.type = 2;
+            enterAnimationInfo.bg = play_img;
+          } else {
+            enterAnimationInfo.type = 3;
+            enterAnimationInfo.bg = play_img;
+          }
+        }
+      }
+      this.storeEnterAnimationInfo(enterAnimationInfo);
     },
 
     setAudienceActionTip(message) {
