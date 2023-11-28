@@ -201,6 +201,7 @@
     <InputModal
       v-if="inputModalVisible"
       :roomInfo="roomInfo"
+      :defaultContent="defaultContent"
       :phraseList="userPhraseList"
       @hide="inputModalVisible = false"
     />
@@ -218,6 +219,7 @@
     <UsersManagementPopup
       v-if="usersManagementPopupVisible"
       :roomInfo="roomInfo"
+      @at="atUser"
       @hide="usersManagementPopupVisible = false"
     />
   </div>
@@ -286,6 +288,7 @@ export default {
       adVisible: false,
       recommendGoods: null,
       recommendGoodsSliderVisible: false,
+      defaultContent: "",
       inputModalVisible: false,
       goodsPopupVisible: false,
       assistantCommentsPopupVisible: false,
@@ -704,6 +707,12 @@ export default {
         document.getElementById("audio_player").play();
         this.mutedBtn = false;
       }
+    },
+
+    atUser(name) {
+      this.usersManagementPopupVisible = false;
+      this.inputModalVisible = true;
+      this.defaultContent = `@${name} `;
     },
   },
 };

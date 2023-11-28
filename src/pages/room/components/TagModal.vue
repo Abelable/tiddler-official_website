@@ -3,7 +3,7 @@
     <div class="main" @click.stop="">
       <div class="modal-title-wrap" v-if="!addTagMode">
         <div class="modal-title">{{ isBatch ? "批量打标签" : "打标签" }}</div>
-        <div class="create-tag-btn" @click.stop="toggleAddTagMode">
+        <div class="create-tag-btn" @click.stop="addTagMode = true">
           添加标签
         </div>
       </div>
@@ -23,12 +23,12 @@
       </div>
 
       <div class="modal-title-wrap" v-if="addTagMode">
+        <div class="modal-title">添加标签</div>
         <img
           class="back-icon"
-          @click.stop="toggleAddTagMode"
+          @click.stop="addTagMode = false"
           src="https://img.ubo.vip/youbo_plus/new_version/login/back.png"
         />
-        <div class="modal-title">添加标签</div>
       </div>
       <input
         class="add-tag-input"
@@ -62,7 +62,11 @@
           <img
             class="tick"
             v-if="curColorIdx === index"
-            :src="`https://img.ubo.vip/youbo_plus/new_version/tag-modal/${index > 6 ? 'white' : 'black'}-tick.png`"
+            :src="
+              `https://img.ubo.vip/youbo_plus/new_version/tag-modal/${
+                index > 6 ? 'white' : 'black'
+              }-tick.png`
+            "
           />
         </div>
       </div>
@@ -86,7 +90,7 @@ export default {
   props: {
     userIds: Array,
     isBatch: Boolean,
-    studioId: Number,
+    studioId: String,
   },
 
   data() {
@@ -130,10 +134,11 @@ export default {
 
     toggleTagSelect(index) {
       const curTag = this.tagList[index];
-      this.tagList[index] = {
-        ...curTag,
-        is_select: curTag.is_select === 1 ? 0 : 1,
-      };
+      this.$set(
+        this.tagList[index],
+        "is_select",
+        curTag.is_select === 1 ? 0 : 1
+      );
     },
 
     confirm() {
@@ -193,10 +198,6 @@ export default {
       }
     },
 
-    toggleAddTagMode() {
-      this.addTagMode = !this.addTagMode;
-    },
-
     setColorIdx(index) {
       this.curColorIdx = index;
     },
@@ -222,13 +223,12 @@ export default {
     top: 50%
     left: 50%
     transform: translate(-50%, -50%)
-    padding: .30rem .30rem .40rem;
-    width: 6.50rem;
-    height: 5.44rem;
+    width: 300px;
+    min-height: 350px;
     border-radius: .20rem
     background: #fff
     transform: translate(-50%, -50%)
-    .back-icon {
+.back-icon {
   position: absolute;
   top: 0;
   left: 10px;
@@ -274,6 +274,7 @@ export default {
 }
 
 .add-tag-input {
+  display: block;
   margin: 15px auto 0;
   padding: 0 12px;
   width: 273px;

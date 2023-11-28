@@ -207,6 +207,44 @@ class RoomService extends BaseService {
   async getOnlineUserListNotify() {
     return await this.post(`${this.liveUrl}/live-stream/online-message`);
   }
+
+  async getCurUserTagList(studio_id, user_id) {
+    return await this.get(`${this.liveUrl}/live-tag/user-tag-select`, {
+      studio_id,
+      user_id,
+    });
+  }
+
+  async getUserTagList(studio_id, tag_type = 0) {
+    return await this.get(`${this.liveUrl}/live-tag/tag-list`, {
+      studio_id,
+      tag_type,
+    });
+  }
+
+  async bindUserTag(studio_id, tag_id, user_id, success) {
+    return await this.post(
+      `${this.liveUrl}/live-tag/tag-user-bind`,
+      { studio_id, tag_id, user_id },
+      success
+    );
+  }
+
+  async createUserTag(
+    studio_id,
+    tag_name,
+    tag_type,
+    font_color,
+    bg_color,
+    cond,
+    success
+  ) {
+    return await this.post(
+      `${this.liveUrl}/live-tag/create-tag`,
+      { studio_id, tag_type, tag_name, font_color, bg_color, cond },
+      success
+    );
+  }
 }
 
 export default RoomService;

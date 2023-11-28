@@ -39,6 +39,7 @@ const roomService = new RoomService();
 
 export default {
   props: {
+    defaultContent: String,
     roomInfo: Object,
     phraseList: Array,
   },
@@ -50,6 +51,7 @@ export default {
   },
 
   created() {
+    this.content = this.defaultContent;
     this.setTagList();
     this.setSensitiveWordList();
   },

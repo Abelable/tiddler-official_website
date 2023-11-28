@@ -82,7 +82,7 @@
                           <div
                             class="status-tag-spot"
                             :class="{ 'off-line': item.is_online != 1 }"
-                          />
+                          ></div>
                           <div>{{ item.is_online == 1 ? "在线" : "离线" }}</div>
                         </div>
                       </div>
@@ -210,13 +210,19 @@
       </div>
     </div>
 
-    <TagModal v-if="addTagModalVisible" @hide="addTagModalVisible = false" />
+    <TagModal
+      v-if="addTagModalVisible"
+      :studioId="studioInfo.id"
+      :userIds="[userId]"
+      @confirm="finishBindTag"
+      @hide="addTagModalVisible = false"
+    />
   </div>
 </template>
 
 <script>
 import { Dialog, Toast } from "vant";
-import TagModal from './TagModal'
+import TagModal from "./TagModal";
 
 import { mapState } from "vuex";
 import _ from "lodash";
@@ -765,10 +771,6 @@ export default {
   display: flex;
   align-items: center;
   margin-top: 15px;
-  opacity:0;
-}
-.tag-list-wrap-show {
-  opacity: 1;
 }
 .tag-label {
   color: #333;
@@ -784,7 +786,7 @@ export default {
 .tag-item {
   display: flex;
   align-items: center;
-  margin-left: 4px;
+  margin-left: 8px;
   padding: 0 6px;
   height: 18px;
   color: #404A5C;
