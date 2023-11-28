@@ -209,17 +209,23 @@
         </div>
       </div>
     </div>
+
+    <TagModal v-if="addTagModalVisible" @hide="addTagModalVisible = false" />
   </div>
 </template>
 
 <script>
 import { Dialog, Toast } from "vant";
+import TagModal from './TagModal'
+
 import { mapState } from "vuex";
 import _ from "lodash";
 import RoomService from "@/service/roomService";
 const roomService = new RoomService();
 
 export default {
+  components: { TagModal },
+
   props: {
     roomInfo: Object,
   },
