@@ -203,7 +203,7 @@
         <div
           class="invite-rank-tag"
           v-if="roomInfo.type_name"
-          @click.stop="showInviteRankPopup"
+          @click.stop="inviteRankPopupVisible = true"
         >
           <img
             class="rank-icon"
@@ -244,6 +244,11 @@
       :roomInfo="roomInfo"
       @hide="virtualDataPopupVisible = false"
     />
+    <InviteRankPopup
+      v-if="inviteRankPopupVisible"
+      :roomInfo="roomInfo"
+      @hide="inviteRankPopupVisible = false"
+    />
     <Animation />
   </div>
 </template>
@@ -271,6 +276,7 @@ import GoodsPopup from "./GoodsPopup";
 import AssistantCommentsPopup from "./AssistantCommentsPopup";
 import UsersManagementPopup from "./UsersManagementPopup";
 import VirtualDataPopup from "./VirtualDataPopup";
+import InviteRankPopup from "./InviteRankPopup";
 import Animation from "./Animation";
 import Praise from "./Praise";
 
@@ -297,6 +303,7 @@ export default {
     AssistantCommentsPopup,
     UsersManagementPopup,
     VirtualDataPopup,
+    InviteRankPopup,
     Animation,
     Praise,
     Icon,
@@ -323,6 +330,7 @@ export default {
       usersManagementPopupVisible: false,
       liveStartModalVisible: false,
       virtualDataPopupVisible: false,
+      inviteRankPopupVisible: false,
       playerPause: false,
       mutedBtn: false,
       mutedVolume: false,

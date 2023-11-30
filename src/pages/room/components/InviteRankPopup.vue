@@ -55,7 +55,6 @@
                     <div
                       class="status-tag"
                       :class="{ 'off-line': item.is_online != 1 }"
-                      v-if="curMenuIndex === 0 || curMenuIndex === 1"
                     >
                       <div
                         class="status-tag-spot"
@@ -77,7 +76,7 @@
             </div>
           </div>
 
-          <div class="user-list" wx:else>
+          <div class="user-list" v-else>
             <div
               class="user-item"
               v-for="(item, index) in userList"
@@ -104,7 +103,6 @@
                       <div
                         class="status-tag"
                         :class="{ 'off-line': item.is_online != 1 }"
-                        v-if="curMenuIndex === 0 || curMenuIndex === 1"
                       >
                         <div
                           class="status-tag-spot"

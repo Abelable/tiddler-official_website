@@ -305,6 +305,14 @@ class RoomService extends BaseService {
       success
     );
   }
+
+  async getRoomUserInfo(studio_id, room_id, user_id) {
+    return await this.get(`${this.liveUrl}/live-studio/user-info-all`, {
+      studio_id,
+      room_id,
+      user_id,
+    });
+  }
 }
 
 export default RoomService;
