@@ -151,25 +151,14 @@
         </div>
       </div>
     </div>
-
-    <UserManagementPopup
-      v-if="userManagementPopupVisible"
-      :roomInfo="roomInfo"
-      :userId="userId"
-      @at="atUser"
-      @hide="userManagementPopupVisible = false"
-    />
   </div>
 </template>
 
 <script>
-import UserManagementPopup from "./UserManagementPopup";
 import RoomService from "@/service/roomService";
 const roomService = new RoomService();
 
 export default {
-  components: { UserManagementPopup },
-
   props: {
     roomInfo: Object,
   },
@@ -181,7 +170,6 @@ export default {
       userList: [],
       userId: 0,
       moreMode: false,
-      userManagementPopupVisible: false,
     };
   },
 
@@ -240,12 +228,7 @@ export default {
     },
 
     showUserManagementPopup(id) {
-      this.userManagementPopupVisible = true;
-      this.userId = id;
-    },
-
-    atUser(name) {
-      this.$emit("at", name);
+      this.$emit('manageUser', id)
     },
 
     back() {

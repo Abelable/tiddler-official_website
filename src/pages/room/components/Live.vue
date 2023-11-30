@@ -1,5 +1,5 @@
 <template>
-  <div class="live">
+  <div class="live" @click="reset">
     <Player
       v-if="playerShow"
       :url="roomInfo.url"
@@ -168,7 +168,7 @@
             :info="enterAnimationInfo"
             :isAnchor="!!roomInfo.type_name"
           />
-          <Comment :roomId="roomInfo.id" :isAnchor="!!roomInfo.type_name" />
+          <Comment :roomId="roomInfo.id" :isAnchor="!!roomInfo.type_name" :size="roomInfo.font_size" @manageUser="showUserManagementPopup" />
           <PhraseList
             v-if="userPhraseList.length"
             :roomInfo="roomInfo"
@@ -249,8 +249,15 @@
     <InviteRankPopup
       v-if="inviteRankPopupVisible"
       :roomInfo="roomInfo"
-      @at="atUser"
+      @manageUser="showUserManagementPopup"
       @hide="inviteRankPopupVisible = false"
+    />
+    <UserManagementPopup
+      v-if="userManagementPopupVisible"
+      :roomInfo="roomInfo"
+      :userId="curUserId"
+      @at="atUser"
+      @hide="userManagementPopupVisible = false"
     />
     <Animation />
   </div>
@@ -280,6 +287,7 @@ import AssistantCommentsPopup from "./AssistantCommentsPopup";
 import UsersManagementPopup from "./UsersManagementPopup";
 import VirtualDataPopup from "./VirtualDataPopup";
 import InviteRankPopup from "./InviteRankPopup";
+import UserManagementPopup from "./UserManagementPopup";
 import Animation from "./Animation";
 import Praise from "./Praise";
 
@@ -307,6 +315,7 @@ export default {
     UsersManagementPopup,
     VirtualDataPopup,
     InviteRankPopup,
+    UserManagementPopup,
     Animation,
     Praise,
     Icon,
@@ -334,14 +343,17 @@ export default {
       liveStartModalVisible: false,
       virtualDataPopupVisible: false,
       inviteRankPopupVisible: false,
+      userManagementPopupVisible: false,
       playerPause: false,
       mutedBtn: false,
       mutedVolume: false,
+      curUserId: 0,
     };
   },
 
   computed: {
     ...mapState({
+      studioInfo: (state) => state.studioInfo,
       shareId: (state) => state.im.shareId,
       sdkAppID: (state) => state.im.sdkAppID,
       userID: (state) => state.im.userID,
@@ -827,6 +839,15 @@ export default {
       this.usersManagementPopupVisible = false;
       this.inputModalVisible = true;
       this.defaultContent = `@${name} `;
+    },
+
+    showUserManagementPopup(id) {
+      this.userManagementPopupVisible = true;
+      this.curUserId = id;
+    }, 
+
+    reset() {
+      this.$store.commit("setSelectedMsgIdx", -1);
     },
   },
 };

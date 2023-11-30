@@ -15,6 +15,7 @@ export default new Vuex.Store({
     shopCategoryOptions: [],
     animationList: [],
     animationVisible: false,
+    selectedMsgIdx: -1,
   },
   getters: {
   },
@@ -45,6 +46,9 @@ export default new Vuex.Store({
     },
     setAnimationVisible(state, data) {
       state.animationVisible = data
+    },
+    setSelectedMsgIdx(state, data) {
+      state.selectedMsgIdx = data
     },
   },
   modules: {
