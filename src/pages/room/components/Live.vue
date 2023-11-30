@@ -860,6 +860,14 @@ export default {
       const { id, studio_id } = this.roomInfo;
       const { web_url } =
         (await roomService.getShareInfo(studio_id, 3, id)) || {};
+      const textareaC = document.createElement("textarea");
+      textareaC.setAttribute("readonly", "readonly");
+      textareaC.value = web_url;
+      document.body.appendChild(textareaC);
+      textareaC.select();
+      document.execCommand("copy");
+      document.body.removeChild(textareaC);
+      Toast("分享链接复制成功");
     },
 
     reset() {
