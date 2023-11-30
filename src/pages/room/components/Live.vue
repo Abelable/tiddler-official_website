@@ -247,6 +247,7 @@
     <InviteRankPopup
       v-if="inviteRankPopupVisible"
       :roomInfo="roomInfo"
+      @at="atUser"
       @hide="inviteRankPopupVisible = false"
     />
     <Animation />
@@ -820,6 +821,7 @@ export default {
     },
 
     atUser(name) {
+      this.inviteRankPopupVisible = false;
       this.usersManagementPopupVisible = false;
       this.inputModalVisible = true;
       this.defaultContent = `@${name} `;

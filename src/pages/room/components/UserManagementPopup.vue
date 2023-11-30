@@ -15,9 +15,9 @@
                       <div
                         class="identity-tag"
                         :class="{
-                          anchor: item.type_name === '创建者',
-                          'live-assistant': item.type_name === '直播助手',
-                          assistant: item.type_name === '小助手',
+                          anchor: userInfo.type_name === '创建者',
+                          'live-assistant': userInfo.type_name === '直播助手',
+                          assistant: userInfo.type_name === '小助手',
                         }"
                         v-if="userInfo.type_name"
                       >
@@ -59,7 +59,10 @@
               </div>
             </div>
 
-            <div class="tag-list-wrap" v-if="userInfo.tag.length">
+            <div
+              class="tag-list-wrap"
+              v-if="userInfo.tag && userInfo.tag.length"
+            >
               <div class="tag-label">标签</div>
               <div class="tag-list">
                 <div
@@ -72,74 +75,83 @@
                 </div>
               </div>
             </div>
-            <div class="popup-btns-w">
-              <div class="popup-btns">
-                <div
-                  class="popup-btn"
-                  v-if="
-                    roomInfo.type_name === '创建者' ||
-                      roomInfo.type_name === '直播助手'
+            <div class="popup-btns">
+              <div
+                class="popup-btn"
+                v-if="
+                  roomInfo.type_name === '创建者' ||
+                    roomInfo.type_name === '直播助手'
+                "
+                @click.stop="addTagModalVisible = true"
+              >
+                <img
+                  class="popup-btn-icon"
+                  src="https://img.ubo.vip/youbo_plus/new_version/live/users-management-popup/tag.png"
+                />
+                <div class="pupup-btn-desc">标签</div>
+              </div>
+              <div class="popup-btn" @click.stop="atUser">
+                <img
+                  class="popup-btn-icon"
+                  src="https://img.ubo.vip/youbo_plus/new_version/live/users-management-popup/at.png"
+                />
+                <div class="pupup-btn-desc">@TA</div>
+              </div>
+              <div class="popup-btn" @click.stop="toggleBanStatus">
+                <img
+                  class="popup-btn-icon"
+                  :src="
+                    `https://img.ubo.vip/youbo_plus/live_features_popup/${
+                      userInfo.is_ban == 1 ? 'baned' : 'ban'
+                    }.png`
                   "
-                  @click.stop="addTagModalVisible = true"
-                >
-                  <img
-                    class="popup-btn-icon"
-                    src="https://img.ubo.vip/youbo_plus/new_version/live/users-management-popup/tag.png"
-                  />
-                  <div class="pupup-btn-desc">标签</div>
+                />
+                <div class="pupup-btn-desc">
+                  {{ userInfo.is_ban == 1 ? "取消禁言" : "禁言" }}
                 </div>
-                <div class="popup-btn" @click.stop="atUser">
-                  <img
-                    class="popup-btn-icon"
-                    src="https://img.ubo.vip/youbo_plus/new_version/live/users-management-popup/at.png"
-                  />
-                  <div class="pupup-btn-desc">@TA</div>
-                </div>
-                <div class="popup-btn" @click.stop="toggleBanStatus">
-                  <img
-                    class="popup-btn-icon"
-                    src="https://img.ubo.vip/youbo_plus/live_features_popup/{{userInfo.is_ban == 1 ? 'baned' : 'ban'}}.png"
-                  />
-                  <div class="pupup-btn-desc">
-                    {{ userInfo.is_ban == 1 ? "取消禁言" : "禁言" }}
-                  </div>
-                </div>
-                <div class="popup-btn" @click.stop="blackStatusComfirm">
-                  <img
-                    class="popup-btn-icon"
-                    src="https://img.ubo.vip/youbo_plus/live_features_popup/{{userInfo.is_black == 1 ? 'blacked' : 'black'}}.png"
-                  />
-                  <div class="pupup-btn-desc">
-                    {{ userInfo.is_black == 1 ? "取消拉黑" : "拉黑" }}
-                  </div>
-                </div>
-                <div
-                  class="popup-btn"
-                  v-if="
-                    roomInfo.type_name === '创建者' ||
-                      roomInfo.type_name === '直播助手'
+              </div>
+              <div class="popup-btn" @click.stop="blackStatusComfirm">
+                <img
+                  class="popup-btn-icon"
+                  :src="
+                    `https://img.ubo.vip/youbo_plus/live_features_popup/${
+                      userInfo.is_black == 1 ? 'blacked' : 'black'
+                    }.png`
                   "
-                  @click.stop="toggleWhiteStatus"
-                >
-                  <img
-                    class="popup-btn-icon"
-                    :src="
-                      `https://img.ubo.vip/youbo_plus/live_features_popup/${
-                        userInfo.is_white == 1 ? 'whited' : 'white'
-                      }.png`
-                    "
-                  />
-                  <div class="pupup-btn-desc">
-                    {{ userInfo.is_white == 1 ? "取消白名单" : "白名单" }}
-                  </div>
+                />
+                <div class="pupup-btn-desc">
+                  {{ userInfo.is_black == 1 ? "取消拉黑" : "拉黑" }}
                 </div>
-                <div class="popup-btn" @click.stop="enterAnimationPopupVisible = true">
-                  <img
-                    class="popup-btn-icon"
-                    src="https://img.ubo.vip/youbo_plus/live_features_popup/enter-room-animation.png"
-                  />
-                  <div class="pupup-btn-desc">进场动画</div>
+              </div>
+              <div
+                class="popup-btn"
+                v-if="
+                  roomInfo.type_name === '创建者' ||
+                    roomInfo.type_name === '直播助手'
+                "
+                @click.stop="toggleWhiteStatus"
+              >
+                <img
+                  class="popup-btn-icon"
+                  :src="
+                    `https://img.ubo.vip/youbo_plus/live_features_popup/${
+                      userInfo.is_white == 1 ? 'whited' : 'white'
+                    }.png`
+                  "
+                />
+                <div class="pupup-btn-desc">
+                  {{ userInfo.is_white == 1 ? "取消白名单" : "白名单" }}
                 </div>
+              </div>
+              <div
+                class="popup-btn"
+                @click.stop="enterAnimationPopupVisible = true"
+              >
+                <img
+                  class="popup-btn-icon"
+                  src="https://img.ubo.vip/youbo_plus/live_features_popup/enter-room-animation.png"
+                />
+                <div class="pupup-btn-desc">进场动画</div>
               </div>
             </div>
           </div>
@@ -184,7 +196,7 @@ export default {
   data() {
     return {
       show: false,
-      userInfo: null,
+      userInfo: {},
       addTagModalVisible: false,
       enterAnimationPopupVisible: false,
     };
@@ -282,8 +294,8 @@ export default {
       });
     },
 
-    atUser(name) {
-      this.$emit("at", name);
+    atUser() {
+      this.$emit("at", this.userInfo.nick_name);
     },
 
     hide() {
@@ -598,23 +610,22 @@ export default {
   background: #FFE5BD;
   border-radius: 3px;
 }
-.popup-btns-w {
-  height:64px;
-  margin-top: 13px;
-}
 .popup-btns {
-  white-space: nowrap;
+  display: flex;
+  flex-wrap: nowrap;
+  margin-top: 13px;
+  width: 100%;
+  overflow-x: scroll;
 }
 .popup-btn {
-  display: inline-block;
-  margin-right: 20px;
-  width: 45px;
+  margin-right: .36rem;
+  width: .9rem;
   font-size: 0;
   span-align: center;
 }
 .popup-btn-icon {
-  width: 42px;
-  height: 42px;
+  width: .84rem;
+  height: .84rem;
 }
 .pupup-btn-desc {
   display: flex;
