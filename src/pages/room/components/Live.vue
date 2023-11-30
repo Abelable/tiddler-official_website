@@ -255,7 +255,7 @@ import TIM from "tim-js-sdk";
 import TIMUploadPlugin from "tim-upload-plugin";
 import _ from "lodash";
 import Vue from "vue";
-import { mapState, state } from "vuex";
+import { mapState } from "vuex";
 import RoomService from "@/service/roomService";
 
 const roomService = new RoomService();
@@ -673,14 +673,14 @@ export default {
       };
       const animationList = JSON.parse(data);
       for (let i = 0; i < animationList.length; i++) {
-        const { gift_id, type, play_type, play_img } = animationList[i];
+        const { type, play_type, play_img } = animationList[i];
         if (type == 2) {
-          this.$store.commit("setLiveChatMsgList", [
-            ...state.animationList,
-            { id: gift_id, svga: play_img },
+          this.$store.commit("setAnimationList", [
+            ...this.$store.state.animationList,
+            { svga: play_img },
           ]);
           this.$nextTick(() => {
-            if (!state.animationVisible) {
+            if (!this.$store.state.animationVisible) {
               this.$store.commit("setAnimationVisible", true);
             }
           });
