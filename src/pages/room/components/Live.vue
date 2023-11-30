@@ -199,6 +199,18 @@
             </div>
           </div>
         </div>
+
+        <div
+          class="invite-rank-tag"
+          v-if="roomInfo.type_name"
+          @click.stop="showInviteRankPopup"
+        >
+          <img
+            class="rank-icon"
+            src="https://img.ubo.vip/mp/index/room/rank-icon.png"
+          />
+          <div>邀请榜</div>
+        </div>
       </SwipeItem>
       <SwipeItem></SwipeItem>
     </Swipe>
@@ -1002,6 +1014,27 @@ export default {
                 border-radius: .14rem
                 background: #fff
                 white-space: nowrap
+.invite-rank-tag {
+  position: absolute;
+  top: 3.6rem;
+  right: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 66px;
+  height: 23px;
+  color: #fff;
+  font-size: 12px;
+  background: rgba(0,0,0,0.3);
+  border-radius: 18px 0px 0px 18px;
+  z-index: 101;
+}
+.rank-icon {
+  margin-right: 3px;
+  width: 12px;
+  height: 12px;
+}
+
 .muteCls
   position:fixed
   z-index:2

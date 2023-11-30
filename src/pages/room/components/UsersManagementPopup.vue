@@ -685,13 +685,11 @@ export default {
   margin-left: 4px;
   padding: 0 6px;
   height: 18px;
+  color: #fff;
   font-size: 11px;
   font-weight: bold;
   white-space: nowrap;
   border-radius: 3px;
-}
-.identity-tag.audience {
-  color: #fff;
   background: #8B9EC2;
 }
 .identity-tag.anchor {

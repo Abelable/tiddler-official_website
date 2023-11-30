@@ -58,7 +58,7 @@
           <Empty v-if="upGoodsListfinished && !upGoodsList.length" description="暂无商品列表" />
         </List>
 
-        <div class="goods-list-wrap" wx:if="{{curMenuIdx === 1}}" scroll-y bindscrolltolower="scrolltolowerFn">
+        <div class="goods-list-wrap" v-if="curMenuIdx === 1">
           <div class="all-pick-bar">
             <div class="all-pick-title-wrap" ontap="dataSelectAll1Fn">
               <img class="select-icon" src="{{dataSelectAll1 ? '/images/selected.png' : '/images/unselected.png'}}" >
