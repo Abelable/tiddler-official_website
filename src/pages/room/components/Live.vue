@@ -23,7 +23,9 @@
             <AuchorCapsule :roomInfo="roomInfo" />
             <div
               class="user-count-wrap"
-              @click="roomInfo.type_name ? 'showUsersManagementPopup' : ''"
+              @click="
+                roomInfo.type_name ? (usersManagementPopupVisible = true) : ''
+              "
             >
               <img
                 class="users-icon"
