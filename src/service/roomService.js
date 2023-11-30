@@ -313,6 +313,10 @@ class RoomService extends BaseService {
       user_id,
     });
   }
+
+  async getShareInfo(studio_id, type = 1, room_id = "") {
+    return await this.post(`${this.liveUrl}/share/share`, { studio_id, type, room_id });
+  }
 }
 
 export default RoomService;

@@ -168,7 +168,12 @@
             :info="enterAnimationInfo"
             :isAnchor="!!roomInfo.type_name"
           />
-          <Comment :roomId="roomInfo.id" :isAnchor="!!roomInfo.type_name" :size="roomInfo.font_size" @manageUser="showUserManagementPopup" />
+          <Comment
+            :roomId="roomInfo.id"
+            :isAnchor="!!roomInfo.type_name"
+            :size="roomInfo.font_size"
+            @manageUser="showUserManagementPopup"
+          />
           <PhraseList
             v-if="userPhraseList.length"
             :roomInfo="roomInfo"
@@ -189,7 +194,12 @@
               <div>说点什么......</div>
             </div>
             <div class="btns">
-              <div class="btn" @click="praise">
+              <img
+                class="btn"
+                @click.stop="share"
+                src="https://img.ubo.vip/mp/sass/live-push/share.png"
+              />
+              <div class="btn" @click.stop="praise">
                 <img
                   class="icon"
                   src="https://img.ubo.vip/mp/index/room/praise-icon.png"
@@ -844,7 +854,13 @@ export default {
     showUserManagementPopup(id) {
       this.userManagementPopupVisible = true;
       this.curUserId = id;
-    }, 
+    },
+
+    async share() {
+      const { id, studio_id } = this.roomInfo;
+      const { web_url } =
+        (await roomService.getShareInfo(studio_id, 3, id)) || {};
+    },
 
     reset() {
       this.$store.commit("setSelectedMsgIdx", -1);
