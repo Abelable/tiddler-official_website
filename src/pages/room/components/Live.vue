@@ -155,6 +155,7 @@
           <img
             class="shortcut-btn"
             v-if="roomInfo.type_name"
+            @click.stop="virtualDataPopupVisible = true"
             src="../../../assets/images/live/add-user-icon.png"
           />
         </div>
@@ -226,6 +227,11 @@
       @at="atUser"
       @hide="usersManagementPopupVisible = false"
     />
+    <VirtualDataPopup
+      v-if="virtualDataPopupVisible"
+      :roomInfo="roomInfo"
+      @hide="virtualDataPopupVisible = false"
+    />
     <Animation />
   </div>
 </template>
@@ -252,6 +258,7 @@ import InputModal from "./InputModal";
 import GoodsPopup from "./GoodsPopup";
 import AssistantCommentsPopup from "./AssistantCommentsPopup";
 import UsersManagementPopup from "./UsersManagementPopup";
+import VirtualDataPopup from "./VirtualDataPopup";
 import Animation from "./Animation";
 import Praise from "./Praise";
 
@@ -277,6 +284,7 @@ export default {
     GoodsPopup,
     AssistantCommentsPopup,
     UsersManagementPopup,
+    VirtualDataPopup,
     Animation,
     Praise,
     Icon,
@@ -302,6 +310,7 @@ export default {
       assistantCommentsPopupVisible: false,
       usersManagementPopupVisible: false,
       liveStartModalVisible: false,
+      virtualDataPopupVisible: false,
       playerPause: false,
       mutedBtn: false,
       mutedVolume: false,

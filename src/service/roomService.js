@@ -259,20 +259,51 @@ class RoomService extends BaseService {
   }
 
   async updateEnterAnimation(studio_id, user_id, gift_id, use_time, success) {
-    return await this.post(`${this.liveUrl}/gift/update-enter-room-user`, {
-      studio_id,
-      user_id,
-      gift_id,
-      use_time,
-    }, success);
+    return await this.post(
+      `${this.liveUrl}/gift/update-enter-room-user`,
+      {
+        studio_id,
+        user_id,
+        gift_id,
+        use_time,
+      },
+      success
+    );
   }
 
   async deleteEnterAnimation(studio_id, user_id, id, success) {
-    return await this.post(`${this.liveUrl}/gift/enter-room-delete`, {
+    return await this.post(
+      `${this.liveUrl}/gift/enter-room-delete`,
+      {
+        studio_id,
+        user_id,
+        id,
+      },
+      success
+    );
+  }
+
+  async createRobot(studio_id, room_id, num, like_num, minutes, success) {
+    return await this.post(
+      `${this.liveUrl}/live-stream/create-robot`,
+      { studio_id, room_id, num, like_num, minutes },
+      success
+    );
+  }
+
+  async checkHasCreatedRobot(studio_id, room_id) {
+    return await this.get(`${this.liveUrl}/live-stream/get-robot`, {
       studio_id,
-      user_id,
-      id,
-    }, success);
+      room_id,
+    });
+  }
+
+  async deleteRobot(studio_id, room_id, success) {
+    return await this.post(
+      `${this.liveUrl}/live-stream/delete-robot`,
+      { studio_id, room_id },
+      success
+    );
   }
 }
 
