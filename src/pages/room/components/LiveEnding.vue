@@ -1,5 +1,5 @@
 <template>
-  <div class="container">
+  <div class="live-end-wrap">
     <div class="anchor-info">
       <img class="anchor-avatar" :src="roomInfo.head_img" >
       <div class="anchor-name">{{roomInfo.studio_title}}</div>
