@@ -653,6 +653,7 @@ export default {
           case "animation":
             this.$store.commit("setAnimationIndex", Number(customMsg.index));
             break;
+
           case "studio_freeze":
             if (this.roomInfo.id == customMsg.room_id) {
               Toast.fail(customMsg.msg);
@@ -660,6 +661,10 @@ export default {
                 location.reload();
               }, 2000);
             }
+            break;
+
+          case "manager_gift":
+            this.handleManagerGift(customMsg);
             break;
         }
       }
@@ -696,6 +701,19 @@ export default {
         }
       }
       this.storeEnterAnimationInfo(enterAnimationInfo);
+    },
+
+    handleManagerGift({ num, play_img }) {
+      const list = new Array(+num).fill("").map((item) => ({ svga: play_img }));
+      this.$store.commit("setAnimationList", [
+        ...this.$store.state.animationList,
+        ...list,
+      ]);
+      this.$nextTick(() => {
+        if (!this.$store.state.animationVisible) {
+          this.$store.commit("setAnimationVisible", true);
+        }
+      });
     },
 
     setAudienceActionTip(message) {
