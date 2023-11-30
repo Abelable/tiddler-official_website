@@ -15,10 +15,6 @@ import SVGA from "svgaplayerweb";
 import { mapState } from "vuex";
 
 export default {
-  props: {
-    url: String,
-  },
-
   data() {
     return {
       mode: 1,

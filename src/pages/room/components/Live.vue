@@ -160,7 +160,11 @@
         </div>
 
         <div class="bottom-part">
-          <AudienceActionTip />
+          <EnterAnimation
+            v-if="showEnterAnimation"
+            :info="enterAnimationInfo"
+            :isAnchor="!!roomInfo.type_name"
+          />
           <Comment :roomId="roomInfo.id" :isAnchor="!!roomInfo.type_name" />
           <PhraseList
             v-if="userPhraseList.length"
@@ -241,7 +245,7 @@ if (typeof document.hidden !== "undefined") {
 import { Toast, Dialog, Swipe, SwipeItem, Icon } from "vant";
 import Player from "./Player";
 import AuchorCapsule from "./AuchorCapsule";
-import AudienceActionTip from "./AudienceActionTip";
+import EnterAnimation from "./EnterAnimation";
 import Comment from "./Comment";
 import PhraseList from "./PhraseList";
 import InputModal from "./InputModal";
@@ -266,7 +270,7 @@ export default {
     Swipe,
     SwipeItem,
     AuchorCapsule,
-    AudienceActionTip,
+    EnterAnimation,
     Comment,
     PhraseList,
     InputModal,
@@ -291,6 +295,8 @@ export default {
       recommendGoods: null,
       recommendGoodsSliderVisible: false,
       defaultContent: "",
+      showEnterAnimation: false,
+      enterAnimationInfo: {},
       inputModalVisible: false,
       goodsPopupVisible: false,
       assistantCommentsPopupVisible: false,
@@ -505,20 +511,34 @@ export default {
         } = this.$store.state.im;
 
         switch (customMsg.type) {
-          case "user_coming":
-            this.setAudienceActionTip(customMsg.message);
-            break;
-
           case "room_new_user":
             this.handleEnterAnimation(customMsg);
             break;
 
           case "robot_in_group":
-            this.setAudienceActionTip(customMsg.message);
-            if (!this.roomInfo.type_name) {
+            if (Number(customMsg.user_num) > 0) {
+              if (this.roomInfo.type_name) {
+                this.storeEnterAnimationInfo({
+                  type: 1,
+                  message: customMsg.message,
+                  isRobot: 1,
+                });
+              } else {
+                this.storeEnterAnimationInfo({
+                  type: 1,
+                  message: customMsg.message,
+                });
+                this.$store.commit(
+                  "setAudienceCount",
+                  audienceCount + Number(customMsg.user_num)
+                );
+              }
+            }
+            if (Number(customMsg.like_num) > 0) {
+              manualPraise && (this.manualPraise = false);
               this.$store.commit(
-                "setAudienceCount",
-                audienceCount + Number(customMsg.user_num)
+                "setPraiseCount",
+                praiseCount + Number(customMsg.like_num)
               );
             }
             break;
@@ -703,6 +723,29 @@ export default {
       this.storeEnterAnimationInfo(enterAnimationInfo);
     },
 
+    storeEnterAnimationInfo(enterAnimationInfo) {
+      if (!this.enterAnimationInfoList) this.enterAnimationInfoList = [];
+      if (this.showEnterAnimation) {
+        this.enterAnimationInfoList.push(enterAnimationInfo);
+      } else {
+        this.createEnterAnimation(enterAnimationInfo);
+      }
+    },
+
+    createEnterAnimation(enterAnimationInfo) {
+      this.enterAnimationInfo = enterAnimationInfo;
+      this.showEnterAnimation = true;
+      setTimeout(() => {
+        this.showEnterAnimation = false;
+        setTimeout(() => {
+          if (this.enterAnimationInfoList.length) {
+            this.createEnterAnimation(this.enterAnimationInfoList[0]);
+            this.enterAnimationInfoList = this.enterAnimationInfoList.slice(1);
+          }
+        }, 500);
+      }, 5000);
+    },
+
     handleManagerGift({ num, play_img }) {
       const list = new Array(+num).fill("").map((item) => ({ svga: play_img }));
       this.$store.commit("setAnimationList", [
@@ -714,19 +757,6 @@ export default {
           this.$store.commit("setAnimationVisible", true);
         }
       });
-    },
-
-    setAudienceActionTip(message) {
-      if (!this.$store.state.im.audienceActionTip) {
-        this.$store.commit("setAudienceActionTip", {
-          type: "coming",
-          isRobot: this.roomInfo.type_name ? 1 : 0,
-          message,
-        });
-        setTimeout(() => {
-          this.$store.commit("setAudienceActionTip", null);
-        }, 2000);
-      }
     },
 
     joinGroup() {

@@ -226,11 +226,10 @@ export default {
       this.animationBtnDesc = animationBtnDesc;
     },
 
-    selectBanner(e) {
-      const selectedBannerIdx = Number(e.currentTarget.dataset.index);
-      const { is_select } = this.bannerList[selectedBannerIdx];
+    selectBanner(index) {
+      const { is_select } = this.bannerList[index];
       const bannerBtnDesc = is_select == 1 ? "取消使用" : "下一步";
-      this.selectedBannerIdx = selectedBannerIdx;
+      this.selectedBannerIdx = index;
       this.bannerBtnDesc = bannerBtnDesc;
     },
 

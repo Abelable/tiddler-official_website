@@ -8,7 +8,6 @@ const user = {
     userAvatar: "",
     livePlaying: false,
     liveChatMsgList: [],
-    audienceActionTip: null,
     audienceCount: 0,
     manualPraise: false,
     praiseCount: 0,
@@ -16,7 +15,8 @@ const user = {
     subtitleContent: "",
     isBan: 0,
     curUserIsBan: 0,
-    anonymoused: 0,
+    anonymoused: false,
+    extraAnonymoused: false,
     animationIndex: -1,
     liveBreak: false,
     liveDuration: 0,
@@ -73,10 +73,6 @@ const user = {
       state.liveChatMsgList = [];
     },
 
-    setAudienceActionTip(state, data) {
-      state.audienceActionTip = data;
-    },
-
     setAudienceCount(state, data) {
       state.audienceCount = data;
     },
@@ -107,6 +103,10 @@ const user = {
 
     setAnonymoused(state, data) {
       state.anonymoused = data;
+    },
+
+    setExtraAnonymoused(state, data) {
+      state.extraAnonymoused = data;
     },
 
     setLiveBreak(state, data) {
