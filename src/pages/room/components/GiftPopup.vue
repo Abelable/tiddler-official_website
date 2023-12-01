@@ -80,11 +80,11 @@
                 src="https://img.ubo.vip/youbo_plus/gift_popup/coin.png"
               />
               <div class="balance">{{ balance || 0 }}</div>
-              <div>充值</div>
+              <!-- <div>充值</div>
               <img
                 class="arrow"
                 src="https://img.ubo.vip/youbo_plus/gift_popup/more.png"
-              />
+              /> -->
             </div>
 
             <div class="send-btn">
