@@ -199,6 +199,11 @@
                 @click.stop="posterModalVisible = true"
                 src="https://img.ubo.vip/mp/sass/live-push/share.png"
               />
+              <img
+                class="btn"
+                @click.stop="giftPopupVisible = true"
+                src="https://img.ubo.vip/youbo_plus/live/gitf.png"
+              />
               <div class="btn" @click.stop="praise">
                 <img
                   class="icon"
@@ -269,6 +274,11 @@
       @at="atUser"
       @hide="userManagementPopupVisible = false"
     />
+    <GiftPopup
+      v-if="giftPopupVisible"
+      :roomInfo="roomInfo"
+      @hide="giftPopupVisible = false"
+    />
     <Animation />
     <PosterModal
       v-if="posterModalVisible"
@@ -303,6 +313,7 @@ import UsersManagementPopup from "./UsersManagementPopup";
 import VirtualDataPopup from "./VirtualDataPopup";
 import InviteRankPopup from "./InviteRankPopup";
 import UserManagementPopup from "./UserManagementPopup";
+import GiftPopup from "./GiftPopup";
 import Animation from "./Animation";
 import Praise from "./Praise";
 import PosterModal from "./PosterModal";
@@ -332,6 +343,7 @@ export default {
     VirtualDataPopup,
     InviteRankPopup,
     UserManagementPopup,
+    GiftPopup,
     Animation,
     Praise,
     PosterModal,
@@ -362,6 +374,7 @@ export default {
       inviteRankPopupVisible: false,
       userManagementPopupVisible: false,
       posterModalVisible: false,
+      giftPopupVisible: false,
       playerPause: false,
       mutedBtn: false,
       mutedVolume: false,

@@ -315,7 +315,34 @@ class RoomService extends BaseService {
   }
 
   async getShareInfo(studio_id, type = 1, room_id = "") {
-    return await this.post(`${this.liveUrl}/share/share`, { studio_id, type, room_id });
+    return await this.post(`${this.liveUrl}/share/share`, {
+      studio_id,
+      type,
+      room_id,
+    });
+  }
+
+  async getUserBalance(type = 1) {
+    return await this.get(`${this.yb_mmsUrl}/api/v4/gift/get_user_money`, {
+      type,
+    });
+  }
+
+  async sendGift(studio_id, room_id, gift_id, num, success) {
+    return await this.post(
+      `${this.yb_mmsUrl}/api/v4/gift/gift-order`,
+      { studio_id, room_id, gift_id, num },
+      success
+    );
+  }
+
+  async sendAnchorGift(studio_id, room_id, gift_id, num) {
+    return await this.post(`${this.liveUrl}/gift/manager-gift`, {
+      studio_id,
+      room_id,
+      gift_id,
+      num,
+    });
   }
 }
 

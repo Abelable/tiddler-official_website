@@ -16,6 +16,7 @@ export default new Vuex.Store({
     animationList: [],
     animationVisible: false,
     selectedMsgIdx: -1,
+    balance: 0,
   },
   getters: {
   },
@@ -49,6 +50,9 @@ export default new Vuex.Store({
     },
     setSelectedMsgIdx(state, data) {
       state.selectedMsgIdx = data
+    },
+    setBalance(state, data) {
+      state.balance = data
     },
   },
   modules: {
