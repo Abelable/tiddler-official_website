@@ -200,11 +200,11 @@
                 @click.stop="posterModalVisible = true"
                 src="https://img.ubo.vip/mp/sass/live-push/share.png"
               />
-              <img
+              <!-- <img
                 class="btn"
                 @click.stop="giftPopupVisible = true"
                 src="https://img.ubo.vip/youbo_plus/live/gitf.png"
-              />
+              /> -->
               <div class="btn" @click.stop="praise">
                 <img
                   class="icon"
