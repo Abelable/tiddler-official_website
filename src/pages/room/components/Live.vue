@@ -163,6 +163,7 @@
         </div>
 
         <div class="bottom-part">
+          <GiftAnimationList :giftMsgLists="giftMsgLists" />
           <EnterAnimation
             v-if="showEnterAnimation"
             :info="enterAnimationInfo"
@@ -304,6 +305,7 @@ import { Toast, Dialog, Swipe, SwipeItem, Icon } from "vant";
 import Player from "./Player";
 import AuchorCapsule from "./AuchorCapsule";
 import EnterAnimation from "./EnterAnimation";
+import GiftAnimationList from "./GiftAnimationList";
 import Comment from "./Comment";
 import PhraseList from "./PhraseList";
 import InputModal from "./InputModal";
@@ -334,6 +336,7 @@ export default {
     SwipeItem,
     AuchorCapsule,
     EnterAnimation,
+    GiftAnimationList,
     Comment,
     PhraseList,
     InputModal,
@@ -365,6 +368,7 @@ export default {
       defaultContent: "",
       showEnterAnimation: false,
       enterAnimationInfo: {},
+      giftMsgLists: [],
       inputModalVisible: false,
       goodsPopupVisible: false,
       assistantCommentsPopupVisible: false,
@@ -760,6 +764,28 @@ export default {
 
           case "manager_gift":
             this.handleManagerGift(customMsg);
+            break;
+
+          case "room_gift":
+            if (customMsg.play_img) {
+              this.$store.commit("setAnimationList", [
+                ...this.$store.state.animationList,
+                ...new Array(+customMsg.num).fill("").map((item) => ({
+                  svga: customMsg.play_img,
+                })),
+              ]);
+              this.$nextTick(() => {
+                if (!this.$store.state.animationVisible) {
+                  this.$store.commit("setAnimationVisible", true);
+                }
+              });
+            }
+            this.$store.commit("setLiveChatMsgList", {
+              id: `${this.$store.state.im.liveChatMsgList.length + 1}`,
+              is_gift_msg: true,
+              ...customMsg,
+            });
+            this.giftMsgLists = [...this.giftMsgLists, customMsg];
             break;
         }
       }
