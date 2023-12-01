@@ -1,11 +1,11 @@
 <template>
-  <view class="gift-animation-list">
+  <div class="gift-animation-list">
     <GiftAnimation
       v-for="(item, index) in msgLists"
       :key="index"
       :giftInfo="item"
     />
-  </view>
+  </div>
 </template>
 
 <script>

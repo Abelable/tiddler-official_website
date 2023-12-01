@@ -11,7 +11,13 @@
       />
       <div class="fans-info">
         <div class="fans-name omit">
-          {{ giftInfo ? (giftInfo.user_name | formatName) : "" }}
+          {{
+            giftInfo
+              ? giftInfo.user_name.length > 4
+                ? `${giftInfo.user_name.slice(0, 4)}...`
+                : giftInfo.user_name
+              : ""
+          }}
         </div>
         <div class="fans-gift-desc omit">
           打赏“{{ giftInfo ? giftInfo.studio_name : "" }}”
@@ -47,8 +53,6 @@ export default {
 
   watch: {
     giftInfo(newVal, oldVal) {
-      console.log('giftInfo newVal', newVal)
-      console.log('giftInfo oldVal', oldVal)
       if (newVal) {
         const num = `${newVal.num}`;
         this.numList = new Array(num.length)
@@ -72,12 +76,6 @@ export default {
       }
     },
   },
-
-  filters: {
-    formatName(name) {
-      return name.length > 4 ? `${name.slice(0, 4)}...` : name;
-    },
-  },
 };
 </script>
 
@@ -94,8 +92,7 @@ export default {
 .gift-animation {
   display: flex;
   align-items: center;
-  margin-bottom: 20rpx;
-  height: 114rpx;
+  margin-bottom: 10px;
   transform: translateX(-110%);
 }
 .gift-animation.show {
