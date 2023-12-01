@@ -21,7 +21,6 @@
       @resetPassword="pwdError = false"
       @confirm="refetch"
     />
-    <SharePopup v-if="sharePopupVisible" @hide="sharePopupVisible = false" />
   </div>
 </template>
 
@@ -33,7 +32,6 @@ import LiveEnding from "./components/LiveEnding";
 import LiveNotice from "./components/LiveNotice";
 import LiveEnd from "./components/LiveEnd";
 import PasswordModal from "./components/PasswordModal";
-import SharePopup from "./components/SharePopup";
 
 import { mapState } from "vuex";
 import { getUrlParam } from "@/utils/index";
@@ -49,7 +47,6 @@ export default {
     LiveNotice,
     LiveEnd,
     PasswordModal,
-    SharePopup,
   },
 
   data() {

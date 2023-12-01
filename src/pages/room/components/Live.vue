@@ -196,7 +196,7 @@
             <div class="btns">
               <img
                 class="btn"
-                @click.stop="share"
+                @click.stop="posterModalVisible = true"
                 src="https://img.ubo.vip/mp/sass/live-push/share.png"
               />
               <div class="btn" @click.stop="praise">
@@ -270,6 +270,11 @@
       @hide="userManagementPopupVisible = false"
     />
     <Animation />
+    <PosterModal
+      v-if="posterModalVisible"
+      :roomInfo="roomInfo"
+      @hide="posterModalVisible = false"
+    />
   </div>
 </template>
 
@@ -300,6 +305,7 @@ import InviteRankPopup from "./InviteRankPopup";
 import UserManagementPopup from "./UserManagementPopup";
 import Animation from "./Animation";
 import Praise from "./Praise";
+import PosterModal from "./PosterModal";
 
 import TIM from "tim-js-sdk";
 import TIMUploadPlugin from "tim-upload-plugin";
@@ -328,6 +334,7 @@ export default {
     UserManagementPopup,
     Animation,
     Praise,
+    PosterModal,
     Icon,
   },
 
@@ -354,6 +361,7 @@ export default {
       virtualDataPopupVisible: false,
       inviteRankPopupVisible: false,
       userManagementPopupVisible: false,
+      posterModalVisible: false,
       playerPause: false,
       mutedBtn: false,
       mutedVolume: false,
@@ -854,20 +862,6 @@ export default {
     showUserManagementPopup(id) {
       this.userManagementPopupVisible = true;
       this.curUserId = id;
-    },
-
-    async share() {
-      const { id, studio_id } = this.roomInfo;
-      const { web_url } =
-        (await roomService.getShareInfo(studio_id, 3, id)) || {};
-      const textareaC = document.createElement("textarea");
-      textareaC.setAttribute("readonly", "readonly");
-      textareaC.value = web_url;
-      document.body.appendChild(textareaC);
-      textareaC.select();
-      document.execCommand("copy");
-      document.body.removeChild(textareaC);
-      Toast("分享链接复制成功");
     },
 
     reset() {
