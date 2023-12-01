@@ -29,10 +29,12 @@ export default {
   },
 
   async mounted() {
+    Toast.loading({ message: "海报加载中..." });
     await this.setShareInfo();
     canvas = document.getElementById("poster");
     ctx = canvas.getContext("2d");
-    this.creatRoomPoster();
+    await this.creatRoomPoster();
+    Toast.clear();
   },
 
   methods: {
@@ -78,14 +80,14 @@ export default {
       } = this.shareInfo;
 
       await this.drawImage(
-        require(`../../../assets/images/poster/poster-bg.png`),
+        require("../../../assets/images/poster/poster-bg.png"),
         0,
         0,
         335,
         580
       );
       await this.drawImage(
-        require(`../../../assets/images/poster/poster-content-bg.png`),
+        require("../../../assets/images/poster/poster-content-bg.png"),
         30,
         81,
         275,
@@ -204,6 +206,7 @@ export default {
       return new Promise((resolve) => {
         const img = new Image();
         img.src = src;
+        img.setAttribute("crossOrigin", "Anonymous");
         img.onload = () => {
           ctx.drawImage(img, x, y, w, h);
           resolve();
@@ -211,7 +214,13 @@ export default {
       });
     },
 
-    save() {},
+    save() {
+      const url = canvas.toDataURL("image/png");
+      const a = document.createElement("a");
+      a.href = url;
+      a.download = "image.png";
+      a.click();
+    },
 
     copyLink() {
       const textareaC = document.createElement("textarea");
@@ -222,6 +231,7 @@ export default {
       document.execCommand("copy");
       document.body.removeChild(textareaC);
       Toast("复制成功");
+      this.hide();
     },
 
     hide() {
