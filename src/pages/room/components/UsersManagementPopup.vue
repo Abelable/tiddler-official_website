@@ -24,7 +24,7 @@
           </div>
         </div>
 
-        <div class="content" id="content" bindscrolltolower="loadMore">
+        <List class="content" @load="loadMore">
           <div class="notify-bar" v-if="notifyBarVisible && notifyContent">
             <img
               class="notify-icon"
@@ -206,7 +206,7 @@
               </div>
             </div>
           </div>
-        </div>
+        </List>
       </div>
     </div>
 
@@ -227,7 +227,7 @@
 </template>
 
 <script>
-import { Dialog, Toast } from "vant";
+import { Dialog, Toast, List } from "vant";
 import TagModal from "./TagModal";
 import EnterAnimationPopup from "./EnterAnimationPopup";
 
@@ -237,7 +237,7 @@ import RoomService from "@/service/roomService";
 const roomService = new RoomService();
 
 export default {
-  components: { TagModal, EnterAnimationPopup },
+  components: { TagModal, EnterAnimationPopup, List },
 
   props: {
     roomInfo: Object,
