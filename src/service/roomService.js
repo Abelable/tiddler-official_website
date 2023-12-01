@@ -328,6 +328,24 @@ class RoomService extends BaseService {
     });
   }
 
+  async getGiftList(type, page = 1, page_size = 100, status = 1) {
+    return await this.get(`${this.liveUrl}/gift/gift-list`, {
+      type,
+      page,
+      page_size,
+      status,
+    });
+  }
+
+  async getStudioGiftList(studio_id, type, page = 1, page_size = 100) {
+    return await this.get(`${this.liveUrl}/gift/studio-gift-list`, {
+      studio_id,
+      type,
+      page,
+      page_size,
+    });
+  }
+
   async sendGift(studio_id, room_id, gift_id, num, success) {
     return await this.post(
       `${this.yb_mmsUrl}/api/v4/gift/gift-order`,

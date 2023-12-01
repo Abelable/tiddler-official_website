@@ -7,7 +7,7 @@
           <div class="menu" v-if="roomInfo.type_name">
             <div
               class="menu-item"
-              :classs="{ selected: index === curMenuIdx }"
+              :class="{ selected: index === curMenuIdx }"
               v-for="(item, index) in ['礼物', '主播特权']"
               :key="index"
               @click.stop="selectMenu(index)"
@@ -88,7 +88,7 @@
             </div>
 
             <div class="send-btn">
-              <Stepper v-model="num" />
+              <input class="send-num" v-model="num" type="number" />
               <div class="send-btn-main" @click.stop="send">赠送</div>
             </div>
           </div>
@@ -99,14 +99,14 @@
 </template>
 
 <script>
-import { Toast, Swipe, SwipeItem, Stepper } from "vant";
+import { Toast, Swipe, SwipeItem } from "vant";
 import { mapState } from "vuex";
 import _ from "lodash";
 import RoomService from "@/service/roomService";
 const roomService = new RoomService();
 
 export default {
-  components: { Swipe, SwipeItem, Stepper },
+  components: { Swipe, SwipeItem },
 
   props: {
     roomInfo: Object,
@@ -142,7 +142,6 @@ export default {
   methods: {
     async setUserBalance() {
       const { num: balance } = (await roomService.getUserBalance()) || {};
-      console.log(balance);
       this.$store.commit("setBalance", balance);
     },
 
@@ -227,7 +226,6 @@ export default {
   max-width: 100vh
   max-height: 100vh
   border-radius: .2rem .2rem 0 0
-  background: #fff
   overflow: hidden
   z-index: 100
   transform: translate(-50%, 100%)
@@ -235,7 +233,7 @@ export default {
   &.show
     transform: translate(-50%, 0)
     transition: transform .3s ease
-    .gift-popup {
+.gift-popup {
   padding-bottom: env(safe-area-inset-bottom);
   background: rgba(0, 0, 0, 0.7);
   backdrop-filter: blur(8px);
@@ -368,7 +366,7 @@ export default {
   border: 1px solid #FDCC87;
 }
 .send-num {
-  flex: 1;
+  width: 66px;
   color: #fff;
   font-size: 12px;
   text-align: center;
