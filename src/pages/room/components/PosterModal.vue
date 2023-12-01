@@ -205,7 +205,7 @@ export default {
     drawImage(src, x, y, w, h) {
       return new Promise((resolve) => {
         const img = new Image();
-        img.src = src;
+        img.src = `${src}?time=${new Date().valueOf()}`;
         img.setAttribute("crossOrigin", "Anonymous");
         img.onload = () => {
           ctx.drawImage(img, x, y, w, h);
@@ -220,6 +220,8 @@ export default {
       a.href = url;
       a.download = "image.png";
       a.click();
+      Toast("保存成功");
+      this.hide();
     },
 
     copyLink() {
