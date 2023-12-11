@@ -114,7 +114,7 @@ export default {
         if (ua.match(/MicroMessenger/i)) {
           // 微信环境
           const state = encodeURIComponent("login_type=1");
-          window.location.href = `https://open.weixin.qq.com/connect/oauth2/authorize?appid=wxa8015652498ef5e1&redirect_uri=https%3A%2F%2Fapi.talking.vip%2Fofficial-account%2Foauth-callback&response_type=code&scope=snsapi_userinfo&state=${state}#wechat_redirect`;
+          window.location.href = `https://open.weixin.qq.com/connect/oauth2/authorize?appid=wx5b38dce2ad8794aa&redirect_uri=https%3A%2F%2Fapi.talking.vip%2Fofficial-account%2Foauth-callback&response_type=code&scope=snsapi_userinfo&state=${state}#wechat_redirect`;
         } else if (ua.match(/line/i)) {
           // line环境
           window.location.href = await this.setLineLoginUrl();
