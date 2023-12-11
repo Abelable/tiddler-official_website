@@ -20,11 +20,8 @@
         >
           <div class="gift-msg">
             <div class="gift-msg-content">
-              <span style="color: #FDDF6A;">{{
-                !isAnchor && (anonymoused || extraAnonymoused)
-                  ? (item.user_name | sliceName)
-                  : item.user_name
-              }}</span>
+              <span style="color: #FDDF6A;" v-if="!isAnchor && (anonymoused || extraAnonymoused)">{{item.user_name | sliceName}}</span>
+              <span style="color: #FDDF6A;" v-if="isAnchor || (anonymoused && extraAnonymoused)">{{item.user_name}}</span>
               <span> 送给 </span>
               <span style="color: #FDDF6A;">{{ item.studio_name }}</span>
             </div>
@@ -85,13 +82,12 @@
           >
             {{ tag.tag_name }}
           </div>
-          <span class="msg-user-name" v-if="item.nick_name"
-            >{{
-              !isAnchor && (anonymoused || extraAnonymoused)
-                ? (item.nick_name | sliceName)
-                : item.nick_name
-            }}：</span
-          >
+          <span class="msg-user-name" v-if="item.nick_name && !isAnchor && (anonymoused || extraAnonymoused)">
+            {{ item.nick_name | sliceName }}：
+          </span>
+          <span class="msg-user-name" v-if="item.nick_name && isAnchor || (!anonymoused && !extraAnonymoused)">
+            {{item.nick_name}}：
+          </span>
           <span
             class="message-content"
             v-if="item.is_ban && item.is_ban == 1 && isAnchor"
@@ -167,7 +163,7 @@ export default {
           );
         }
       }
-    },
+    }
   },
 
   data() {

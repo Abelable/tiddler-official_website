@@ -730,7 +730,7 @@ export default {
             );
             this.$store.commit(
               "setExtraAnonymoused",
-              Number(customMsg.is_anonymous1 == 1)
+              Number(customMsg.is_anonymous2 == 1)
             );
             break;
 
