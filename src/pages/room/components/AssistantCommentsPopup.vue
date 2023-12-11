@@ -197,7 +197,7 @@ export default {
     },
 
     selectUser(index) {
-      this.$store.commit("vestIndex", index);
+      this.$store.commit("setVestIndex", index);
     },
 
     async setPhraseList() {
@@ -227,7 +227,7 @@ export default {
     addVest: _.debounce(function() {
       roomService.createVest(this.roomInfo.studio_id, (res) => {
         this.userList = [res.data.data, ...this.userList];
-        this.$store.commit("vestIndex", 0);
+        this.$store.commit("setVestIndex", 0);
         if (this.userFixed) {
           this.$store.commit("setVestInfo", this.userList[this.vestIndex]);
         }
