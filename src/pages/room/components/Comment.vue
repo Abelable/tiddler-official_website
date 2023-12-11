@@ -135,6 +135,7 @@ export default {
       userID: (state) => state.im.userID,
       liveChatMsgList: (state) => state.im.liveChatMsgList,
       anonymoused: (state) => state.im.anonymoused,
+      extraAnonymoused: (state) => state.im.extraAnonymoused,
       selectedMsgIdx: (state) => state.selectedMsgIdx,
     }),
   },

@@ -113,12 +113,14 @@ export default {
             user_watch_num,
             like_num,
             is_anonymous,
+            is_anonymous2,
             user_is_ban,
             ...roomInfo
           } = res;
           this.roomInfo = roomInfo;
           if (user_is_ban == 1) this.$store.commit("setCurUserIsBan", 1);
-          this.$store.commit("setAnonymoused", Number(is_anonymous));
+          this.$store.commit("setAnonymoused", is_anonymous == 1);
+          this.$store.commit("setExtraAnonymoused", is_anonymous2 == 1);
           this.$store.commit("setSubtitleVisible", show_subtitle == 1);
           this.$store.commit("setSubtitleContent", subtitle);
           this.$store.commit(

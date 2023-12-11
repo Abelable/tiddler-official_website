@@ -726,7 +726,11 @@ export default {
           case "room_anonymous":
             this.$store.commit(
               "setAnonymoused",
-              Number(customMsg.is_anonymous)
+              Number(customMsg.is_anonymous == 1)
+            );
+            this.$store.commit(
+              "setExtraAnonymoused",
+              Number(customMsg.is_anonymous1 == 1)
             );
             break;
 
