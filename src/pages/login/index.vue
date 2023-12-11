@@ -98,7 +98,6 @@ export default {
       this.setAreaCodeList();
       return;
     }
-
     const ua = navigator.userAgent.toLowerCase();
     if (
       ua.match(/MicroMessenger/i) ||
@@ -106,7 +105,8 @@ export default {
       ua.match(/facebook/i)
     ) {
       const isAuthCallback = localStorage.getItem("isAuthCallback");
-      if (!isAuthCallback) {
+      const token = this.$route.query.token || getUrlParam("token") || "";
+      if (!isAuthCallback || !token) {
         const { redirect = "" } = this.$route.query || {};
         redirect && localStorage.setItem("redirect", redirect);
         localStorage.setItem("isAuthCallback", true);
