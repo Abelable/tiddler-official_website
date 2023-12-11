@@ -235,7 +235,7 @@ export default {
     }, 1000),
 
     selectVest(index) {
-      this.$store.commit("vestIndex", index);
+      this.$store.commit("setVestIndex", index);
       if (this.userFixed) {
         this.$store.commit("setVestInfo", this.userList[index]);
       }
