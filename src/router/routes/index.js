@@ -18,6 +18,14 @@ const routes = [
     },
   },
   {
+    name: "clear",
+    path: "/clear",
+    component: () => import("@/pages/room/clear"),
+    meta: {
+      title: "清除缓存",
+    },
+  },
+  {
     name: "traffic_statistic",
     path: "/traffic_statistic",
     component: () => import("@/pages/traffic-statistics/index"),
