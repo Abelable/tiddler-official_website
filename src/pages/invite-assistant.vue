@@ -18,7 +18,9 @@ import { Toast } from "vant";
 import BaseService from "@/service/baseService";
 
 const baseService = new BaseService();
+import RoomService from "@/service/roomService";
 
+const roomService = new RoomService();
 export default {
   data() {
     return {
@@ -31,7 +33,18 @@ export default {
   },
 
   created() {
-    if (!localStorage.getItem("token")) {
+    roomService.getCurrentUserInfo((res)=>{
+      if(res.is_tourist == 1){
+        localStorage.removeItem("token");
+        this.$router.push({
+          path: "/login",
+          query: {
+            showLoginPage: true,
+            redirect: this.$route.fullPath,
+          },
+        });
+      }
+    },(res)=>{
       this.$router.push({
         path: "/login",
         query: {
@@ -40,7 +53,7 @@ export default {
         },
       });
       return;
-    }
+    })
 
     const { type, inviter_id, studio_id, studio_name } = this.$route.query;
     this.type = type;

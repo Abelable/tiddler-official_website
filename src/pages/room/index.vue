@@ -1,6 +1,6 @@
 <template>
   <div class="container" v-if="pageShow">
-    <div v-if="is_tourist==1" style="position:absolute;left:.24rem;top:1.2rem;z-index:9;color:#fff;font-size:.24rem;
+    <div v-if="is_tourist==1 && roomInfo.status == 1" style="position:absolute;left:.24rem;top:1.2rem;z-index:9;color:#fff;font-size:.24rem;
     isplay: flex;
     align-items: center;
     padding: 0.06rem 0.16rem 0.08rem 0.16rem;
@@ -10,6 +10,16 @@
     background: rgba(0,0,0,0.3);
     border-radius: 0.22rem;
     border: 0.5px solid rgba(255,255,255,0.3);" @click="goLogin">登录</div>
+    <!-- <div style="position:absolute;left:.24rem;top:1.8rem;z-index:9;color:#fff;font-size:.24rem;
+    isplay: flex;
+    align-items: center;
+    padding: 0.06rem 0.16rem 0.08rem 0.16rem;
+    width: -webkit-fit-content;
+    width: -moz-fit-content;
+    width: fit-content;
+    background: rgba(0,0,0,0.3);
+    border-radius: 0.22rem;
+    border: 0.5px solid rgba(255,255,255,0.3);" @click="clearFn">清缓存</div> -->
     <img
       class="bg"
       v-if="roomInfo"
@@ -62,7 +72,7 @@ export default {
   data() {
     return {
       pageShow:false,
-      roomInfo: null,
+      roomInfo: {},
       password: "",
       pwdError: false,
       passwordModalVisible: false,
@@ -100,6 +110,9 @@ export default {
         },
       });
     },
+    clearFn(){
+      localStorage.removeItem("token");
+    },
     initPage(){
       let view_type = window.localStorage.getItem('view_type')
       roomService.getCurrentUserInfo((res)=>{
@@ -122,17 +135,32 @@ export default {
       },(res)=>{
         if(res.data.code == '4040' || res.data.code == '0'){
           if(view_type == 'h5'){
-            roomService.addUser({},(res)=>{
-              console.log(res,'游客')
-              localStorage.setItem("token", res.token);
+            let tourist_data = {}
+            try {
+              tourist_data = JSON.parse(localStorage.getItem("tourist_data") || '{}') || {}
+            } catch (error) {
+              console.log(error)
+            }
+            if(tourist_data.token){
+              localStorage.setItem("token", tourist_data.token);
               this.initWx()
               this.setRoomInfo()
               this.is_tourist = '1'
               this.pageShow = true
-            },(res)=>{
-              Toast.fail(res.data.message);
-              this.pageShow = true
-            });
+            }else{
+              roomService.addUser({},(res)=>{
+                console.log(res,'游客')
+                localStorage.setItem("token", res.token);
+                localStorage.setItem("tourist_data", JSON.stringify(res));
+                this.initWx()
+                this.setRoomInfo()
+                this.is_tourist = '1'
+                this.pageShow = true
+              },(res)=>{
+                Toast.fail(res.data.message);
+                this.pageShow = true
+              });
+            }
           }else{
             this.pageShow = true
           }

@@ -24,6 +24,7 @@ router.beforeEach((to, from, next) => {
 
   if (to.meta.title) document.title = to.meta.title;
   let view_type = window.localStorage.getItem('view_type')
+  // alert(view_type+'aaa'+to.name)
   if(view_type == 'h5' && to.name == 'live_play'){
     next();
     return

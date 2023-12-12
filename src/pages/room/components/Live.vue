@@ -396,6 +396,7 @@ export default {
       mutedBtn: false,
       mutedVolume: false,
       curUserId: 0,
+      customerServiceModalVisible:false,
     };
   },
 

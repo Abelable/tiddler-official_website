@@ -38,6 +38,7 @@
             large: size == 3,
           }"
           v-if="!item.is_gift_msg"
+          v-show="(item.is_ban!=1 || (item.is_ban == 1 && (item.user_id == userID || isAnchor))) && (item.is_sensitive!=1 || (item.is_sensitive == 1 && (item.user_id == userID || isAnchor)))"
           @click.stop="showDeleteBtn(index)"
         >
           <img
@@ -49,7 +50,7 @@
               'is-draw-msg': item.is_draw_msg,
             }"
             v-if="
-              item.head_img && (isAnchor || (!isAnchor && !extraAnonymoused))
+              item.head_img && (isAnchor || (!isAnchor && !anonymoused))
             "
             :src="`${item.head_img}?x-oss-process=img/resize,w_78,h_78`"
             @click.stop="manageUser(item.user_id)"
@@ -104,7 +105,7 @@
         <div
           class="delete-btns"
           :class="{ bottom: index === 0, top: index !== 0 }"
-          v-if="selectedMsgIdx === index && item.id"
+          v-if="selectedMsgIdx === index && item.id && item.type_name"
         >
           <div class="delete-btn" @click.stop="deleteCurMsg">删除此条</div>
           <div class="delete-btn" @click.stop="deleteCurUserMsg">

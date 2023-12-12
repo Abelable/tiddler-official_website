@@ -10,6 +10,9 @@ import './assets/style/index.styl'
 import "github-markdown-css/github-markdown-light.css";
 import "highlight.js/styles/googlecode.css";
 import hljs from "highlight.js";
+import RoomService from "@/service/roomService";
+
+const roomService = new RoomService();
 // import Vconsole from 'vconsole'
 
 // const vconsole = new Vconsole()
@@ -37,8 +40,20 @@ Vue.use(Popup)
 Vue.use(List)
 Vue.use(Switch)
 
-new Vue({
-  router,
-  store,
-  render: h => h(App),
-}).$mount('#app')
+roomService.getConfig((res)=>{
+  window.localStorage.setItem('view_type',res.view_type)
+  new Vue({
+    router,
+    store,
+    render: h => h(App),
+  }).$mount('#app')
+},(err)=>{
+  window.localStorage.setItem('view_type','h5')
+  new Vue({
+    router,
+    store,
+    render: h => h(App),
+  }).$mount('#app')
+});
+
+
