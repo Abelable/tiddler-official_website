@@ -160,6 +160,12 @@
             @click.stop="virtualDataPopupVisible = true"
             src="../../../assets/images/live/add-user-icon.png"
           />
+          <img 
+            class="shortcut-btn" 
+            v-if="roomInfo.show_kefu && roomInfo.kefu_img" 
+            @click.stop="customerServiceModalVisible = true" 
+            src="https://img.ubo.vip/youbo_plus/new_version/live/custom-service-icon.png"
+          />
         </div>
 
         <div class="bottom-part">
@@ -286,6 +292,11 @@
       :roomInfo="roomInfo"
       @hide="posterModalVisible = false"
     />
+    <CustomerServiceModal 
+      v-if="customerServiceModalVisible"
+      :qrCodeImg="roomInfo.kefu_img"
+      @hide="customerServiceModalVisible = false"
+    />
   </div>
 </template>
 
@@ -319,6 +330,7 @@ import GiftPopup from "./GiftPopup";
 import Animation from "./Animation";
 import Praise from "./Praise";
 import PosterModal from "./PosterModal";
+import CustomerServiceModal from './CustomerServiceModal'
 
 import TIM from "tim-js-sdk";
 import TIMUploadPlugin from "tim-upload-plugin";
@@ -350,6 +362,7 @@ export default {
     Animation,
     Praise,
     PosterModal,
+    CustomerServiceModal,
     Icon,
   },
 
