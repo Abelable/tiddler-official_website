@@ -1,6 +1,6 @@
 <template>
   <div class="container" v-if="pageShow">
-    <div v-if="is_tourist==1 && roomInfo.status == 1" style="position:absolute;left:.24rem;top:1.2rem;z-index:9;color:#fff;font-size:.24rem;
+    <div v-if="roomInfo.status == 1" style="position:absolute;left:.24rem;top:1.2rem;z-index:9;color:#fff;font-size:.24rem;
     isplay: flex;
     align-items: center;
     padding: 0.06rem 0.16rem 0.08rem 0.16rem;
@@ -9,7 +9,7 @@
     width: fit-content;
     background: rgba(0,0,0,0.3);
     border-radius: 0.22rem;
-    border: 0.5px solid rgba(255,255,255,0.3);" @click="goLogin">登录</div>
+    border: 0.5px solid rgba(255,255,255,0.3);" @click="goLogin">切换账号</div>
     <!-- <div style="position:absolute;left:.24rem;top:1.8rem;z-index:9;color:#fff;font-size:.24rem;
     isplay: flex;
     align-items: center;
