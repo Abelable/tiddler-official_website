@@ -101,7 +101,10 @@ class Base {
             fail(res);
           } else {
             localStorage.removeItem("token");
-            Toast("身份已失效，请重新点击链接进入");
+            let view_type = window.localStorage.getItem('view_type')
+            if(view_type != 'h5' && !location.href.includes('/l_p')){
+              Toast("身份已失效，请重新点击链接进入");
+            }
             return false;
           }
         } else {

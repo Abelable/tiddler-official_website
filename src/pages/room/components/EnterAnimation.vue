@@ -7,7 +7,7 @@
         <div class="omit single-line">
           {{
             !isAnchor && (anonymoused || extraAnonymoused)
-              ? (info.nick_name | formatName)
+              ? (formatName(info.nick_name))
               : info.nick_name
           }}
         </div>
@@ -31,7 +31,7 @@
         <div class="omit single-line">
           {{
             !isAnchor && (anonymoused || extraAnonymoused)
-              ? (info.nick_name | formatName)
+              ? (formatName(info.nick_name))
               : info.nick_name
           }}
         </div>
@@ -73,7 +73,26 @@ export default {
   },
 
   filters: {
-    formatName(name) {
+
+  },
+
+  created() {
+    if (this.info.type == 3) {
+      setTimeout(() => {
+        this.playAnimation();
+      });
+    } else {
+      setTimeout(() => {
+        this.show = true;
+      });
+      setTimeout(() => {
+        this.show = false;
+      }, 3000);
+    }
+  },
+
+  methods: {
+    formatName(name){
       if (name) {
         if (name.length === 1) {
           return "*";
@@ -94,24 +113,6 @@ export default {
         }
       }
     },
-  },
-
-  created() {
-    if (this.info.type == 3) {
-      setTimeout(() => {
-        this.playAnimation();
-      });
-    } else {
-      setTimeout(() => {
-        this.show = true;
-      });
-      setTimeout(() => {
-        this.show = false;
-      }, 3000);
-    }
-  },
-
-  methods: {
     async playAnimation() {
       this.parser = new SVGA.Parser("#svga-player");
       this.player = new SVGA.Player("#svga-player");

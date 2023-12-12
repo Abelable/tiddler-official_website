@@ -86,7 +86,7 @@
             {{ item.nick_name | sliceName }}：
           </span>
           <span class="msg-user-name" v-if="item.nick_name && isAnchor || (!anonymoused && !extraAnonymoused)">
-            {{item.nick_name}}：
+            <span v-if="item.nick_name">{{item.nick_name}}：</span>
           </span>
           <span
             class="message-content"

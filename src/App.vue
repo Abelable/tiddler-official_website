@@ -1,17 +1,32 @@
 <template>
   <div id="app">
     <keep-alive :include="['digital_human_index']">
-      <router-view></router-view>
+      <router-view v-if="routeVisible"></router-view>
     </keep-alive>
   </div>
 </template>
 
 <script>
+import RoomService from "@/service/roomService";
+
+const roomService = new RoomService();
 import axios from "axios";
 export default {
   name: "App",
-
+  data() {
+    return {
+      routeVisible:false
+    };
+  },
   created() {
+    roomService.getConfig((res)=>{
+      window.localStorage.setItem('view_type',res.view_type)
+      this.routeVisible = true
+    },(err)=>{
+      window.localStorage.setItem('view_type','h5')
+      this.routeVisible = true
+    });
+
     axios({
       method: "get",
       url: "https://ip.talking.vip",

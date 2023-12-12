@@ -1,5 +1,15 @@
 <template>
-  <div class="container">
+  <div class="container" v-if="pageShow">
+    <div v-if="is_tourist==1" style="position:absolute;left:.24rem;top:1.2rem;z-index:9;color:#fff;font-size:.24rem;
+    isplay: flex;
+    align-items: center;
+    padding: 0.06rem 0.16rem 0.08rem 0.16rem;
+    width: -webkit-fit-content;
+    width: -moz-fit-content;
+    width: fit-content;
+    background: rgba(0,0,0,0.3);
+    border-radius: 0.22rem;
+    border: 0.5px solid rgba(255,255,255,0.3);" @click="goLogin">登录</div>
     <img
       class="bg"
       v-if="roomInfo"
@@ -51,11 +61,13 @@ export default {
 
   data() {
     return {
+      pageShow:false,
       roomInfo: null,
       password: "",
       pwdError: false,
       passwordModalVisible: false,
       sharePopupVisible: false,
+      is_tourist:'2'
     };
   },
 
@@ -75,11 +87,61 @@ export default {
     if (this.parent_user_id) {
       this.$store.commit("setShareId", this.parent_user_id);
     }
-    this.setRoomInfo();
-    this.initWx();
+    this.initPage()
   },
 
   methods: {
+    goLogin(){
+      localStorage.removeItem("token");
+      this.$router.push({
+        path: "/login",
+        query: {
+          redirect: this.$route.fullPath,
+        },
+      });
+    },
+    initPage(){
+      let view_type = window.localStorage.getItem('view_type')
+      roomService.getCurrentUserInfo((res)=>{
+        //已经登录
+        this.is_tourist = res.is_tourist
+        if(view_type == 'h5'){
+          this.initWx()
+          this.setRoomInfo()
+          this.pageShow = true
+        }else{
+          if(res.is_tourist == 1){
+            localStorage.removeItem("token");
+            window.location.reload()
+          }else{
+            this.initWx()
+            this.setRoomInfo()
+            this.pageShow = true
+          }
+        }
+      },(res)=>{
+        if(res.data.code == '4040' || res.data.code == '0'){
+          if(view_type == 'h5'){
+            roomService.addUser({},(res)=>{
+              console.log(res,'游客')
+              localStorage.setItem("token", res.token);
+              this.initWx()
+              this.setRoomInfo()
+              this.is_tourist = '1'
+              this.pageShow = true
+            },(res)=>{
+              Toast.fail(res.data.message);
+              this.pageShow = true
+            });
+          }else{
+            this.pageShow = true
+          }
+        }else{
+          Toast.fail(res.data.message);
+          this.pageShow = true
+        }
+      });
+    },
     async initWx() {
       const { appId, timestamp, nonceStr, signature } =
         (await roomService.getWxSign(

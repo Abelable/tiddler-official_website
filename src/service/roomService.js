@@ -362,6 +362,18 @@ class RoomService extends BaseService {
       num,
     });
   }
+
+  async getConfig(success,fail) {
+    return await this.get(`${this.liveUrl}/site/get-config`, {},success,fail);
+  }
+
+  async addUser(data,success,fail) {
+    return await this.post(`${this.liveUrl}/user/add-user`, data,success,fail);
+  }
+
+  async getCurrentUserInfo(success,fail) {
+    return await this.get(`${this.liveUrl}/user/user-info`,{},success,fail);
+  }
 }
 
 export default RoomService;

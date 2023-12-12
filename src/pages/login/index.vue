@@ -93,7 +93,8 @@ export default {
   },
 
   async created() {
-    if (this.$route.query.showLoginPage) {
+    let view_type = window.localStorage.getItem('view_type')
+    if (this.$route.query.showLoginPage || view_type == 'h5') {
       this.loginPageVisible = true;
       this.setAreaCodeList();
       return;
@@ -230,12 +231,14 @@ export default {
             `${this.areaCodeList[this.curAreaCodeIdx].value}-${this.mobile}`,
             this.code
           )) || {};
-        const { redirect } = this.$route.query;
-        if (redirect) {
-          localStorage.setItem("token", token);
-          this.$router.push(`${redirect}`);
-        } else {
-          window.wx.miniProgram.navigateBack();
+        if(token){
+          const { redirect } = this.$route.query;
+          if (redirect) {
+            localStorage.setItem("token", token);
+            this.$router.push(`${redirect}`);
+          } else {
+            window.wx.miniProgram.navigateBack();
+          }
         }
       }
     },
