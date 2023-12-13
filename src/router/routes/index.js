@@ -26,6 +26,14 @@ const routes = [
     },
   },
   {
+    name: "test",
+    path: "/test",
+    component: () => import("@/pages/room/test"),
+    meta: {
+      title: "test",
+    },
+  },
+  {
     name: "traffic_statistic",
     path: "/traffic_statistic",
     component: () => import("@/pages/traffic-statistics/index"),

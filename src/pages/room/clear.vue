@@ -1,6 +1,6 @@
 <template>
   <div class="container" >
-    
+
   </div>
 </template>
 
@@ -10,8 +10,11 @@
 export default {
   created() {
     localStorage.removeItem("token");
-    alert('clear ok')
+      alert('clear ok')
   },
+  methods:{
+
+  }
 };
 </script>
 

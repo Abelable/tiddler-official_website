@@ -166,7 +166,7 @@ export default {
 
     async setInviterInfo() {
       const { nick_name, head_img } =
-        (await baseService.getCurrentUserInfo(this.inviterId)) || {};
+        (await baseService.getCurrentUserInfo1(this.inviterId)) || {};
       this.avatar = head_img;
       this.name = nick_name;
     },

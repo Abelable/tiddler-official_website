@@ -3,7 +3,7 @@
     <div v-if="roomInfo.status == 1" style="position:absolute;left:.24rem;top:1.2rem;z-index:9;color:#fff;font-size:.24rem;
     isplay: flex;
     align-items: center;
-    padding: 0.06rem 0.16rem 0.08rem 0.16rem;
+    padding: 0.08rem 0.16rem;
     width: -webkit-fit-content;
     width: -moz-fit-content;
     width: fit-content;
@@ -195,14 +195,17 @@ export default {
                 this.pageShow = true
               },(res)=>{
                 Toast.fail(res.data.message);
+                this.goLogin()
                 this.pageShow = true
               });
             }
           }else{
+            this.goLogin()
             this.pageShow = true
           }
         }else{
           Toast.fail(res.data.message);
+          this.goLogin()
           this.pageShow = true
         }
       });

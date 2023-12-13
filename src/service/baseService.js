@@ -1,8 +1,8 @@
 import Base from "./base/index";
 
 class BaseService extends Base {
-  async getCurrentUserInfo() {
-    return await this.get(`${this.liveUrl}/user/user-info`);
+  async getCurrentUserInfo1(id) {
+    return await this.get(`${this.liveUrl}/user/user-info`, {id});
   }
 
   async getOssInfo() {

@@ -94,8 +94,9 @@ export default {
   },
 
   async created() {
+    let isComWx = /wxwork/i.test(navigator.userAgent) || false //企业微信
     let view_type = window.localStorage.getItem('view_type')
-    if (this.$route.query.showLoginPage || view_type == 'h5') {
+    if (this.$route.query.showLoginPage || view_type == 'h5' || isComWx) {
       this.loginPageVisible = true;
       this.setAreaCodeList();
       return;
