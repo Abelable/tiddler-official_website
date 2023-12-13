@@ -6,4 +6,8 @@ if(window.location.host == 'h5.ningzhijie.top'){
   h5Url = "https://h5.ningzhijie.top"
   liveUrl = "https://api.ningzhijie.top";
 }
+if(window.location.host == 'h5.ruilizhibo.com'){
+  h5Url = "https://h5.ruilizhibo.com"
+  liveUrl = "https://api.ruilizhibo.com";
+}
 export { env, liveUrl, h5Url }
