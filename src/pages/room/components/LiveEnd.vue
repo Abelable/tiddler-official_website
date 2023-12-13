@@ -1,6 +1,6 @@
 <template>
   <div class="container">
-    <div class="user-info">
+    <!-- <div class="user-info">
       <img class="avatar" :src="roomInfo.head_img" />
       <div class="name-wrap">
         <div class="name">{{ roomInfo.studio_title }}</div>
@@ -14,10 +14,10 @@
         <div class="title">{{ roomInfo.title }}</div>
         <div class="time">{{ roomInfo.lv_start_time | timeFormat }}</div>
       </div>
-    </div>
+    </div> -->
 
-    <div class="bottom-bar">
-      <div v-if="roomInfo.show_replay == 2">
+    <!-- <div class="bottom-bar"> -->
+      <!-- <div v-if="roomInfo.show_replay == 2">
         <wx-open-launch-weapp
           :username="originalMpId"
           :path="
@@ -70,9 +70,9 @@
             <div class="back-btn">查看回放</div>
           </script>
         </wx-open-launch-weapp>
-      </div>
-      <div class="status-btn">直播已结束</div>
-    </div>
+      </div> -->
+      <!-- <div class="status-btn">直播已结束</div> -->
+    <!-- </div> -->
   </div>
 </template>
 

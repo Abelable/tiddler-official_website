@@ -45,6 +45,7 @@
 </template>
 
 <script>
+import { h5Url } from "@/utils/config";
 import { Toast } from "vant";
 import Live from "./components/Live";
 import LiveBreak from "./components/LiveBreak";
@@ -71,6 +72,8 @@ export default {
 
   data() {
     return {
+      myId:'',
+      view_type_value:'',
       pageShow:false,
       roomInfo: {},
       password: "",
@@ -90,6 +93,7 @@ export default {
   },
 
   created() {
+    this.view_type_value = window.localStorage.getItem('view_type')
     this.id = this.$route.query.id || getUrlParam("id");
     this.parent_user_id =
       this.$route.query.parent_user_id || getUrlParam("parent_user_id") || "";
@@ -100,11 +104,42 @@ export default {
     this.initPage()
   },
 
+  mounted(){
+    window.wx.ready(() => {
+      this.setWXshare()
+    })
+  },
+
   methods: {
+    setWXshare(){
+      let title = this.roomInfo.title
+      let desc = '听说好看的人才能收到这个链接哟~'
+      let link = h5Url + '/h5/#/l_p?id='+this.id+'&parent_user_id='+(this.myId||'')
+      let imgUrl = this.roomInfo.cover
+      console.log(title,desc,link,imgUrl,'==========share')
+      window.wx.updateAppMessageShareData({ 
+        title, // 分享标题
+        desc, // 分享描述
+        link, // 分享链接，该链接域名或路径必须与当前页面对应的公众号JS安全域名一致
+        imgUrl, // 分享图标
+        success: function () {
+          // 设置成功
+        }
+      })
+      window.wx.updateTimelineShareData({ 
+        title, // 分享标题
+        link, // 分享链接，该链接域名或路径必须与当前页面对应的公众号JS安全域名一致
+        imgUrl, // 分享图标
+        success: function () {
+          // 设置成功
+        }
+      })
+    },
     goLogin(){
       this.$router.push({
         path: "/login",
         query: {
+          showLoginPage: true,
           redirect: this.$route.fullPath,
         },
       });
@@ -117,6 +152,7 @@ export default {
       roomService.getCurrentUserInfo((res)=>{
         //已经登录
         this.is_tourist = res.is_tourist
+        this.myId = res.id
         if(view_type == 'h5'){
           this.initWx()
           this.setRoomInfo()
@@ -142,6 +178,7 @@ export default {
             }
             if(tourist_data.token){
               localStorage.setItem("token", tourist_data.token);
+              this.myId = tourist_data.id
               this.initWx()
               this.setRoomInfo()
               this.is_tourist = '1'
@@ -151,6 +188,7 @@ export default {
                 console.log(res,'游客')
                 localStorage.setItem("token", res.token);
                 localStorage.setItem("tourist_data", JSON.stringify(res));
+                this.myId = res.id
                 this.initWx()
                 this.setRoomInfo()
                 this.is_tourist = '1'
@@ -170,18 +208,21 @@ export default {
       });
     },
     async initWx() {
-      const { appId, timestamp, nonceStr, signature } =
-        (await roomService.getWxSign(
-          encodeURIComponent(window.location.href)
-        )) || {};
-      window.wx.config({
-        appId,
-        timestamp,
-        nonceStr,
-        signature,
-        jsApiList: ["chooseImage", "previewImage", "wx-open-launch-weapp"],
-        openTagList: ["wx-open-launch-weapp"],
-      });
+      let view_type = window.localStorage.getItem('view_type')
+      if(view_type!='h5'){
+        const { appId, timestamp, nonceStr, signature } =
+          (await roomService.getWxSign(
+            encodeURIComponent(window.location.href)
+          )) || {};
+        window.wx.config({
+          appId,
+          timestamp,
+          nonceStr,
+          signature,
+          jsApiList: ["chooseImage", "previewImage", "wx-open-launch-weapp","updateAppMessageShareData","updateTimelineShareData"],
+          openTagList: ["wx-open-launch-weapp"],
+        });
+      }
     },
 
     refetch(password) {
@@ -220,6 +261,10 @@ export default {
           document.title = roomInfo.title;
           if (this.passwordModalVisible) {
             this.passwordModalVisible = false;
+          }
+          this.setWXshare()
+          if(roomInfo && roomInfo.status == 3){
+            Toast("直播已结束");
           }
         },
         (res) => {

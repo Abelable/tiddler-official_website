@@ -17,7 +17,7 @@
           </div>
           <div v-if="curMenuIdx === 0">
             <van-switch
-              v-model="userFixed"
+              v-model="userFixedc"
               size="18px"
               inactive-color="#656565"
             />
@@ -156,7 +156,7 @@ export default {
       featureList: [],
       phraseList: [],
       userList: [],
-      userFixed: false,
+      userFixedc: false,
       commentModalVisible: false,
       assistantModalVisible: false,
     };
@@ -164,6 +164,7 @@ export default {
 
   computed: {
     ...mapState({
+      userFixed: (state) => state.userFixed,
       studioInfo: (state) => state.studioInfo,
       vestIndex: (state) => state.vestIndex,
       userTagList: (state) => state.userTagList,
@@ -171,7 +172,7 @@ export default {
   },
 
   watch: {
-    userFixed: function(truthy) {
+    userFixedc: function(truthy) {
       if (truthy) {
         this.$store.commit("setVestInfo", this.userList[this.vestIndex]);
       } else {
@@ -189,6 +190,7 @@ export default {
     setTimeout(() => {
       this.show = true;
     }, 50);
+    this.userFixedc = this.userFixed
   },
 
   methods: {
@@ -216,7 +218,7 @@ export default {
         (await roomService.getVestList(this.roomInfo.studio_id)) || {};
       if (userList.length) {
         this.userList = userList;
-        if (this.userFixed) {
+        if (this.userFixedc) {
           this.$store.commit("setVestInfo", this.userList[this.vestIndex]);
         }
       } else {
@@ -228,7 +230,7 @@ export default {
       roomService.createVest(this.roomInfo.studio_id, (res) => {
         this.userList = [res, ...this.userList];
         this.$store.commit("setVestIndex", 0);
-        if (this.userFixed) {
+        if (this.userFixedc) {
           this.$store.commit("setVestInfo", this.userList[this.vestIndex]);
         }
       });
@@ -236,7 +238,7 @@ export default {
 
     selectVest(index) {
       this.$store.commit("setVestIndex", index);
-      if (this.userFixed) {
+      if (this.userFixedc) {
         this.$store.commit("setVestInfo", this.userList[index]);
       }
     },
@@ -251,7 +253,7 @@ export default {
           roomService.deleteVest(userList[index].id, () => {
             userList.splice(index, 1);
             this.userList = userList;
-            if (this.userFixed) {
+            if (this.userFixedc) {
               this.$store.commit("setVestInfo", this.userList[this.vestIndex]);
             }
           });
@@ -262,7 +264,7 @@ export default {
     async send(msg) {
       const { id: room_id, group_id, type_name } = this.roomInfo;
       let user;
-      if (this.userFixed) {
+      if (this.userFixedc) {
         user = this.userList[this.vestIndex] || {};
       } else {
         const randomIndex = Math.floor(

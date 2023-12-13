@@ -66,7 +66,7 @@
           </div>
         </div>
 
-        <div class="full-screen-btn" v-if="roomInfo.direction == 1">
+        <!-- <div class="full-screen-btn" v-if="roomInfo.direction == 1">
           <wx-open-launch-weapp
             :username="originalMpId"
             :path="
@@ -101,9 +101,9 @@
               </div>
             </script>
           </wx-open-launch-weapp>
-        </div>
+        </div> -->
 
-        <div class="hd-btn">
+        <!-- <div class="hd-btn">
           <wx-open-launch-weapp
             :username="originalMpId"
             :path="
@@ -139,7 +139,7 @@
               </div>
             </script>
           </wx-open-launch-weapp>
-        </div>
+        </div> -->
 
         <div class="shortcut-btns">
           <img

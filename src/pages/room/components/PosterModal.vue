@@ -2,7 +2,7 @@
   <div class="modal" @click="hide">
     <div class="main" @click.stop="">
       <canvas id="poster" class="poster" width="335" height="580" />
-      <div class="btn" @click.stop="save">保存海报</div>
+      <!-- <div class="btn" @click.stop="save">保存海报</div> -->
       <div class="btn" @click.stop="copyLink">仅复制链接</div>
     </div>
   </div>
