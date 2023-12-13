@@ -917,8 +917,10 @@ export default {
     },
 
     showUserManagementPopup(id) {
-      this.userManagementPopupVisible = true;
-      this.curUserId = id;
+      if(this.roomInfo.type_name){
+        this.userManagementPopupVisible = true;
+        this.curUserId = id;
+      }
     },
 
     reset() {

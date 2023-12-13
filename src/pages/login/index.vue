@@ -40,7 +40,7 @@
     </div>
     <div class="protocol">
       注册即代表您同意<a
-        href="https://h5.talking.vip/youbo_plus/h5/index.html#/privacy_policy"
+        :href="h5Url + '/youbo_plus/h5/index.html#/privacy_policy'"
         >《瑞播用户服务协议》</a
       >
     </div>
@@ -71,7 +71,7 @@
 
 <script>
 import { Popover } from "vant";
-
+import { h5Url, liveUrl } from "@/utils/config";
 import { getUrlParam } from "@/utils/index";
 import LoginService from "./utils/loginService";
 
@@ -82,6 +82,7 @@ export default {
 
   data() {
     return {
+      h5Url,
       loginPageVisible: false,
       mobile: "",
       code: "",
@@ -116,7 +117,8 @@ export default {
           // 微信环境
           let auth_appid = window.localStorage.getItem('auth_appid')
           const state = encodeURIComponent("login_type=1");
-          window.location.href = `https://open.weixin.qq.com/connect/oauth2/authorize?appid=${auth_appid}&redirect_uri=https%3A%2F%2Fapi.talking.vip%2Fofficial-account%2Foauth-callback&response_type=code&scope=snsapi_userinfo&state=${state}#wechat_redirect`;
+          const hostUrl = encodeURIComponent(liveUrl)
+          window.location.href = `https://open.weixin.qq.com/connect/oauth2/authorize?appid=${auth_appid}&redirect_uri=${hostUrl}%2Fofficial-account%2Foauth-callback&response_type=code&scope=snsapi_userinfo&state=${state}#wechat_redirect`;
         } else if (ua.match(/line/i)) {
           // line环境
           window.location.href = await this.setLineLoginUrl();

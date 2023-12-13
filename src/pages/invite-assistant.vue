@@ -43,6 +43,14 @@ export default {
             redirect: this.$route.fullPath,
           },
         });
+      }else{
+        const { type, inviter_id, studio_id, studio_name } = this.$route.query;
+        this.type = type;
+        this.inviterId = inviter_id;
+        this.studioId = studio_id;
+        this.studioName = studio_name;
+
+        this.setInviterInfo();
       }
     },(res)=>{
       this.$router.push({
@@ -55,13 +63,7 @@ export default {
       return;
     })
 
-    const { type, inviter_id, studio_id, studio_name } = this.$route.query;
-    this.type = type;
-    this.inviterId = inviter_id;
-    this.studioId = studio_id;
-    this.studioName = studio_name;
-
-    this.setInviterInfo();
+    
   },
 
   methods: {
@@ -73,7 +75,7 @@ export default {
     },
 
     accept() {
-      baseService.createStudioManager(this.studioId, this.type, () => {
+      baseService.createStudioManager(this.studioId, this.type, this.inviterId, () => {
         Toast(`您已成为该直播间的${this.type == 3 ? "小助手" : "直播助手"}`);
         this.isManager = true;
       });

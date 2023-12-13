@@ -38,30 +38,30 @@
             <div>1、开启后，你评论时将显示以下头像和昵称：</div>
             <div>2、以下头像和昵称是系统随机产生。</div>
           </div>
-          <div class="selected-assistant" v-if="userList.length">
+          <div class="selected-assistant">
             <div class="assistant-info">
-              <div class="avatar-wrap selected">
+              <div class="avatar-wrap selected" v-if="userList[vestIndex] && userList[vestIndex].head_img">
                 <img
                   class="avatar selected"
-                  :src="userList[vestIndex].head_img"
+                  :src="userList[vestIndex] && userList[vestIndex].head_img"
                 />
                 <img
                   class="selected-icon"
                   src="https://img.ubo.vip/youbo_plus/new_version/live/assistant-comments-popup/selected.png"
                 />
               </div>
-              <div class="name">{{ userList[vestIndex].name }}</div>
+              <div class="name">{{ userList[vestIndex] && userList[vestIndex].name }}</div>
             </div>
             <div class="edit-btns">
               <div
                 class="edit-btn"
-                v-if="userList[vestIndex].id"
+                v-if="userList[vestIndex] && userList[vestIndex].id"
                 @click.stop="assistantModalVisible = true"
               >
                 编辑
               </div>
               <div class="change-btn" @click.stop="addVest">
-                {{ userList[vestIndex].id ? "换一个" : "新增" }}
+                {{ userList[vestIndex] && userList[vestIndex].id ? "换一个" : "新增" }}
               </div>
             </div>
           </div>
@@ -70,7 +70,7 @@
               class="assistant-item"
               v-for="(item, index) in userList"
               :key="index"
-              @click.stop="selectVest(index)"
+              @click="selectVest(index)"
             >
               <div
                 class="avatar-wrap"
@@ -226,7 +226,7 @@ export default {
 
     addVest: _.debounce(function() {
       roomService.createVest(this.roomInfo.studio_id, (res) => {
-        this.userList = [res.data.data, ...this.userList];
+        this.userList = [res, ...this.userList];
         this.$store.commit("setVestIndex", 0);
         if (this.userFixed) {
           this.$store.commit("setVestInfo", this.userList[this.vestIndex]);
@@ -354,9 +354,8 @@ export default {
   &.show
     transform: translate(-50%, 0)
     transition: transform .3s ease
-.assistant-comments-popup {
-  padding-bottom: env(safe-area-inset-bottom);
-}
+  .assistant-comments-popup
+    padding-bottom: env(safe-area-inset-bottom);
 
 .menu-wrap {
   display: flex;

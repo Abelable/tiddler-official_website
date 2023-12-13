@@ -142,6 +142,12 @@ class RoomService extends BaseService {
     });
   }
 
+  async createVest(studio_id, success) {
+    return await this.post(`${this.liveUrl}/live-stream/create-vest`, {
+      studio_id,
+    }, success);
+  }
+
   async createPhrase(studio_id, type, content, success) {
     return await this.post(
       `${this.liveUrl}/live-studio/live-phrase-create`,
@@ -158,6 +164,14 @@ class RoomService extends BaseService {
     return await this.post(
       `${this.liveUrl}/live-stream/update-vest`,
       { id, name, head_img },
+      success
+    );
+  }
+
+  async deleteVest(id, success) {
+    return await this.post(
+      `${this.liveUrl}/live-stream/delete-vest`,
+      { id },
       success
     );
   }

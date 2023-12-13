@@ -233,12 +233,11 @@ export default {
   &.show
     transform: translate(-50%, 0)
     transition: transform .3s ease
-.gift-popup {
-  padding-bottom: env(safe-area-inset-bottom);
-  background: rgba(0, 0, 0, 0.7);
-  backdrop-filter: blur(8px);
-  border-radius: 10px 10px 0px 0px;
-}
+  .gift-popup
+    padding-bottom: env(safe-area-inset-bottom);
+    background: rgba(0, 0, 0, 0.7);
+    backdrop-filter: blur(8px);
+    border-radius: 10px 10px 0px 0px;
 
 .main {
   padding: 8px 0;

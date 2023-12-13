@@ -337,9 +337,8 @@ export default {
   &.show
     transform: translate(-50%, 0)
     transition: transform .3s ease
-.user-management-popup {
-  padding-bottom: env(safe-area-inset-bottom);
-}
+  .user-management-popup
+    padding-bottom: env(safe-area-inset-bottom);
 
 .menu-wrap {
   display: flex;

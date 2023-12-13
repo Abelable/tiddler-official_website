@@ -274,14 +274,12 @@ export default {
   &.show
     transform: translate(-50%, 0)
     transition: transform .3s ease
-.invite-rank-list-popup {
-  padding-bottom: env(safe-area-inset-bottom);
-}
-.invite-rank-list-popup.bg {
-  background-image: url('https://img.ubo.vip/mp/index/room/rank-bg.png');
-  background-repeat: no-repeat;
-  background-size: contain;
-}
+  .invite-rank-list-popup
+    padding-bottom: env(safe-area-inset-bottom);
+  .invite-rank-list-popup.bg
+    background-image: url('https://img.ubo.vip/mp/index/room/rank-bg.png');
+    background-repeat: no-repeat;
+    background-size: contain;
 
 .header {
   position: relative;

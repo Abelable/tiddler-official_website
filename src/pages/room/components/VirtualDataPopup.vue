@@ -172,10 +172,10 @@ export default {
   &.show
     transform: translate(-50%, 0)
     transition: transform .3s ease
-    .increase-users-popup {
-  padding: 15px;
-  padding-bottom: calc(15px + env(safe-area-inset-bottom));
-}
+  .increase-users-popup 
+    padding: 15px;
+    padding-bottom: calc(15px + env(safe-area-inset-bottom));
+
 
 .pop-title {
   color: #333;

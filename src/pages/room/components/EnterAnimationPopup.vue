@@ -392,9 +392,9 @@ export default {
   &.show
     transform: translate(-50%, 0)
     transition: transform .3s ease
-.enter-animation-popup {
-  padding-bottom: env(safe-area-inset-bottom);
-}
+  .enter-animation-popup
+    padding-bottom: env(safe-area-inset-bottom);
+  
 
 .header {
   position: relative;

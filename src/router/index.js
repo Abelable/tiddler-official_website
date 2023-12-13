@@ -1,6 +1,6 @@
 import Router from "vue-router";
 import routes from "./routes/index";
-
+import { h5Url } from "@/utils/config";
 const router = new Router({
   routes,
   scrollBehavior() {
@@ -15,7 +15,7 @@ router.beforeEach((to, from, next) => {
         /(phone|pad|pod|iPhone|iPod|ios|iPad|Android|Mobile|IEMobile)/i
       )
     ) {
-      window.location.href = `https://h5.talking.vip/pc/#/l_p?id=${
+      window.location.href = `${h5Url}/pc/#/l_p?id=${
         to.query.id
       }&parent_user_id=${to.query.parent_user_id || ""}`;
       return;

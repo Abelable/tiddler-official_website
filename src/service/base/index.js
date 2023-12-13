@@ -1,7 +1,7 @@
 import axios from "axios";
 import qs from "qs";
 import { Toast } from "vant";
-import { env } from "../../utils/config";
+import { env, liveUrl } from "../../utils/config";
 import { judgeHost } from "../../utils/bridge";
 import sign from "./sign";
 
@@ -10,14 +10,15 @@ class Base {
     switch (env) {
       case "pro":
         this.mmsUrl = "https://mms.youboi.com";
-        this.liveUrl = "https://api.talking.vip";
+        this.liveUrl = liveUrl;
         this.yb_mmsUrl = "yb_mms_url";
         this.yb_liveUrl = "tb_live_url";
+
         break;
 
       case "dev":
         this.mmsUrl = "https://mms.youboe.com";
-        this.liveUrl = "https://api.talking.vip";
+        this.liveUrl = liveUrl;
         break;
     }
   }

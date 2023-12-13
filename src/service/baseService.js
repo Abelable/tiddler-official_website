@@ -9,10 +9,10 @@ class BaseService extends Base {
     return await this.post(`${this.liveUrl}/common/ali-sts`);
   }
 
-  async createStudioManager(studio_id, user_type, success) {
+  async createStudioManager(studio_id, user_type, parent_user_id, success) {
     return await this.post(
       `${this.liveUrl}/live-studio/studio-manager`,
-      { studio_id, user_type },
+      { studio_id, user_type, parent_user_id },
       success
     );
   }
