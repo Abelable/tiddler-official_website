@@ -44,6 +44,7 @@
 </template>
 
 <script>
+import { h5Url } from "@/utils/config";
 import { postMsg } from "@/utils/bridge";
 import SupplierService from "./utils/supplierService";
 
@@ -82,7 +83,7 @@ export default {
     },
 
     checkAgreement() {
-      window.location.href = 'https://h5.talking.vip/web/supplier/pages/agreement/index.html?head=no'
+      window.location.href = h5Url + '/web/supplier/pages/agreement/index.html?head=no'
     }
   },
 };

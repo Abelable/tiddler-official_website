@@ -1,6 +1,6 @@
-const isInApp = () => {
-  return navigator.userAgent.toLowerCase().indexOf("youbo") !== -1;
-};
+let isInApp = () => {
+  return navigator.userAgent.toLowerCase().indexOf('ruibo') !== -1
+}
 
 const isInIOS = () => {
   return !!navigator.userAgent.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/);

@@ -162,7 +162,7 @@
 </template>
 
 <script>
-import { Popup, Area, TreeSelect, Toast } from 'vant';
+import { Popup, Area, TreeSelect, Toast } from "vant";
 import Uploader from "@/components/Uploader";
 import { areaList } from "@vant/area-data";
 import { mapState } from "vuex";
@@ -212,10 +212,10 @@ export default {
 
   async created() {
     this.categoryIdx = this.$route.query.categoryIdx || 0;
-    Toast.loading({ message: '加载中...'})
+    Toast.loading({ message: "加载中..." });
     await this.setRegionOptions();
     await this.setSupplierInfo();
-    Toast.clear()
+    Toast.clear();
   },
 
   methods: {
@@ -229,7 +229,6 @@ export default {
         this.categoryIdx = this.categoryList.findIndex(
           (item) => item.value == merchants_shop_infomation.shop_categoryMain
         );
-  
         const {
           company_name,
           company_adress,
@@ -254,7 +253,6 @@ export default {
         this.cardFrontPic = idcard_front;
         this.cardBackendPic = idcard_reverse;
         this.holdCardPic = handheld_idcard;
-  
         const { province, city, district } = seller_shop_info;
         this.regionDesc = `${
           this.provinceList.find((item) => item.id == province).name

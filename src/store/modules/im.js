@@ -2,128 +2,140 @@ const user = {
   state: {
     shareId: 0,
     userID: 0,
-    userSig: '',
+    userSig: "",
     sdkAppID: 0,
-    userName: '',
-    userAvatar: '',
+    userName: "",
+    userAvatar: "",
     livePlaying: false,
     liveChatMsgList: [],
-    audienceActionTip: null,
     audienceCount: 0,
     manualPraise: false,
     praiseCount: 0,
     subtitleVisible: false,
-    subtitleContent: '',
+    subtitleContent: "",
     isBan: 0,
     curUserIsBan: 0,
-    anonymoused: 0,
+    anonymoused: false,
+    extraAnonymoused: false,
     animationIndex: -1,
     liveBreak: false,
     liveDuration: 0,
     liveEnding: false,
+    userBlacked: false,
   },
 
   mutations: {
     setShareId(state, id) {
-      state.shareId = id
+      state.shareId = id;
     },
 
     setImInfo(state, imInfo) {
-      const { app_id, user_id, user_sig, user_name, user_avatar } = imInfo
-      state.sdkAppID = +app_id
-      state.userID = `${user_id}`
-      state.userSig = user_sig
-      state.userName = user_name
-      state.userAvatar = user_avatar
+      const { app_id, user_id, user_sig, user_name, user_avatar } = imInfo;
+      state.sdkAppID = +app_id;
+      state.userID = `${user_id}`;
+      state.userSig = user_sig;
+      state.userName = user_name;
+      state.userAvatar = user_avatar;
     },
 
     setLivePlaying(state, data) {
-      state.livePlaying = data
+      state.livePlaying = data;
     },
 
     setLiveChatMsgList(state, data) {
       switch (data.constructor) {
         case Array:
-          state.liveChatMsgList = state.liveChatMsgList.length > 50 ? [...state.liveChatMsgList.slice(-30), ...data] : [...state.liveChatMsgList, ...data]
-          break
+          state.liveChatMsgList =
+            state.liveChatMsgList.length > 50
+              ? [...state.liveChatMsgList.slice(-30), ...data]
+              : [...state.liveChatMsgList, ...data];
+          break;
         case Object:
-          state.liveChatMsgList = state.liveChatMsgList.length > 50 ? [...state.liveChatMsgList.slice(-30), data] : [...state.liveChatMsgList, data]
-          break
+          state.liveChatMsgList =
+            state.liveChatMsgList.length > 50
+              ? [...state.liveChatMsgList.slice(-30), data]
+              : [...state.liveChatMsgList, data];
+          break;
       }
     },
 
     deleteLiveMsg(state, data) {
-      const list = state.liveChatMsgList.filter(item => {
-        const index = data.findIndex(_item => (_item.user_id == item.user_id && _item.time == item.time))
-        if (index === -1) return item
-      })
-      state.liveChatMsgList = list
+      const list = state.liveChatMsgList.filter((item) => {
+        const index = data.findIndex(
+          (_item) => _item.user_id == item.user_id && _item.time == item.time
+        );
+        if (index === -1) return item;
+      });
+      state.liveChatMsgList = list;
     },
 
     clearLiveMsgList(state) {
-      state.liveChatMsgList = []
-    },
-
-    setAudienceActionTip(state, data) {
-      state.audienceActionTip = data
+      state.liveChatMsgList = [];
     },
 
     setAudienceCount(state, data) {
-      state.audienceCount = data
+      state.audienceCount = data;
     },
 
     setManualPraise(state, data) {
-      state.manualPraise = data
+      state.manualPraise = data;
     },
 
     setPraiseCount(state, data) {
-      state.praiseCount = data
+      state.praiseCount = data;
     },
 
     setSubtitleVisible(state, data) {
-      state.subtitleVisible = data
+      state.subtitleVisible = data;
     },
 
     setSubtitleContent(state, data) {
-      state.subtitleContent = data
+      state.subtitleContent = data;
     },
 
     setIsBan(state, data) {
-      state.isBan = data
+      state.isBan = data;
     },
 
     setCurUserIsBan(state, data) {
-      state.curUserIsBan = data
+      state.curUserIsBan = data;
     },
 
     setAnonymoused(state, data) {
-      state.anonymoused = data
+      state.anonymoused = data;
+    },
+
+    setExtraAnonymoused(state, data) {
+      state.extraAnonymoused = data;
     },
 
     setLiveBreak(state, data) {
-      state.liveBreak = data
+      state.liveBreak = data;
     },
 
     setAnimationIndex(state, data) {
-      state.animationIndex = data
+      state.animationIndex = data;
     },
 
     setLiveDuration(state, data) {
-      state.liveDuration = data
+      state.liveDuration = data;
     },
 
     setLiveEnding(state, data) {
-      state.liveEnding = data
+      state.liveEnding = data;
     },
 
     reset(state) {
       Object.assign(state, {
-        liveChatMsgList: []
-      })
-    }
-  },
-  actions: {
-  }
-}
+        liveChatMsgList: [],
+      });
+    },
 
-export default user
+    blackUser(state) {
+      state.userBlacked = true;
+    },
+  },
+  actions: {},
+};
+
+export default user;

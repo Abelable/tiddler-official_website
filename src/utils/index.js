@@ -1,9 +1,9 @@
 export const getUrlParam = (name) => {
-  const reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)", "i");
-  const r = window.location.search.substr(1).match(reg);
-  if (r) return decodeURIComponent(r[2]);
-  return "";
-};
+  const reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)", "i")
+  const r = window.location.search.substr(1).match(reg)
+  if (r) return decodeURIComponent(r[2])
+  return ""
+}
 
 export const formatDate = (date, format) => {
   const week = ["日", "一", "二", "三", "四", "五", "六"];

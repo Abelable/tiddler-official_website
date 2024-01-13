@@ -1,21 +1,24 @@
 import axios from "axios";
 import qs from "qs";
 import { Toast } from "vant";
-import { env } from "../../utils/config";
+import { env, liveUrl } from "../../utils/config";
+import { judgeHost } from "../../utils/bridge";
 import sign from "./sign";
+
 class Base {
   constructor() {
     switch (env) {
       case "pro":
         this.mmsUrl = "https://mms.youboi.com";
-        this.liveUrl = "https://youbojia.youboi.com";
+        this.liveUrl = liveUrl;
         this.yb_mmsUrl = "yb_mms_url";
         this.yb_liveUrl = "tb_live_url";
+
         break;
 
       case "dev":
         this.mmsUrl = "https://mms.youboe.com";
-        this.liveUrl = "https://youbojia.youboe.com";
+        this.liveUrl = liveUrl;
         break;
     }
   }
@@ -30,14 +33,33 @@ class Base {
 
   async _axios({ method = "GET", url, params, data, success, fail }) {
     axios.defaults.headers["platform"] = "official_account";
-    axios.defaults.headers["application_key"] = window.location.href.includes(
-      "sm"
-    )
-      ? "cjjs_h5"
-      : "ybj_h5";
-    if (method === "POST")
+    switch (judgeHost()) {
+      case "IOS":
+        axios.defaults.headers["application_key"] = "ybj_ios";
+        break;
+
+      case "android":
+        axios.defaults.headers["application_key"] = "ybj_android";
+        break;
+
+      case "mp":
+        axios.defaults.headers["application_key"] = "ybj_xcx";
+        break;
+
+      default:
+        axios.defaults.headers["application_key"] = "ybj_h5";
+        break;
+    }
+    axios.defaults.headers["app_name"] = "ruibo";
+    if (method === "POST") {
       axios.defaults.headers["Content-Type"] =
         "application/x-www-form-urlencoded";
+    }
+
+    const userId = localStorage.getItem("userId");
+    if (userId && url.includes(this.mmsUrl)) {
+      axios.defaults.headers["uid"] = btoa(encodeURI(`${userId}`));
+    }
 
     if (url.includes(this.yb_liveUrl)) {
       url = `${this.liveUrl}/shop/index?url_path=/index.php&r=${url.replace(
@@ -52,9 +74,10 @@ class Base {
       )}`;
     }
 
-    const token = localStorage.getItem("token");
+    const token = localStorage.getItem("token") || "";
     if (token) axios.defaults.headers["token"] = token;
-
+    if (window.localStorage.getItem("ipip"))
+      axios.defaults.headers["real_ip"] = window.localStorage.getItem("ipip");
     let res = await axios({
       method,
       url,
@@ -78,7 +101,10 @@ class Base {
             fail(res);
           } else {
             localStorage.removeItem("token");
-            Toast("身份已失效，请重新点击链接进入");
+            let view_type = window.localStorage.getItem('view_type')
+            if(view_type != 'h5' && !location.href.includes('/l_p')){
+              Toast("身份已失效，请重新点击链接进入");
+            }
             return false;
           }
         } else {

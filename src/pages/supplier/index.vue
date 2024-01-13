@@ -4,7 +4,9 @@
     <div class="step-content" v-if="step === 1">
       <div
         class="title"
-        :style="{ backgroundImage: `url(${require('./images/title_bg.png')})` }"
+        :style="{
+          backgroundImage: `url(${require('./images/title_bg.png')})`,
+        }"
       >
         选择主营类目
       </div>
@@ -29,7 +31,9 @@
     <div class="step-content" v-else>
       <div
         class="title"
-        :style="{ backgroundImage: `url(${require('./images/title_bg.png')})` }"
+        :style="{
+          backgroundImage: `url(${require('./images/title_bg.png')})`,
+        }"
       >
         {{ categoryOptions[curCategoryIdx].cat_name }}
       </div>
@@ -118,10 +122,9 @@ export default {
       align-items: center
       justify-content: center
       margin: .4rem auto 0
-      padding-bottom: .1rem
-      width: 3.72rem
+      width: 3.2rem
       height: .92rem
-      color: #FFE5BD
+      color: #fff
       font-size: .32rem
       font-weight: 500
       background-size: 100%
