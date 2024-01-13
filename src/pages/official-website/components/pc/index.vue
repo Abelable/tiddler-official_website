@@ -289,11 +289,12 @@ export default {
         this.$refs.programme.getBoundingClientRect().top - this.menuHeight;
       this.footerHeight = this.$refs.footer.getBoundingClientRect().height;
 
-      const rate =
-        this.$refs.menuMain.getBoundingClientRect().width / window.innerWidth;
-      if (rate >= 0.78) {
-        this.zoom = 0.8;
-      }
+      // const rate =
+      //   this.$refs.menuMain.getBoundingClientRect().width / window.innerWidth;
+      //   console.log('rate', rate);
+      // if (rate > 0.76) {
+      //   this.zoom = 0.8;
+      // }
 
       this.bannerDotHeight = this.$refs.bannerDot[0].getBoundingClientRect().height;
     });
@@ -688,13 +689,13 @@ export default {
         .service-info
           margin-bottom: .4rem
           color: #8E8F9B
-          font-size: 16px
+          font-size: .16rem
           &:last-child
             margin-bottom: 0
       .contact-info
         margin-top: .3rem
         color: #fff
-        font-size: 16px
+        font-size: .16rem
         .tel-icon
           margin-right: .06rem
           width: .16rem
