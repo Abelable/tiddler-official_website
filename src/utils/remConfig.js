@@ -5,7 +5,6 @@ const resize = () => {
     )
   ) {
     let deviceWidth = document.documentElement.clientWidth || window.innerWidth;
-    console.log("deviceWidth", deviceWidth);
     if (deviceWidth >= 750) deviceWidth = 750;
     if (deviceWidth <= 320) deviceWidth = 320;
     document.documentElement.style.fontSize = `${deviceWidth / 7.5}px`;

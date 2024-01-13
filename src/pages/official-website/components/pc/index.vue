@@ -289,13 +289,6 @@ export default {
         this.$refs.programme.getBoundingClientRect().top - this.menuHeight;
       this.footerHeight = this.$refs.footer.getBoundingClientRect().height;
 
-      // const rate =
-      //   this.$refs.menuMain.getBoundingClientRect().width / window.innerWidth;
-      //   console.log('rate', rate);
-      // if (rate > 0.76) {
-      //   this.zoom = 0.8;
-      // }
-
       this.bannerDotHeight = this.$refs.bannerDot[0].getBoundingClientRect().height;
     });
   },
