@@ -153,14 +153,14 @@
               <img class="qrcode-img" src="./images/wx-qrcode.png" alt="" />
               <div class="qrcode-desc">微信扫码</div>
             </div>
-            <div class="qrcode">
+            <!-- <div class="qrcode">
               <img class="qrcode-img" src="" alt="" />
               <div class="qrcode-desc">下载IOS客户端</div>
             </div>
             <div class="qrcode">
               <img class="qrcode-img" src="" alt="" />
               <div class="qrcode-desc">下载安卓客户端</div>
-            </div>
+            </div> -->
           </div>
         </div>
       </div>
