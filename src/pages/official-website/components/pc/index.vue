@@ -180,7 +180,7 @@
               <div class="footer-title-line-inner"></div>
             </div>
             <div class="contact-info row">
-              <img class="tel-icon" src="./images/tel.png" alt="" >
+              <img class="tel-icon" src="./images/tel.png" alt="" />
               <div>联系方式：13342844010 专业直播顾问随时为您服务</div>
             </div>
             <div class="qrcode-wrap row">
@@ -291,7 +291,7 @@ export default {
 
       const rate =
         this.$refs.menuMain.getBoundingClientRect().width / window.innerWidth;
-      if (rate >= 0.8) {
+      if (rate >= 0.78) {
         this.zoom = 0.8;
       }
 
