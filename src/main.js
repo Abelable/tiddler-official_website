@@ -40,16 +40,20 @@ Vue.use(Popup)
 Vue.use(List)
 Vue.use(Switch)
 
-roomService.getConfig((res)=>{
-  window.localStorage.setItem('view_type',res.view_type)
-  window.localStorage.setItem('auth_appid',res.appid)
-  new Vue({
-    router,
-    store,
-    render: h => h(App),
-  }).$mount('#app')
-},(err)=>{
-  alert('获取配置失败')
-});
+// roomService.getConfig((res)=>{
+//   window.localStorage.setItem('view_type',res.view_type)
+//   window.localStorage.setItem('auth_appid',res.appid)
+//   new Vue({
+//     router,
+//     store,
+//     render: h => h(App),
+//   }).$mount('#app')
+// },(err)=>{
+//   alert('获取配置失败')
+// });
 
-
+new Vue({
+  router,
+  store,
+  render: h => h(App),
+}).$mount('#app')

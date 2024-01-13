@@ -49,6 +49,14 @@ const routes = [
       title: "助手邀请",
     },
   },
+  {
+    name: "official-website",
+    path: "/official_website",
+    component: () => import("@/pages/official-website/index"),
+    meta: {
+      title: "官网",
+    },
+  },
 
   ...ai,
   ...supplier,

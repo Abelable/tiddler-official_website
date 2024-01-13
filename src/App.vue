@@ -16,24 +16,24 @@ export default {
   },
   created() {
     
-    // 创建XMLHttpRequest对象
-    var xhr = new XMLHttpRequest();
+    // // 创建XMLHttpRequest对象
+    // var xhr = new XMLHttpRequest();
     
-    // 设置请求类型、URL和是否同步（默认为false）
-    xhr.open('GET', 'https://ip.talking.vip', true); // GET请求示例
+    // // 设置请求类型、URL和是否同步（默认为false）
+    // xhr.open('GET', 'https://ip.talking.vip', true); // GET请求示例
     
-    // 注册事件处理程序
-    xhr.onreadystatechange = function() {
-        if (xhr.readyState === 4 && xhr.status === 200) {
-          let ip = xhr.responseText || "";
-          if (/^\d*\.\d*\.\d*\.\d*$/.test(ip)) {
-            window.localStorage.setItem("ipip", ip);
-          }
-        }
-    };
+    // // 注册事件处理程序
+    // xhr.onreadystatechange = function() {
+    //     if (xhr.readyState === 4 && xhr.status === 200) {
+    //       let ip = xhr.responseText || "";
+    //       if (/^\d*\.\d*\.\d*\.\d*$/.test(ip)) {
+    //         window.localStorage.setItem("ipip", ip);
+    //       }
+    //     }
+    // };
     
-    // 发送请求
-    xhr.send();
+    // // 发送请求
+    // xhr.send();
   },
 };
 </script>
