@@ -1,6 +1,8 @@
 <template>
   <div class="container" ref="container">
-    <div class="menu-tab" :class="{ active: menuTabActive }" ref="menuTab">
+    <img class="temp" src="./images/temp.png" alt="" >
+
+    <!-- <div class="menu-tab" :class="{ active: menuTabActive }" ref="menuTab">
       <div class="main row between" ref="menuMain">
         <img class="logo" @click="scrollToTop" src="./images/logo.png" alt="" />
         <div class="menu row between">
@@ -15,9 +17,9 @@
           </div>
         </div>
       </div>
-    </div>
+    </div> -->
 
-    <div class="introduce">
+    <!-- <div class="introduce">
       <img class="bg" src="./images/bg_1.png" alt="" />
       <div class="main row">
         <div :style="{ zoom }">
@@ -29,9 +31,9 @@
           <img class="try-btn" src="./images/try-btn.png" alt="" />
         </div>
       </div>
-    </div>
+    </div> -->
 
-    <div class="highlights" ref="highlights">
+    <!-- <div class="highlights" ref="highlights">
       <img class="bg" src="./images/bg_2.png" alt="" />
       <div class="main row">
         <div style="width: 100%" :style="{ zoom }">
@@ -81,9 +83,9 @@
           </div>
         </div>
       </div>
-    </div>
+    </div> -->
 
-    <div class="point" ref="point">
+    <!-- <div class="point" ref="point">
       <div class="main row">
         <div style="width: 100%" :style="{ zoom }">
           <img
@@ -111,9 +113,9 @@
           </div>
         </div>
       </div>
-    </div>
+    </div> -->
 
-    <div class="programme" ref="programme">
+    <!-- <div class="programme" ref="programme">
       <div class="main row">
         <div style="width: 100%" :style="{ zoom }">
           <img
@@ -158,9 +160,9 @@
           </div>
         </div>
       </div>
-    </div>
+    </div> -->
 
-    <div class="footer" ref="footer">
+    <!-- <div class="footer" ref="footer">
       <div class="main row">
         <div class="row" style="width: 100%" :style="{ zoom }">
           <div class="footer-info">
@@ -188,19 +190,19 @@
                 <img class="qrcode-img" src="./images/wx-qrcode.png" alt="" />
                 <div class="qrcode-desc">微信扫码</div>
               </div>
-              <!-- <div class="qrcode">
+              <div class="qrcode">
                 <img class="qrcode-img" src="" alt="" />
                 <div class="qrcode-desc">下载IOS客户端</div>
               </div>
               <div class="qrcode">
                 <img class="qrcode-img" src="" alt="" />
                 <div class="qrcode-desc">下载安卓客户端</div>
-              </div> -->
+              </div>
             </div>
           </div>
         </div>
       </div>
-    </div>
+    </div> -->
   </div>
 </template>
 
@@ -422,6 +424,8 @@ export default {
 </script>
 
 <style lang="stylus" scoped>
+.temp
+  width: 100%
 .row
   display: flex
   align-items: center
@@ -478,6 +482,7 @@ export default {
           background: #20B364
           border-radius: .08rem
 .container
+  font-size: 0
   background: #f7f8fa
   .introduce
     position: relative
