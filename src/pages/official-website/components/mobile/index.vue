@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div class="header" ref="header">
+    <!-- <div class="header" ref="header">
       <img class="logo" src="./images/logo.png" alt="" />
       <img
         class="menu"
@@ -153,14 +153,14 @@
               <img class="qrcode-img" src="./images/wx-qrcode.png" alt="" />
               <div class="qrcode-desc">微信扫码</div>
             </div>
-            <!-- <div class="qrcode">
+            <div class="qrcode">
               <img class="qrcode-img" src="" alt="" />
               <div class="qrcode-desc">下载IOS客户端</div>
             </div>
             <div class="qrcode">
               <img class="qrcode-img" src="" alt="" />
               <div class="qrcode-desc">下载安卓客户端</div>
-            </div> -->
+            </div>
           </div>
         </div>
       </div>
@@ -187,7 +187,7 @@
           />
         </div>
       </div>
-    </Popup>
+    </Popup> -->
   </div>
 </template>
 
@@ -196,7 +196,7 @@ import { Popup } from "vant";
 import _ from "lodash";
 
 export default {
-  components: { Popup },
+  // components: { Popup },
 
   data() {
     return {
