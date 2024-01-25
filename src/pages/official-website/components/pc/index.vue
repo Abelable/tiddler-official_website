@@ -1,6 +1,9 @@
 <template>
   <div class="container" ref="container">
     <img class="temp" src="./images/temp.png" alt="" >
+    <div class="icp-cover row center">
+      <div @click="checkIcp">杭州桃白白科技有限公司 浙ICP备2023054709号-2 http://www.taobaibai.com.cn</div>
+    </div>
 
     <!-- <div class="menu-tab" :class="{ active: menuTabActive }" ref="menuTab">
       <div class="main row between" ref="menuMain">
@@ -419,6 +422,10 @@ export default {
         clearInterval(this.bannerLoopInterval);
       }
     },
+
+    checkIcp() {
+      window.location.href="https://beian.miit.gov.cn"; 
+    }
   },
 };
 </script>
@@ -482,8 +489,18 @@ export default {
           background: #20B364
           border-radius: .08rem
 .container
+  position: relative
   font-size: 0
   background: #f7f8fa
+  .icp-cover
+    position: absolute
+    left: 0
+    bottom: 0
+    width: 100%
+    height: 1.8rem
+    color: #8E8F9B
+    font-size: .22rem
+    background: #1E0202
   .introduce
     position: relative
     height: 100vh
@@ -715,4 +732,5 @@ export default {
             color: #8E8F9B
             font-size: .16rem
             text-align: center
+  
 </style>
