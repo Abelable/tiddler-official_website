@@ -424,7 +424,7 @@ export default {
     },
 
     checkIcp() {
-      window.location.href="https://beian.miit.gov.cn"; 
+      window.open("https://beian.miit.gov.cn","”_blank”");
     }
   },
 };
