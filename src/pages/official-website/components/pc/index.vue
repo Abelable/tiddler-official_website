@@ -2,7 +2,10 @@
   <div class="container" ref="container">
     <img class="temp" src="./images/temp.png" alt="" >
     <div class="icp-cover row center">
-      <div @click="checkIcp">杭州桃白白科技有限公司 浙ICP备2023054709号-2 http://www.taobaibai.com.cn</div>
+      <div style="text-align: center;">
+        <p @click="checkIcp" >杭州桃白白科技有限公司 浙ICP备2023054709号-2 http://www.taobaibai.com.cn</p>
+        <p>投诉电话: 0571-28834861</p>
+      </div>
     </div>
 
     <!-- <div class="menu-tab" :class="{ active: menuTabActive }" ref="menuTab">
