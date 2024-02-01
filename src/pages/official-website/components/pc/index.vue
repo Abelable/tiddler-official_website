@@ -3,7 +3,7 @@
     <img class="temp" src="./images/temp.png" alt="" >
     <div class="icp-cover row center">
       <div style="text-align: center;">
-        <p @click="checkIcp" >杭州桃白白科技有限公司 浙ICP备2023054709号-2 http://www.taobaibai.com.cn</p>
+        <p @click="checkIcp" >杭州桃白白科技有限公司 浙ICP备2023054709号-2 https://tbbai.cn</p>
         <p>投诉电话: 0571-28834861</p>
       </div>
     </div>
@@ -500,7 +500,7 @@ export default {
     left: 0
     bottom: 0
     width: 100%
-    height: 1.8rem
+    height: 1.6rem
     color: #8E8F9B
     font-size: .22rem
     background: #1E0202
