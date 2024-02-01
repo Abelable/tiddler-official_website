@@ -500,7 +500,7 @@ export default {
     left: 0
     bottom: 0
     width: 100%
-    height: 1.6rem
+    height: 1.2rem
     color: #8E8F9B
     font-size: .22rem
     background: #1E0202
