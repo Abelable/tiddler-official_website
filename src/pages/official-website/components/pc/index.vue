@@ -1,14 +1,6 @@
 <template>
   <div class="container" ref="container">
-    <img class="temp" src="./images/temp.png" alt="" >
-    <div class="icp-cover row center">
-      <div style="text-align: center;">
-        <p @click="checkIcp" >杭州桃白白科技有限公司 浙ICP备2023054709号-2 https://tbbai.cn</p>
-        <p>投诉电话: 0571-28834861</p>
-      </div>
-    </div>
-
-    <!-- <div class="menu-tab" :class="{ active: menuTabActive }" ref="menuTab">
+    <div class="menu-tab" :class="{ active: menuTabActive }" ref="menuTab">
       <div class="main row between" ref="menuMain">
         <img class="logo" @click="scrollToTop" src="./images/logo.png" alt="" />
         <div class="menu row between">
@@ -21,11 +13,29 @@
           >
             {{ item }}
           </div>
+          <div
+            class="menu-item login"
+            @mouseover="loginModalVisible = true"
+            @mouseleave="loginModalVisible = false"
+          >
+            <div>登录</div>
+            <div class="login-modal" v-if="loginModalVisible">
+              <div
+                class="login-btn row"
+                :class="{ active: curLoginBtnIndex === _index }"
+                v-for="(_item, _index) in ['桃白白登录', '桃白白代理版']"
+                :key="_index"
+                @mouseover="curLoginBtnIndex = _index"
+              >
+                {{ _item }}
+              </div>
+            </div>
+          </div>
         </div>
       </div>
-    </div> -->
+    </div>
 
-    <!-- <div class="introduce">
+    <div class="introduce">
       <img class="bg" src="./images/bg_1.png" alt="" />
       <div class="main row">
         <div :style="{ zoom }">
@@ -34,94 +44,40 @@
             src="./images/introduce-content.png"
             alt=""
           />
-          <img class="try-btn" src="./images/try-btn.png" alt="" />
+          <div class="download-btns row">
+            <div class="download-btn-wrap" @mouseover="iosQrCodeVisible = true"
+            @mouseleave="iosQrCodeVisible = false">
+              <img
+                class="download-btn"
+                src="./images/ios-download-btn.png"
+                alt=""
+              />
+              <img class="download-qr-code" v-if="iosQrCodeVisible" src="" alt="下载二维码" />
+            </div>
+            <div class="download-btn-wrap" @mouseover="winQrCodeVisile = true"
+            @mouseleave="winQrCodeVisile = false">
+              <img
+                class="download-btn"
+                src="./images/win-download-btn.png"
+                alt=""
+              />
+              <img class="download-qr-code" v-if="winQrCodeVisile" src="" alt="下载二维码" />
+            </div>
+          </div>
         </div>
       </div>
-    </div> -->
+    </div>
 
-    <!-- <div class="highlights" ref="highlights">
+    <div class="highlights" ref="highlights">
       <img class="bg" src="./images/bg_2.png" alt="" />
       <div class="main row">
         <div style="width: 100%" :style="{ zoom }">
-          <img
-            class="highlights-title"
-            src="./images/highlights-title.png"
-            alt=""
-          />
-          <div class="banner-wrap row">
-            <div class="banner-dots" ref="bannerDots">
-              <div
-                class="banner-dot"
-                ref="bannerDot"
-                v-for="(item, index) in bannerList"
-                :key="index"
-                @click="selectBanner(index)"
-              >
-                <div
-                  class="banner-dot-inner row"
-                  :class="{ active: curBannerIdx === index }"
-                >
-                  <img
-                    class="banner-icon"
-                    :src="
-                      require(`./images/banner_icon/banner_${index +
-                        1}_icon.png`)
-                    "
-                    alt=""
-                  />
-                  <div class="banner-dot-content">
-                    <div
-                      class="banner-dot-title"
-                      :class="{ active: curBannerIdx === index }"
-                    >
-                      {{ item.title }}
-                    </div>
-                    <div class="banner-dot-desc">{{ item.desc }}</div>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <img
-              class="banner"
-              :src="require(`./images/banner/banner_${curBannerIdx + 1}.png`)"
-              alt=""
-            />
-          </div>
+          <img class="atlas" src="./images/atlas.png" alt="" />
         </div>
       </div>
-    </div> -->
+    </div>
 
-    <!-- <div class="point" ref="point">
-      <div class="main row">
-        <div style="width: 100%" :style="{ zoom }">
-          <img
-            class="point-title"
-            src="./images/point/point-title.png"
-            alt=""
-          />
-          <div class="point-card-wrap row">
-            <div
-              class="point-card row center"
-              v-for="(item, index) in pointList"
-              :key="index"
-            >
-              <img
-                class="point-card-icon"
-                :src="require(`./images/point/point_${index + 1}.png`)"
-                alt=""
-              />
-              <div class="point-card-title">{{ item.title }}</div>
-              <div class="point-card-desc">
-                <p>{{ item.desc_1 }}</p>
-                <p style="margin-top: 0.08rem;">{{ item.desc_2 }}</p>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div> -->
-
-    <!-- <div class="programme" ref="programme">
+    <div class="programme" ref="programme">
       <div class="main row">
         <div style="width: 100%" :style="{ zoom }">
           <img
@@ -142,73 +98,40 @@
               />
               <div class="programme-card-title">{{ item.title }}</div>
               <div class="programme-desc">
-                <p>{{ item.desc_1 }}</p>
-                <p style="margin-top: 0.05rem;">{{ item.desc_2 }}</p>
-              </div>
-              <div class="programme-detail-wrap row">
-                <div
-                  class="programme-detail row"
-                  v-for="(_item, _index) in item.detailList"
-                  :key="_index"
-                >
-                  <img
-                    class="programme-detail-icon"
-                    :src="
-                      require(`./images/programme/programme_${index +
-                        1}_${_index + 1}.png`)
-                    "
-                    alt=""
-                  />
-                  <div class="programme-detail-desc">{{ _item }}</div>
-                </div>
+                <p v-for="(item, index) in item.desc" :key="index">
+                  {{ item }}
+                </p>
               </div>
             </div>
           </div>
         </div>
       </div>
-    </div> -->
+    </div>
 
-    <!-- <div class="footer" ref="footer">
+    <div class="footer" ref="footer">
       <div class="main row">
-        <div class="row" style="width: 100%" :style="{ zoom }">
-          <div class="footer-info">
-            <div class="footer-title">服务保障</div>
+        <div class="row center" style="width: 100%" :style="{ zoom }">
+          <div class="footer-info row">
+            <div class="footer-title">数字分身定制咨询</div>
             <div class="footer-title-line">
               <div class="footer-title-line-inner"></div>
             </div>
-            <div class="service-info-wrap">
-              <div class="service-info">7*12小时直播服务支持</div>
-              <div class="service-info">专业技术团队产品保障</div>
-              <div class="service-info">满足您的定制化需求</div>
+            <img
+              class="service-qr-code"
+              src="./images/service-qr-code.png"
+              alt=""
+            />
+            <div class="service-qr-code-desc">
+              扫描二维码咨询数字人专属定制服务
             </div>
-          </div>
-          <div class="footer-info">
-            <div class="footer-title">联系我们</div>
-            <div class="footer-title-line">
-              <div class="footer-title-line-inner"></div>
+            <div class="icp" @click="checkIcp">
+              杭州桃白白科技有限公司 浙ICP备2023054709号-2 https://tbbai.cn
             </div>
-            <div class="contact-info row">
-              <img class="tel-icon" src="./images/tel.png" alt="" />
-              <div>联系方式：13342844010 专业直播顾问随时为您服务</div>
-            </div>
-            <div class="qrcode-wrap row">
-              <div class="qrcode">
-                <img class="qrcode-img" src="./images/wx-qrcode.png" alt="" />
-                <div class="qrcode-desc">微信扫码</div>
-              </div>
-              <div class="qrcode">
-                <img class="qrcode-img" src="" alt="" />
-                <div class="qrcode-desc">下载IOS客户端</div>
-              </div>
-              <div class="qrcode">
-                <img class="qrcode-img" src="" alt="" />
-                <div class="qrcode-desc">下载安卓客户端</div>
-              </div>
-            </div>
+            <div class="tel">投诉电话: 0571-28834861</div>
           </div>
         </div>
       </div>
-    </div> -->
+    </div>
   </div>
 </template>
 
@@ -219,65 +142,43 @@ export default {
   data() {
     return {
       zoom: 1,
-      menuList: ["产品介绍", "核心亮点", "行业痛点", "解决方案", "服务保障"],
+      menuList: ["首页", "应用图谱", "关于我们", "数字分身"],
       curMenuIdx: 0,
       menuTabActive: false,
-      bannerList: [
-        { title: "小程序+ H5 皆可开播", desc: "稳定直播成交一步到位" },
-        { title: "完美契合使用习惯", desc: "一键开播轻松易上手" },
-        { title: "商家自有私域流量", desc: "直播数据加密更安全" },
-        { title: "技术实现超低延迟", desc: "弱网直播观看双稳定" },
-        { title: "智能互动氛围拉满", desc: "直播马甲助手轻松用" },
-        { title: "全面支持海外直播", desc: "海外环境能播也能看" },
-        { title: "实时判断网络环境", desc: "智能调节直播端码率" },
-      ],
-      curBannerIdx: 0,
-      pointList: [
-        {
-          title: "平台玩法很局限",
-          desc_1: "常规直播平台运营模式成本高，缺乏实用的",
-          desc_2: "营销工具，客户转化能以实现",
-        },
-        {
-          title: "传统营销不适用",
-          desc_1: "图片、文字沟通与传播信息有限，缺乏实时",
-          desc_2: "互动性，难以建立好的信任度和忠诚度",
-        },
-        {
-          title: "直播运营成本高",
-          desc_1: "直播间运营、助手、售后团队成本大，缺乏",
-          desc_2: "有效工具替代人力，帮助商家降本增效",
-        },
-        {
-          title: "抓新用户难度大",
-          desc_1: "面向群体特殊，纯付费投放成本与客户质量",
-          desc_2: "难预估，很难发挥出客户推客户的效果",
-        },
-      ],
+      loginModalVisible: false,
+      curLoginBtnIndex: 0,
+      iosQrCodeVisible: false,
+      winQrCodeVisile: false,
       programmeList: [
         {
-          title: "引流获客",
-          desc_1: "营销玩法刺激顾客一键",
-          desc_2: "转发，快速裂变",
-          detailList: ["邀请榜单", "滚动广告", "现金红包"],
+          title: "娱乐行业",
+          desc: [
+            "真人出镜类素材的优势",
+            "持续投放时间是 2D 素材的 3 倍",
+            "3D 素材的 1.5 倍",
+            "点击率和有效播放率，高出",
+            "其他类型素材 20%",
+          ],
         },
         {
-          title: "直播互动",
-          desc_1: "强大互动实现直播火热",
-          desc_2: "氛围，方便好用",
-          detailList: ["助手评论", "直播人气", "直播连麦"],
+          title: "教育/公众事业",
+          desc: [
+            "发展数字人营销的机会",
+            "无需真人出镜，规模化生产营销",
+            "视频的天产能可达200+",
+            "在数字化时代更好地与消费者互",
+            "动，提高市场竞争力",
+          ],
         },
         {
-          title: "用户管理",
-          desc_1: "高效快捷管理直播间用",
-          desc_2: "户，极致控场",
-          detailList: ["用户白名单", "禁言用户", "拉黑用户"],
-        },
-        {
-          title: "直播运营",
-          desc_1: "掌握用户实时在线情",
-          desc_2: "况，轻松了解数据变化",
-          detailList: ["在线人数", "用户标签", "数据统计"],
+          title: "电商行业",
+          desc: [
+            "投资数字人资产营销的回报",
+            "快速产出，高效迭代，全面提升 3",
+            "倍创意效率，突破营销瓶颈",
+            "数字人分身，24h 随时上线，灵活",
+            "度极高",
+          ],
         },
       ],
     };
@@ -291,29 +192,10 @@ export default {
       this.menuHeight = this.$refs.menuTab.getBoundingClientRect().height;
       this.highlightsTop =
         this.$refs.highlights.getBoundingClientRect().top - this.menuHeight;
-      this.pointTop =
-        this.$refs.point.getBoundingClientRect().top - this.menuHeight;
       this.programmeTop =
         this.$refs.programme.getBoundingClientRect().top - this.menuHeight;
       this.footerHeight = this.$refs.footer.getBoundingClientRect().height;
-
-      this.bannerDotHeight = this.$refs.bannerDot[0].getBoundingClientRect().height;
     });
-  },
-
-  destroyed() {
-    this.stopBannerLoop();
-  },
-
-  watch: {
-    curBannerIdx: function(index) {
-      this.$nextTick(() => {
-        this.$refs.bannerDots.scrollTo({
-          top: this.bannerDotHeight * (index === 0 ? 0 : index - 1),
-          behavior: "smooth",
-        });
-      });
-    },
   },
 
   methods: {
@@ -328,14 +210,10 @@ export default {
           break;
 
         case 2:
-          this.parent.scrollTo({ top: this.pointTop, behavior: "smooth" });
-          break;
-
-        case 3:
           this.parent.scrollTo({ top: this.programmeTop, behavior: "smooth" });
           break;
 
-        case 4:
+        case 3:
           this.parent.scrollTo({
             top: this.containerScrollHeight,
             behavior: "smooth",
@@ -343,11 +221,6 @@ export default {
           break;
       }
       this.curMenuIdx = index;
-    },
-
-    selectBanner(index) {
-      this.stopBannerLoop();
-      this.curBannerIdx = index;
     },
 
     scrollToTop() {
@@ -382,53 +255,23 @@ export default {
         this.curMenuIdx = 1;
       }
       if (
-        scrollTop >= this.pointTop - 2 &&
-        scrollTop < this.programmeTop - 2 &&
+        scrollTop >= this.programmeTop - 2 &&
+        scrollTop < this.programmeTop + this.footerHeight - 2 &&
         this.curMenuIdx !== 2
       ) {
         this.curMenuIdx = 2;
       }
       if (
-        scrollTop >= this.programmeTop - 2 &&
-        scrollTop < this.programmeTop + this.footerHeight - 2 &&
+        scrollTop >= this.programmeTop + this.footerHeight - 2 &&
         this.curMenuIdx !== 3
       ) {
         this.curMenuIdx = 3;
       }
-      if (
-        scrollTop >= this.programmeTop + this.footerHeight - 2 &&
-        this.curMenuIdx !== 4
-      ) {
-        this.curMenuIdx = 4;
-      }
-
-      if (scrollTop >= this.highlightsTop && scrollTop < this.pointTop) {
-        this.startBannerLoop();
-      } else {
-        this.stopBannerLoop();
-      }
     }, 50),
 
-    startBannerLoop() {
-      this.stopBannerLoop();
-      this.bannerLoopInterval = setInterval(() => {
-        if (this.curBannerIdx < 6) {
-          this.curBannerIdx = this.curBannerIdx + 1;
-        } else {
-          this.curBannerIdx = 0;
-        }
-      }, 3000);
-    },
-
-    stopBannerLoop() {
-      if (this.bannerLoopInterval) {
-        clearInterval(this.bannerLoopInterval);
-      }
-    },
-
     checkIcp() {
-      window.open("https://beian.miit.gov.cn","_blank");
-    }
+      window.open("https://beian.miit.gov.cn", "_blank");
+    },
   },
 };
 </script>
@@ -463,10 +306,8 @@ export default {
   width: 100%
   height: 10vh
   z-index: 100
-  transition: background .2s ease
   &.active
-    background: #fff
-    transition: background .2s ease
+    backdrop-filter: blur(10px)
   .logo
     width: 1.48rem
     height: .48rem
@@ -489,8 +330,43 @@ export default {
           width: .58rem
           height: .04rem
           content: ""
-          background: #20B364
+          background: #4F322D
           border-radius: .08rem
+      &.login
+        position: relative
+        .login-modal
+          position: absolute
+          right: 0
+          top: calc(100% + 0.14rem)
+          padding: 0.15rem 0.04rem
+          width: 1.48rem
+          height: 1.28rem
+          background: #fff
+          border-radius: .1rem
+          z-index: 100
+          &::after
+            position: absolute
+            right: .1rem
+            bottom: 100%
+            width: 0
+            height: 0
+            content: ""
+            border-top: .1rem solid transparent
+            border-left: .1rem solid transparent
+            border-right: .1rem solid transparent
+            border-bottom: .1rem solid #fff
+          .login-btn
+            padding-left: 0.17rem
+            width: 1.42rem
+            height: 0.45rem
+            color: #333
+            font-size: 0.18rem
+            border-radius: 0.06rem
+            &.active
+              color: #fff
+              background: #FE8C8B;
+            &:first-child
+              margin-bottom: 0.05rem
 .container
   position: relative
   font-size: 0
@@ -511,119 +387,34 @@ export default {
       display: block
       width: 7.60rem
       height: 2.77rem
-    .try-btn
+    .download-btns
       margin-top: .70rem
-      display: block
-      width: 2.80rem
-      height: .84rem
+    .download-btn-wrap
+      position: relative
+      margin-right: 0.3rem
+      font-size: 0
       cursor: pointer
+      .download-btn
+        width: 2.32rem
+        height: 0.66rem
+        &:hover
+          opacity: 0.6
+      .download-qr-code
+        position: absolute
+        top: calc(100% + 0.06rem)
+        left: 0
+        width: 2.32rem
+        height: 2.32rem
+        border-radius: 0.08rem
+        background: #fff
+        box-shadow: 0px 0px 10px 0px rgba(254,140,139,0.2)
   .highlights
     position: relative
     height: 90vh
     overflow: hidden
-    .highlights-title
-      display: block
-      margin: 0 auto
-      width: 5.97rem
-      height: 1.33rem
-    .banner-wrap
-      margin-top: .4rem
-      .banner-dots
-        margin-right: .4rem
-        padding: 0 .1rem
-        flex: 1
-        height: 5.6rem
-        overflow-y: scroll
-        .banner-dot
-          padding-bottom: .6rem
-          &:last-child
-            padding-bottom: 0
-          .banner-dot-inner
-            padding: 0 .55rem
-            width: 100%
-            height: 1.45rem
-            background: rgba(255, 255, 255, 0.5)
-            border-radius: .30rem
-            cursor: pointer
-            &.active
-              background: #fff
-              box-shadow: 0px 0px 10px 0px rgba(35,151,141,0.2);
-            .banner-icon
-              width: .80rem
-              height: .80rem
-          &:first-child .banner-icon
-            height: .66rem
-        .banner-dot-content
-          margin-left: .35rem
-          flex: 1
-          .banner-dot-title
-            color: #222
-            font-size: .26rem
-            font-weight: 500
-            &.active
-              color: #00BC81
-          .banner-dot-desc
-            margin-top: .20rem
-            color: #222
-            font-size: .20rem
-      .banner
-        width: 5.52rem
-        height: 5.86rem
-  .point
-    height: 90vh
-    overflow: hidden
-    .point-title
-      display: block
-      margin: 0 auto
-      width: 1.85rem
-      height: .64rem
-    .point-card-wrap
-      flex-wrap: wrap
-      margin-top: .30rem
+    .atlas
       width: 100%
-      .point-card
-        flex-direction: column
-        width: 50%
-        height: 3.5rem;
-        cursor: pointer
-        transition: box-shadow .2s ease
-        &:nth-child(1)
-          border-right: .01rem solid #E5E6EC
-          border-bottom: .01rem solid #E5E6EC
-          &:hover
-            box-shadow: 0 .16rem .32rem 0 rgba(48, 55, 66, 0.15);
-            transition: box-shadow .2s ease
-        &:nth-child(2)
-          border-left: .01rem solid #E5E6EC
-          border-bottom: .01rem solid #E5E6EC
-          &:hover
-            box-shadow: 0 .16rem .32rem 0 rgba(48, 55, 66, 0.15);
-            transition: box-shadow .2s ease
-        &:nth-child(3)
-          border-top: .01rem solid #E5E6EC
-          border-right: .01rem solid #E5E6EC
-          &:hover
-            box-shadow: 0 -0.16rem 0.32rem 0 rgba(48, 55, 66, 0.15);
-            transition: box-shadow .2s ease
-        &:nth-child(4)
-          border-top: .01rem solid #E5E6EC
-          border-left: .01rem solid #E5E6EC
-          &:hover
-            box-shadow: 0 -0.16rem 0.32rem 0 rgba(48, 55, 66, 0.15);
-            transition: box-shadow .2s ease
-        .point-card-icon
-          width: 1.10rem
-          height: 1.20rem
-        .point-card-title
-          margin-top: .2rem
-          color: #222
-          font-size: .32rem
-          font-weight: 600
-        .point-card-desc
-          margin-top: .2rem
-          color: #4B596B
-          font-size: .26rem
-          text-align: center
+      height: 8.26rem
   .programme
     height: 90vh
     overflow: hidden
@@ -631,24 +422,27 @@ export default {
     .programme-title
       display: block
       margin: 0 auto
-      width: 9.32rem
-      height: 1.33rem
+      width: 11.52rem
+      height: 1.95rem
     .programme-card-wrap
-      margin-top: 0.8rem
+      margin-top: 0.6rem
       .programme-card
+        margin-right: .42rem
         flex-direction: column
-        width: 3.48rem
+        flex: 1
         height: 5.05rem
         background: #F7F8FA
         border-radius: 0.08rem
         cursor: pointer
         transition: .2s ease
+        &:last-child
+          margin-right: 0
         &:hover
           background: #fff
           box-shadow: 0px 0px 20px 0px rgba(35,151,141,0.2)
           transition: .2s ease
           .programme-card-title
-            color: #20B364
+            color: #FE8C8B
             transition: color .2s ease
         .programme-icon
           width: 0.8rem
@@ -664,31 +458,12 @@ export default {
           color: #4B596B
           font-size: .26rem
           text-align: center
-        .programme-detail-wrap
-          margin-top: .5rem
-          padding: 0 .1rem
-          width: 100%
-          .programme-detail
-            flex-direction: column
-            flex: 1
-            .programme-detail-icon
-              width: .4rem
-              height: .4rem
-            .programme-detail-desc
-              margin-top: .2rem
-              color: #4B596B
-              font-size: .2rem
   .footer
     height: 40vh
     overflow: hidden
     background: #1C2037
     .footer-info
-      padding-left: 1.4rem
-      flex: 1
-      height: 2.7rem
-      &:first-child
-        padding-left: 2rem
-        border-right: 2px solid #8E8F9B
+      flex-direction: column
       .footer-title
         color: #fff
         font-size: .2rem
@@ -701,39 +476,17 @@ export default {
         .footer-title-line-inner
           width: .26rem
           height: .02rem
-          background: #20B364
-      .service-info-wrap
-        margin-top: .4rem
-        .service-info
-          margin-bottom: .4rem
-          color: #8E8F9B
-          font-size: .16rem
-          &:last-child
-            margin-bottom: 0
-      .contact-info
-        margin-top: .3rem
-        color: #fff
-        font-size: .16rem
-        .tel-icon
-          margin-right: .06rem
-          width: .16rem
-          height: .16rem
-      .qrcode-wrap
-        margin-top: .3rem
-        .qrcode
-          margin-right: .7rem
-          font-size: 0
-          &:last-child
-            margin-right: 0
-          .qrcode-img
-            width: 1rem
-            height: 1rem
-            border-radius: .08rem
-            background: #fff
-          .qrcode-desc
-            margin-top: .1rem
-            color: #8E8F9B
-            font-size: .16rem
-            text-align: center
-  
+          background: #FE8C8B
+      .service-qr-code
+        margin-top: 0.4rem
+        width: 1rem
+        height: 1rem
+      .service-qr-code-desc, .icp, .tel
+        margin-top: 0.1rem
+        color: #8E8F9B
+        font-size: 0.16rem
+      .icp
+        margin-top: 0.6rem
+      .tel
+        margin-top: 0.1rem
 </style>
