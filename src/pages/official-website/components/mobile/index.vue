@@ -237,9 +237,8 @@ export default {
   display: flex
   align-items: flex-end
   justify-content: space-between
-  padding: 0 .4rem .18rem
+  padding: .24rem .4rem
   width: 100vw
-  height: 1.76rem
   background: #fff
   z-index: 100
   .logo
@@ -249,7 +248,7 @@ export default {
     width: .5rem
     height: .5rem
 .container
-  padding-top: 1.76rem
+  padding-top: 0.98rem
   background: #F7F8FA
   overflow: hidden
   .introduce-wrap
