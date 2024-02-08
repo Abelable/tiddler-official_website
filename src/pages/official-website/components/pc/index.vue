@@ -54,15 +54,15 @@
               />
               <img class="download-qr-code" v-if="iosQrCodeVisible" src="./images/ios_download_qrcode.jpg" alt="下载二维码" />
             </div>
-            <div class="download-btn-wrap" @mouseover="winQrCodeVisile = true"
-            @mouseleave="winQrCodeVisile = false">
-              <img
-                class="download-btn"
-                src="./images/win-download-btn.png"
-                alt=""
-              />
-              <img class="download-qr-code" v-if="winQrCodeVisile" src="./images/win_download_qrcode.jpg" alt="下载二维码" />
-            </div>
+            <a href="https://ai-youbo.oss-cn-hangzhou.aliyuncs.com/%E6%A1%83%E7%99%BD%E7%99%BD%E6%95%B0%E5%AD%97%E4%BA%BA-V1.0.rar" download>
+              <div class="download-btn-wrap">
+                <img
+                  class="download-btn"
+                  src="./images/win-download-btn.png"
+                  alt=""
+                />
+              </div>
+            </a>
           </div>
         </div>
       </div>
