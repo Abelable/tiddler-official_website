@@ -52,7 +52,7 @@
                 src="./images/ios-download-btn.png"
                 alt=""
               />
-              <img class="download-qr-code" v-if="iosQrCodeVisible" src="" alt="下载二维码" />
+              <img class="download-qr-code" v-if="iosQrCodeVisible" src="./images/ios_download_qrcode.jpg" alt="下载二维码" />
             </div>
             <div class="download-btn-wrap" @mouseover="winQrCodeVisile = true"
             @mouseleave="winQrCodeVisile = false">
@@ -61,7 +61,7 @@
                 src="./images/win-download-btn.png"
                 alt=""
               />
-              <img class="download-qr-code" v-if="winQrCodeVisile" src="" alt="下载二维码" />
+              <img class="download-qr-code" v-if="winQrCodeVisile" src="./images/win_download_qrcode.jpg" alt="下载二维码" />
             </div>
           </div>
         </div>
