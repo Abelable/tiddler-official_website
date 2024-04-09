@@ -18,12 +18,15 @@
             @mouseover="loginModalVisible = true"
             @mouseleave="loginModalVisible = false"
           >
-            <div>{{language === "zh" ? '登录' : 'Login'}}</div>
+            <div>{{ language === "zh" ? "登录" : "Login" }}</div>
             <div class="login-modal" v-if="loginModalVisible">
               <div
                 class="login-btn row"
                 :class="{ active: curLoginBtnIndex === _index }"
-                v-for="(_item, _index) in [{zh: '桃白白登录', en: 'User Login'}, {zh: '桃白白代理版', en: 'Agent Login'}]"
+                v-for="(_item, _index) in [
+                  { zh: '桃白白登录', en: 'User Login' },
+                  { zh: '桃白白代理版', en: 'Agent Login' }
+                ]"
                 :key="_index"
                 @mouseover="curLoginBtnIndex = _index"
               >
@@ -116,7 +119,11 @@
       <img class="bg" src="./images/bg_2.png" alt="" />
       <div class="main row">
         <div style="width: 100%" :style="{ zoom }">
-          <img class="atlas" :src="require(`./images/${language}/atlas.png`)" alt="" />
+          <img
+            class="atlas"
+            :src="require(`./images/${language}/atlas.png`)"
+            alt=""
+          />
         </div>
       </div>
     </div>
@@ -140,10 +147,10 @@
                 :src="require(`./images/programme/programme_${index + 1}.png`)"
                 alt=""
               />
-              <div class="programme-card-title">{{ item.title }}</div>
+              <div class="programme-card-title">{{ item.title[language] }}</div>
               <div class="programme-desc">
-                <p v-for="(item, index) in item.desc" :key="index">
-                  {{ item }}
+                <p v-for="(_item, _index) in item.desc[language]" :key="_index">
+                  {{ _item }}
                 </p>
               </div>
             </div>
@@ -152,7 +159,7 @@
       </div>
     </div>
 
-    <div class="footer" ref="footer">
+    <div class="footer" v-if="language === 'zh'" ref="footer">
       <div class="main row">
         <div class="row center" style="width: 100%" :style="{ zoom }">
           <div class="footer-info row">
@@ -176,6 +183,12 @@
         </div>
       </div>
     </div>
+    <img
+      class="footer-en"
+      v-if="language === 'en'"
+      src="./images/footer.png"
+      alt=""
+    />
   </div>
 </template>
 
@@ -202,34 +215,66 @@ export default {
       winQrCodeVisile: false,
       programmeList: [
         {
-          title: "娱乐行业",
-          desc: [
-            "真人出镜类素材的优势",
-            "持续投放时间是 2D 素材的 3 倍",
-            "3D 素材的 1.5 倍",
-            "点击率和有效播放率，高出",
-            "其他类型素材 20%"
-          ]
+          title: { zh: "娱乐行业", en: "Entertainment" },
+          desc: {
+            zh: [
+              "真人出镜类素材的优势",
+              "持续投放时间是 2D 素材的 3 倍",
+              "3D 素材的 1.5 倍",
+              "点击率和有效播放率，高出",
+              "其他类型素材 20%"
+            ],
+            en: [
+              "The advantage of live-action",
+              "footage.",
+              "Click-through rate and effective",
+              "play rate are 20%",
+              "higher than other types of",
+              "material."
+            ]
+          }
         },
         {
-          title: "教育/公众事业",
-          desc: [
-            "发展数字人营销的机会",
-            "无需真人出镜，规模化生产营销",
-            "视频的天产能可达200+",
-            "在数字化时代更好地与消费者互",
-            "动，提高市场竞争力"
-          ]
+          title: { zh: "教育/公众事业", en: "EDUCATION / Public Utility" },
+          desc: {
+            zh: [
+              "发展数字人营销的机会",
+              "无需真人出镜，规模化生产营销",
+              "视频的天产能可达200+",
+              "在数字化时代更好地与消费者互",
+              "动，提高市场竞争力"
+            ],
+            en: [
+              "Develop digital human marketing",
+              "opportunities",
+              "without the need for a real",
+              "person on camera.",
+              "The daily production capacity",
+              "of large-scale production",
+              "marketing videos."
+            ]
+          }
         },
         {
-          title: "电商行业",
-          desc: [
-            "投资数字人资产营销的回报",
-            "快速产出，高效迭代，全面提升 3",
-            "倍创意效率，突破营销瓶颈",
-            "数字人分身，24h 随时上线，灵活",
-            "度极高"
-          ]
+          title: { zh: "电商行业", en: "E-commerce industry" },
+          desc: {
+            zh: [
+              "投资数字人资产营销的回报",
+              "快速产出，高效迭代，全面提升 3",
+              "倍创意效率，突破营销瓶颈",
+              "数字人分身，24h 随时上线，灵活",
+              "度极高"
+            ],
+            en: [
+              "Investment in digital human",
+              "asset marketing returns,",
+              "rapid output and efficient",
+              "iteration.",
+              "creative efficiency by 3 times,",
+              "24h online,",
+              "High flexibility."
+            ]
+          }
         }
       ]
     };
@@ -240,6 +285,7 @@ export default {
     this.language = language;
 
     window.addEventListener("scroll", this.scroll);
+
     this.$nextTick(() => {
       this.parent = window || document.documentElement || document.body;
       this.containerScrollHeight = this.$refs.container.scrollHeight;
@@ -256,6 +302,7 @@ export default {
     selectLanguage(language) {
       this.language = language;
       this.languageModalVisible = false;
+      localStorage.setItem("language", language);
     },
 
     selectMenu(index) {
@@ -308,7 +355,7 @@ export default {
       }
       if (
         scrollTop >= this.highlightsTop - 2 &&
-        scrollTop < this.pointTop - 2 &&
+        scrollTop < this.programmeTop - 2 &&
         this.curMenuIdx !== 1
       ) {
         this.curMenuIdx = 1;
@@ -367,8 +414,9 @@ export default {
   z-index: 100
   &.active
     backdrop-filter: blur(10px)
+    box-shadow: 5px 5px 35px 5px rgba(100,100,100,.2)
   .logo
-    width: 1.48rem
+    width: 1.34rem
     height: .48rem
     cursor: pointer
   .menu
@@ -605,4 +653,6 @@ export default {
         margin-top: 0.6rem
       .tel
         margin-top: 0.1rem
+  .footer-en
+    width: 100%
 </style>
