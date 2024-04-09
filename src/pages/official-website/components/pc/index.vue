@@ -11,23 +11,52 @@
             :key="index"
             @click="selectMenu(index)"
           >
-            {{ item }}
+            {{ item[language] }}
           </div>
           <div
             class="menu-item login"
             @mouseover="loginModalVisible = true"
             @mouseleave="loginModalVisible = false"
           >
-            <div>登录</div>
+            <div>{{language === "zh" ? '登录' : 'Login'}}</div>
             <div class="login-modal" v-if="loginModalVisible">
               <div
                 class="login-btn row"
                 :class="{ active: curLoginBtnIndex === _index }"
-                v-for="(_item, _index) in ['桃白白登录', '桃白白代理版']"
+                v-for="(_item, _index) in [{zh: '桃白白登录', en: 'User Login'}, {zh: '桃白白代理版', en: 'Agent Login'}]"
                 :key="_index"
                 @mouseover="curLoginBtnIndex = _index"
               >
-                {{ _item }}
+                {{ _item[language] }}
+              </div>
+            </div>
+          </div>
+          <div
+            class="language-switch-btn row"
+            @click="languageModalVisible = !languageModalVisible"
+          >
+            <img class="global-icon" src="./images/global.png" alt="" />
+            <div class="btn-main">
+              {{ language === "zh" ? "中文" : "ENGLISH" }}
+            </div>
+            <img
+              class="switch-arrow"
+              :class="{ up: languageModalVisible }"
+              src="./images/arrow.png"
+              alt=""
+            />
+            <div class="language-modal" v-if="languageModalVisible">
+              <div
+                class="language-option"
+                :class="{ active: language === item.value }"
+                v-for="(item, index) in [
+                  { text: '中文', value: 'zh' },
+                  { text: 'ENGLISH', value: 'en' }
+                ]"
+                :key="index"
+                @click.stop="selectLanguage(item.value)"
+              >
+                {{ item.text }}
               </div>
             </div>
           </div>
@@ -41,24 +70,39 @@
         <div :style="{ zoom }">
           <img
             class="introduce-content"
-            src="./images/introduce-content.png"
+            :class="{ en: language === 'en' }"
+            :src="require(`./images/${language}/introduce-content.png`)"
             alt=""
           />
           <div class="download-btns row">
-            <div class="download-btn-wrap" @mouseover="iosQrCodeVisible = true"
-            @mouseleave="iosQrCodeVisible = false">
+            <div
+              class="download-btn-wrap"
+              @mouseover="iosQrCodeVisible = true"
+              @mouseleave="iosQrCodeVisible = false"
+            >
               <img
                 class="download-btn"
-                src="./images/ios-download-btn.png"
+                :class="{ en: language === 'en' }"
+                :src="require(`./images/${language}/ios-download-btn.png`)"
                 alt=""
               />
-              <img class="download-qr-code" v-if="iosQrCodeVisible" src="./images/ios_download_qrcode.jpg" alt="下载二维码" />
+              <img
+                class="download-qr-code"
+                :class="{ en: language === 'en' }"
+                v-if="iosQrCodeVisible"
+                src="./images/ios_download_qrcode.jpg"
+                alt="下载二维码"
+              />
             </div>
-            <a href="https://ai-youbo.oss-cn-hangzhou.aliyuncs.com/%E6%A1%83%E7%99%BD%E7%99%BD%E6%95%B0%E5%AD%97%E4%BA%BA-V1.0.rar" download>
+            <a
+              href="https://ai-youbo.oss-cn-hangzhou.aliyuncs.com/%E6%A1%83%E7%99%BD%E7%99%BD%E6%95%B0%E5%AD%97%E4%BA%BA-V1.0.rar"
+              download
+            >
               <div class="download-btn-wrap">
                 <img
                   class="download-btn"
-                  src="./images/win-download-btn.png"
+                  :class="{ en: language === 'en' }"
+                  :src="require(`./images/${language}/win-download-btn.png`)"
                   alt=""
                 />
               </div>
@@ -72,7 +116,7 @@
       <img class="bg" src="./images/bg_2.png" alt="" />
       <div class="main row">
         <div style="width: 100%" :style="{ zoom }">
-          <img class="atlas" src="./images/atlas.png" alt="" />
+          <img class="atlas" :src="require(`./images/${language}/atlas.png`)" alt="" />
         </div>
       </div>
     </div>
@@ -82,7 +126,7 @@
         <div style="width: 100%" :style="{ zoom }">
           <img
             class="programme-title"
-            src="./images/programme/programme_title.png"
+            :src="require(`./images/${language}/programme_title.png`)"
             alt=""
           />
           <div class="programme-card-wrap row between">
@@ -142,7 +186,14 @@ export default {
   data() {
     return {
       zoom: 1,
-      menuList: ["首页", "应用图谱", "关于我们", "数字分身"],
+      language: "zh",
+      languageModalVisible: false,
+      menuList: [
+        { zh: "首页", en: "Home" },
+        { zh: "应用图谱", en: "Products" },
+        { zh: "关于我们", en: "About us" },
+        { zh: "数字分身", en: "Digital Human" }
+      ],
       curMenuIdx: 0,
       menuTabActive: false,
       loginModalVisible: false,
@@ -157,8 +208,8 @@ export default {
             "持续投放时间是 2D 素材的 3 倍",
             "3D 素材的 1.5 倍",
             "点击率和有效播放率，高出",
-            "其他类型素材 20%",
-          ],
+            "其他类型素材 20%"
+          ]
         },
         {
           title: "教育/公众事业",
@@ -167,8 +218,8 @@ export default {
             "无需真人出镜，规模化生产营销",
             "视频的天产能可达200+",
             "在数字化时代更好地与消费者互",
-            "动，提高市场竞争力",
-          ],
+            "动，提高市场竞争力"
+          ]
         },
         {
           title: "电商行业",
@@ -177,14 +228,17 @@ export default {
             "快速产出，高效迭代，全面提升 3",
             "倍创意效率，突破营销瓶颈",
             "数字人分身，24h 随时上线，灵活",
-            "度极高",
-          ],
-        },
-      ],
+            "度极高"
+          ]
+        }
+      ]
     };
   },
 
   mounted() {
+    const language = localStorage.getItem("language") || "zh";
+    this.language = language;
+
     window.addEventListener("scroll", this.scroll);
     this.$nextTick(() => {
       this.parent = window || document.documentElement || document.body;
@@ -199,6 +253,11 @@ export default {
   },
 
   methods: {
+    selectLanguage(language) {
+      this.language = language;
+      this.languageModalVisible = false;
+    },
+
     selectMenu(index) {
       switch (index) {
         case 0:
@@ -216,7 +275,7 @@ export default {
         case 3:
           this.parent.scrollTo({
             top: this.containerScrollHeight,
-            behavior: "smooth",
+            behavior: "smooth"
           });
           break;
       }
@@ -271,8 +330,8 @@ export default {
 
     checkIcp() {
       window.open("https://beian.miit.gov.cn", "_blank");
-    },
-  },
+    }
+  }
 };
 </script>
 
@@ -313,7 +372,8 @@ export default {
     height: .48rem
     cursor: pointer
   .menu
-    width: 6.40rem
+    margin-left: 3.75rem
+    flex: 1
     .menu-item
       color: #4B596B
       font-size: .18rem
@@ -364,9 +424,57 @@ export default {
             border-radius: 0.06rem
             &.active
               color: #fff
-              background: #FE8C8B;
+              background: #FE8C8B
             &:first-child
               margin-bottom: 0.05rem
+    .language-switch-btn
+      position: relative
+      padding: 0 0.2rem
+      width: 2.36rem
+      height: 0.52rem
+      background: #fff
+      border-radius: 0.08rem
+      border: 1px solid #DCDCDC
+      cursor: pointer
+      .global-icon
+        width: 0.22rem
+        height: 0.22rem
+      .btn-main
+        margin-left: 0.2rem
+        padding-left: 0.2rem
+        flex: 1
+        height: 0.2rem
+        color: #333
+        font-size: 0.18rem
+        line-height: 0.2rem
+        border-left: 1px solid #999
+      .switch-arrow
+        width: 0.14rem
+        height: 0.14rem
+        transform: rotate(0)
+        transition: transform .2s
+        &.up
+          transform: rotate(180deg)
+          transition: transform .2s
+      .language-modal
+        position: absolute
+        right 0
+        top: calc(100% + 0.1rem)
+        padding: 0 0.12rem
+        width: 1.73rem
+        background: #fff
+        border-radius: .08rem
+        border: 1px solid #DCDCDC
+        z-index: 100
+        .language-option
+          padding: 0.1rem 0.1rem
+          color: #333
+          font-size: 0.18rem
+          &:first-child
+            border-bottom: 1px solid #eee
+          &.active
+            color: #FE8C8B
+            font-weight: 500
 .container
   position: relative
   font-size: 0
@@ -387,6 +495,9 @@ export default {
       display: block
       width: 7.60rem
       height: 2.77rem
+      &.en
+        width: 10.2rem
+        height: 3.2rem
     .download-btns
       margin-top: .70rem
     .download-btn-wrap
@@ -399,6 +510,8 @@ export default {
         height: 0.66rem
         &:hover
           opacity: 0.6
+        &.en
+          width: 2.62rem
       .download-qr-code
         position: absolute
         top: calc(100% + 0.06rem)
@@ -408,6 +521,9 @@ export default {
         border-radius: 0.08rem
         background: #fff
         box-shadow: 0px 0px 10px 0px rgba(254,140,139,0.2)
+        &.en
+          width: 2.62rem
+          height: 2.62rem
   .highlights
     position: relative
     height: 90vh
