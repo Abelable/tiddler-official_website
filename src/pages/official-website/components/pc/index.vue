@@ -167,7 +167,7 @@
               <img class="brand-logo" src="./images/footer/logo.png" alt="" />
               <div class="brand-desc" v-if="language === 'zh'">
                 <p>坚持探索人工智能的无限可能性</p>
-                <p>断追求和探索是桃白白科技的宗旨。</p>
+                <p>不断追求和探索是桃白白科技的宗旨。</p>
               </div>
               <div class="brand-desc" v-if="language === 'en'">
                 <p>Insist on</p>
