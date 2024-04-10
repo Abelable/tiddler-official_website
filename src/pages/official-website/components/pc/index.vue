@@ -159,34 +159,139 @@
       </div>
     </div>
 
-    <div class="footer" v-if="language === 'zh'" ref="footer">
+    <div class="footer" ref="footer">
       <div class="main row">
         <div class="row center" style="width: 100%" :style="{ zoom }">
-          <div class="footer-info row">
-            <div class="footer-title">数字分身定制咨询</div>
-            <div class="footer-title-line">
-              <div class="footer-title-line-inner"></div>
+          <div class="footer-info row top">
+            <div class="brand-introduction">
+              <img class="brand-logo" src="./images/footer/logo.png" alt="" />
+              <div class="brand-desc" v-if="language === 'zh'">
+                <p>坚持探索人工智能的无限可能性</p>
+                <p>断追求和探索是桃白白科技的宗旨。</p>
+              </div>
+              <div class="brand-desc" v-if="language === 'en'">
+                <p>Insist on</p>
+                <p>exploring</p>
+                <p>the infinitepossibilities</p>
+                <p>of</p>
+                <p>artificial intelligence</p>
+              </div>
             </div>
-            <img
-              class="service-qr-code"
-              src="./images/service-qr-code.png"
-              alt=""
-            />
-            <div class="service-qr-code-desc">
-              扫描二维码咨询数字人专属定制服务
+            <div class="footer-info-detail">
+              <div class="footer-title">
+                {{ language === "zh" ? "网站导航" : "tbbai.cn" }}
+              </div>
+              <div class="footer-title-line">
+                <div class="footer-title-line-inner"></div>
+              </div>
+              <div class="footer-link-wrap">
+                <div
+                  class="footer-link"
+                  v-for="(item, index) in footerLinkList"
+                  :key="index"
+                  @click="selectMenu(index)"
+                >
+                  {{ item[language] }}
+                </div>
+              </div>
             </div>
-            <div class="icp" @click="checkIcp">
-              杭州桃白白科技有限公司 浙ICP备2023054709号-2 https://tbbai.cn
+            <div class="footer-info-detail">
+              <div class="footer-title">
+                {{ language === "zh" ? "最新新闻" : "NEWS" }}
+              </div>
+              <div class="footer-title-line">
+                <div class="footer-title-line-inner"></div>
+              </div>
+              <div class="footer-news-wrap" v-if="language === 'zh'">
+                <div class="footer-news">
+                  <p>2023年 桃白白数字人 上线</p>
+                  <!-- <p>定制数字人请<span class="news-link">点击这里</span></p> -->
+                </div>
+                <div class="footer-news">2024年 桃白白AI 上线</div>
+              </div>
+              <div class="footer-news-wrap" v-if="language === 'en'">
+                <div class="footer-news">
+                  <p>2023Taobaibai META-</p>
+                  <p>Human Product Online</p>
+                </div>
+                <div class="footer-news">2024 Taobaib AI Online</div>
+              </div>
             </div>
-            <div class="tel">投诉电话: 0571-28834861</div>
+            <div class="footer-info-detail">
+              <div class="footer-title">
+                {{ language === "zh" ? "联系我们" : "CONTACT US" }}
+              </div>
+              <div class="footer-title-line">
+                <div class="footer-title-line-inner"></div>
+              </div>
+              <div class="footer-contact-info-wrap">
+                <div class="footer-contact-info row top">
+                  <img
+                    class="contact-info-icon"
+                    src="./images/footer/position.png"
+                    alt=""
+                  />
+                  <p class="footer-contact" v-if="language === 'zh'">
+                    浙江省杭州市余杭区EFC欧美金融城美国中心-T5
+                  </p>
+                  <div class="footer-contact" v-if="language === 'en'">
+                    <p>Euro America Financial City (EFC)</p>
+                    <p>US Center, Tower 5,</p>
+                    <p>Yuhang,Hangzhou,</p>
+                    <p>Zhejiang Province, P.R.CNINA</p>
+                  </div>
+                </div>
+                <div class="footer-contact-info row top">
+                  <img
+                    class="contact-info-icon"
+                    src="./images/footer/email.png"
+                    alt=""
+                  />
+                  <p class="footer-contact">itaobaibai@163.com</p>
+                </div>
+                <div class="footer-contact-info row top">
+                  <img
+                    class="contact-info-icon"
+                    src="./images/footer/tel.png"
+                    alt=""
+                  />
+                  <p class="footer-contact">0571-28834861</p>
+                </div>
+                <div class="footer-contact-info row top">
+                  <img
+                    class="contact-info-icon"
+                    src="./images/footer/wechat.png"
+                    alt=""
+                  />
+                  <p class="footer-contact">
+                    {{ language === "zh" ? "微信二维码" : "QR CODE" }}
+                  </p>
+                </div>
+                <img
+                  class="wechat-qrcode"
+                  src="./images/footer/qrcode.png"
+                  alt=""
+                />
+              </div>
+            </div>
+            <div class="copyright">
+              <span>{{
+                language === "zh"
+                  ? "Copyright © 杭州桃白白科技有限公司 版权所有 免责声明"
+                  : "Copyright © TAOBAIBAI（HangZhou）Technology CO.,LTD  All Rights Reserved. "
+              }}</span>
+              <span class="icp" @click="checkIcp">浙ICP备2023054709号-2</span>
+            </div>
           </div>
         </div>
       </div>
     </div>
+
     <img
-      class="footer-en"
-      v-if="language === 'en'"
-      src="./images/footer.png"
+      class="back-top-btn"
+      v-if="backTopBtnVisible"
+      @click="scrollToTop"
+      src="./images/backtop.png"
       alt=""
     />
   </div>
@@ -206,6 +311,13 @@ export default {
         { zh: "应用图谱", en: "Products" },
         { zh: "关于我们", en: "About us" },
         { zh: "数字分身", en: "Digital Human" }
+      ],
+      footerLinkList: [
+        { zh: "网站首页", en: "HOME" },
+        { zh: "应用图谱", en: "PRODUCTS" },
+        { zh: "关于我们", en: "ABOUT US" },
+        { zh: "数字分身", en: "DIGITAL HUMAN" },
+        { zh: "最新新闻", en: "NEWS" }
       ],
       curMenuIdx: 0,
       menuTabActive: false,
@@ -276,7 +388,8 @@ export default {
             ]
           }
         }
-      ]
+      ],
+      backTopBtnVisible: false
     };
   },
 
@@ -350,6 +463,12 @@ export default {
     },
 
     scrollHandler: _.debounce(function(scrollTop) {
+      if (scrollTop > 10 && !this.backTopBtnVisible) {
+        this.backTopBtnVisible = true;
+      }
+      if (scrollTop <= 10 && this.backTopBtnVisible) {
+        this.backTopBtnVisible = false;
+      }
       if (scrollTop < this.highlightsTop && this.curMenuIdx !== 0) {
         this.curMenuIdx = 0;
       }
@@ -388,6 +507,8 @@ export default {
 .row
   display: flex
   align-items: center
+  &.top
+    align-items: flex-start
   &.center
     justify-content: center
   &.between
@@ -623,36 +744,96 @@ export default {
           font-size: .26rem
           text-align: center
   .footer
-    height: 40vh
+    height: 50vh
     overflow: hidden
-    background: #1C2037
+    background: linear-gradient( 63deg, #468BE0 0%, #8E4CB7 50%, #8E4CB7 100%)
     .footer-info
-      flex-direction: column
-      .footer-title
-        color: #fff
-        font-size: .2rem
-        font-weight: 600
-      .footer-title-line
-        margin-top: .2rem
-        width: 1.08rem
-        height: .02rem
-        background: #8E8F9B
-        .footer-title-line-inner
-          width: .26rem
+      position: relative
+      width: 100%
+      .brand-introduction
+        margin-right: 1.5rem
+        .brand-logo
+          width: 0.8rem
+          height: 0.8rem
+        .brand-desc
+          margin-top: 0.18rem
+          color: #fff
+          font-size: 0.18rem
+      .footer-info-detail
+        flex: 1
+        .footer-title
+          color: #fff
+          font-size: .2rem
+          font-weight: 600
+        .footer-title-line
+          margin-top: .2rem
+          width: 1.08rem
           height: .02rem
-          background: #FE8C8B
-      .service-qr-code
-        margin-top: 0.4rem
-        width: 1rem
-        height: 1rem
-      .service-qr-code-desc, .icp, .tel
-        margin-top: 0.1rem
-        color: #8E8F9B
+          background: #8E8F9B
+          .footer-title-line-inner
+            width: .26rem
+            height: .02rem
+            background: #FE8C8B
+        .footer-link-wrap
+          margin-top: 0.16rem
+          .footer-link
+            margin-bottom: 0.2rem
+            color: #fff
+            font-size: 0.16rem
+            cursor: pointer
+        .footer-news-wrap
+          padding-left: 0.16rem
+          .footer-news
+            position: relative
+            margin-top: 0.2rem
+            color: #fff
+            font-size: 0.16rem
+            &::before
+              position: absolute
+              top: 0.1rem
+              left: -0.12rem
+              width: 0.04rem
+              height: 0.04rem
+              content: ''
+              border-radius: 50%
+              background: #fff
+            .news-link
+              margin-left: 0.12rem
+              font-weight: 500
+              cursor: pointer
+              text-decoration-line: underline
+        .footer-contact-info-wrap
+          .footer-contact-info
+            margin-top: 0.2rem
+            .contact-info-icon
+              margin-top: 0.04rem
+              margin-right: 0.03rem
+              width: 0.16rem
+              height: 0.16rem
+            .footer-contact
+              max-width: 2.56rem
+              color: #fff
+              font-size: 0.16rem
+          .wechat-qrcode
+            margin-top: 0.1rem
+            margin-left: 0.22rem
+            width: 1rem
+            height: 1rem
+      .copyright
+        position: absolute
+        left: 0
+        bottom: 0
+        color: #fff
         font-size: 0.16rem
-      .icp
-        margin-top: 0.6rem
-      .tel
-        margin-top: 0.1rem
-  .footer-en
-    width: 100%
+        .icp
+          margin-left: 0.3rem
+          cursor: pointer
+.back-top-btn
+  position: fixed
+  bottom: 0.54rem
+  right: 0.54rem
+  width: 0.52rem
+  height: 0.52rem
+  z-index: 100
+  cursor: pointer
 </style>
