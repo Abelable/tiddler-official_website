@@ -20,7 +20,7 @@
             @mouseleave="loginModalVisible = false"
           >
             <div>{{ language === "zh" ? "登录" : "Login" }}</div>
-            <div class="login-modal" v-if="loginModalVisible">
+            <!-- <div class="login-modal" v-if="loginModalVisible">
               <div
                 class="login-btn row"
                 :class="{ active: curLoginBtnIndex === _index }"
@@ -33,7 +33,7 @@
               >
                 {{ _item[language] }}
               </div>
-            </div>
+            </div> -->
           </div>
           <div
             class="language-switch-btn row"
@@ -93,32 +93,18 @@
       </div>
     </div>
 
-    <div class="programme" ref="programme">
+    <div class="about-us" ref="aboutUs">
       <div class="main row">
         <div style="width: 100%" :style="{ zoom }">
-          <img
-            class="programme-title"
-            :src="require(`./images/${language}/programme_title.png`)"
-            alt=""
-          />
-          <div class="programme-card-wrap row between">
-            <div
-              class="programme-card row center"
-              v-for="(item, index) in programmeList"
-              :key="index"
-            >
-              <img
-                class="programme-icon"
-                :src="require(`./images/programme/programme_${index + 1}.png`)"
-                alt=""
-              />
-              <div class="programme-card-title">{{ item.title[language] }}</div>
-              <div class="programme-desc">
-                <p v-for="(_item, _index) in item.desc[language]" :key="_index">
-                  {{ _item }}
-                </p>
-              </div>
+          <div class="about-us-title">关于我们</div>
+          <div class="row center">
+            <div class="about-us-content">
+              <p>我们坐落于美丽的千岛湖畔，</p>
+              <p>我们是一群年轻、拥有梦想的年轻人，</p>
+              <p>为千岛湖注入新鲜血液、</p>
+              <p>成为千岛湖发展的催化剂，将是我们永远的使命</p>
             </div>
+            <img class="about-us-illus" src="https://calgee.com/cdn/shop/files/the_calgee_story_640x.webp?v=1693281072" alt="" >
           </div>
         </div>
       </div>
@@ -278,85 +264,17 @@ export default {
         { zh: "首页", en: "Home" },
         { zh: "应用图谱", en: "Products" },
         { zh: "关于我们", en: "About us" },
-        { zh: "数字分身", en: "Digital Human" }
       ],
       footerLinkList: [
         { zh: "网站首页", en: "HOME" },
         { zh: "应用图谱", en: "PRODUCTS" },
         { zh: "关于我们", en: "ABOUT US" },
-        { zh: "数字分身", en: "DIGITAL HUMAN" },
         { zh: "最新新闻", en: "NEWS" }
       ],
       curMenuIdx: 0,
       menuTabActive: false,
       loginModalVisible: false,
       curLoginBtnIndex: 0,
-      iosQrCodeVisible: false,
-      winQrCodeVisile: false,
-      programmeList: [
-        {
-          title: { zh: "娱乐行业", en: "Entertainment" },
-          desc: {
-            zh: [
-              "真人出镜类素材的优势",
-              "持续投放时间是 2D 素材的 3 倍",
-              "3D 素材的 1.5 倍",
-              "点击率和有效播放率，高出",
-              "其他类型素材 20%"
-            ],
-            en: [
-              "The advantage of live-action",
-              "footage.",
-              "Click-through rate and effective",
-              "play rate are 20%",
-              "higher than other types of",
-              "material."
-            ]
-          }
-        },
-        {
-          title: { zh: "教育/公众事业", en: "EDUCATION / Public Utility" },
-          desc: {
-            zh: [
-              "发展数字人营销的机会",
-              "无需真人出镜，规模化生产营销",
-              "视频的天产能可达200+",
-              "在数字化时代更好地与消费者互",
-              "动，提高市场竞争力"
-            ],
-            en: [
-              "Develop digital human marketing",
-              "opportunities",
-              "without the need for a real",
-              "person on camera.",
-              "The daily production capacity",
-              "of large-scale production",
-              "marketing videos."
-            ]
-          }
-        },
-        {
-          title: { zh: "电商行业", en: "E-commerce industry" },
-          desc: {
-            zh: [
-              "投资数字人资产营销的回报",
-              "快速产出，高效迭代，全面提升 3",
-              "倍创意效率，突破营销瓶颈",
-              "数字人分身，24h 随时上线，灵活",
-              "度极高"
-            ],
-            en: [
-              "Investment in digital human",
-              "asset marketing returns,",
-              "rapid output and efficient",
-              "iteration.",
-              "creative efficiency by 3 times,",
-              "24h online,",
-              "High flexibility."
-            ]
-          }
-        }
-      ],
       backTopBtnVisible: false
     };
   },
@@ -373,8 +291,8 @@ export default {
       this.menuHeight = this.$refs.menuTab.getBoundingClientRect().height;
       this.appIntroTop =
         this.$refs.appIntro.getBoundingClientRect().top - this.menuHeight;
-      this.programmeTop =
-        this.$refs.programme.getBoundingClientRect().top - this.menuHeight;
+      this.aboutUsTop =
+        this.$refs.aboutUs.getBoundingClientRect().top - this.menuHeight;
       this.footerHeight = this.$refs.footer.getBoundingClientRect().height;
     });
   },
@@ -397,7 +315,7 @@ export default {
           break;
 
         case 2:
-          this.parent.scrollTo({ top: this.programmeTop, behavior: "smooth" });
+          this.parent.scrollTo({ top: this.aboutUsTop, behavior: "smooth" });
           break;
 
         case 3:
@@ -442,20 +360,20 @@ export default {
       }
       if (
         scrollTop >= this.appIntroTop - 2 &&
-        scrollTop < this.programmeTop - 2 &&
+        scrollTop < this.aboutUsTop - 2 &&
         this.curMenuIdx !== 1
       ) {
         this.curMenuIdx = 1;
       }
       if (
-        scrollTop >= this.programmeTop - 2 &&
-        scrollTop < this.programmeTop + this.footerHeight - 2 &&
+        scrollTop >= this.aboutUsTop - 2 &&
+        scrollTop < this.aboutUsTop + this.footerHeight - 2 &&
         this.curMenuIdx !== 2
       ) {
         this.curMenuIdx = 2;
       }
       if (
-        scrollTop >= this.programmeTop + this.footerHeight - 2 &&
+        scrollTop >= this.aboutUsTop + this.footerHeight - 2 &&
         this.curMenuIdx !== 3
       ) {
         this.curMenuIdx = 3;
@@ -512,7 +430,7 @@ export default {
     height: .24rem
     cursor: pointer
   .menu
-    margin-left: 3.75rem
+    margin-left: 5rem
     flex: 1
     .menu-item
       color: #0062A7
@@ -678,49 +596,24 @@ export default {
     .app-intro-banner
       width: 100%
       border-radius: 0.24rem
-  .programme
-    height: 90vh
+  .about-us
+    height: 80vh
     overflow: hidden
-    background: #fff
-    .programme-title
-      display: block
-      margin: 0 auto
-      width: 11.52rem
-      height: 1.95rem
-    .programme-card-wrap
-      margin-top: 0.6rem
-      .programme-card
-        margin-right: .42rem
-        flex-direction: column
-        flex: 1
-        height: 5.05rem
-        background: #F7F8FA
-        border-radius: 0.08rem
-        cursor: pointer
-        transition: .2s ease
-        &:last-child
-          margin-right: 0
-        &:hover
-          background: #fff
-          box-shadow: 0px 0px 20px 0px rgba(35,151,141,0.2)
-          transition: .2s ease
-          .programme-card-title
-            color: #FE8C8B
-            transition: color .2s ease
-        .programme-icon
-          width: 0.8rem
-          height: 0.8rem
-        .programme-card-title
-          margin-top: 0.35rem
-          color: #222
-          font-size: .32rem
-          font-weight: 600
-          transition: color .2s ease
-        .programme-desc
-          margin-top: .3rem
-          color: #4B596B
-          font-size: .26rem
-          text-align: center
+    background: #E4F5FD
+    .about-us-title
+      margin-bottom: 1rem
+      color: #0062A7
+      font-size: 0.40rem
+      font-weight: 600
+      text-align: center
+    .about-us-content
+      flex: 1
+      color: #0062A7
+      font-size: 0.28rem
+      line-height: 2.5
+    .about-us-illus
+      width: 5rem
+      height: 5rem
   .footer
     height: 50vh
     overflow: hidden
