@@ -4,7 +4,7 @@ const routes = [
     path: "/",
     component: () => import("@/pages/official-website/index"),
     meta: {
-      title: "桃白白官方",
+      title: "鱼小小官方",
     },
   },
 ];

@@ -61,7 +61,7 @@
           <div class="service-qr-code-desc">
             扫描二维码咨询数字人专属定制服务
           </div>
-          <div class="company">杭州桃白白科技有限公司</div>
+          <div class="company">杭州鱼小小科技有限公司</div>
           <div class="icp" @click="checkIcp">
             浙ICP备2023054709号-2 https://tbbai.cn
           </div>
@@ -73,8 +73,8 @@
     <Popup v-model="menuPopupVisible" position="left">
       <div class="menu-draw">
         <div class="login-btn-wrap row">
-          <div class="login-btn row center">桃白白登录</div>
-          <div class="login-btn row center">桃白白代理版</div>
+          <div class="login-btn row center">鱼小小登录</div>
+          <div class="login-btn row center">鱼小小代理版</div>
         </div>
         <div
           class="menu-item row between"

@@ -24,8 +24,8 @@
                 class="login-btn row"
                 :class="{ active: curLoginBtnIndex === _index }"
                 v-for="(_item, _index) in [
-                  { zh: '桃白白登录', en: 'User Login' },
-                  { zh: '桃白白代理版', en: 'Agent Login' }
+                  { zh: '鱼小小登录', en: 'User Login' },
+                  { zh: '鱼小小代理版', en: 'Agent Login' }
                 ]"
                 :key="_index"
                 @mouseover="curLoginBtnIndex = _index"
@@ -167,7 +167,7 @@
               <img class="brand-logo" src="./images/footer/logo.png" alt="" />
               <div class="brand-desc" v-if="language === 'zh'">
                 <p>坚持探索人工智能的无限可能性</p>
-                <p>不断追求和探索是桃白白科技的宗旨。</p>
+                <p>不断追求和探索是鱼小小科技的宗旨。</p>
               </div>
               <div class="brand-desc" v-if="language === 'en'">
                 <p>Insist on</p>
@@ -204,10 +204,10 @@
               </div>
               <div class="footer-news-wrap" v-if="language === 'zh'">
                 <div class="footer-news">
-                  <p>2023年 桃白白数字人 上线</p>
+                  <p>2023年 鱼小小数字人 上线</p>
                   <!-- <p>定制数字人请<span class="news-link">点击这里</span></p> -->
                 </div>
-                <div class="footer-news">2024年 桃白白AI 上线</div>
+                <div class="footer-news">2024年 鱼小小AI 上线</div>
               </div>
               <div class="footer-news-wrap" v-if="language === 'en'">
                 <div class="footer-news">
@@ -277,7 +277,7 @@
             <div class="copyright">
               <span>{{
                 language === "zh"
-                  ? "Copyright © 杭州桃白白科技有限公司 版权所有 免责声明"
+                  ? "Copyright © 杭州鱼小小科技有限公司 版权所有 免责声明"
                   : "Copyright © TAOBAIBAI（HangZhou）Technology CO.,LTD  All Rights Reserved. "
               }}</span>
               <span class="icp" @click="checkIcp">浙ICP备2023054709号-2</span>
