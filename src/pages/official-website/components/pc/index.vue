@@ -74,7 +74,7 @@
         <div class="row center" style="width: 100%" :style="{ zoom }">
           <div class="introduce">
             <div class="introduce-title">鱼小小科技</div>
-            <div class="introduce-desc">—— 千岛湖生活·文旅服务平台</div>
+            <div class="introduce-desc">千岛湖生活、文旅服务平台</div>
           </div>
           <img class="home-illus" src="./images/home/welcome.png" alt="" />
         </div>
@@ -82,14 +82,9 @@
     </div>
 
     <div class="highlights" ref="highlights">
-      <img class="bg" src="./images/bg_2.png" alt="" />
       <div class="main row">
         <div style="width: 100%" :style="{ zoom }">
-          <img
-            class="atlas"
-            :src="require(`./images/${language}/atlas.png`)"
-            alt=""
-          />
+          
         </div>
       </div>
     </div>
@@ -630,6 +625,12 @@ export default {
     height: 90vh
     background: #C6E8FA
     overflow-y: hidden 
+    .wave-bg
+      position: absolute
+      top: 0
+      right: -0.5rem
+      width: 6.32rem
+      height: 1.6rem
     &::after
       position: absolute
       left: 0
@@ -640,12 +641,6 @@ export default {
       background: url(https://calgee.com/cdn/shop/t/50/assets/white-wave.svg?v=88207661338556974601706585120) repeat-x center top
       background-size: 1900px 204px
       animation: wave 15s cubic-bezier(0.36, 0.45, 0.63, 0.53) infinite
-    .wave-bg
-      position: absolute
-      top: 0
-      right: -0.5rem
-      width: 6.32rem
-      height: 1.6rem
     .introduce
       flex: 1
       color: #0062A7
@@ -653,17 +648,16 @@ export default {
       .introduce-title
         font-size: 1rem
       .introduce-desc
-        font-size: 0.4rem
+        margin-top: 0.12rem
+        font-size: 0.32rem
     .home-illus
       margin-top: 1rem
       width: 8rem
   .highlights
     position: relative
     height: 90vh
+    background: #fff
     overflow: hidden
-    .atlas
-      width: 100%
-      height: 8.26rem
   .programme
     height: 90vh
     overflow: hidden
