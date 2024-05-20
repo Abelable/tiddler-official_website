@@ -74,17 +74,21 @@
         <div class="row center" style="width: 100%" :style="{ zoom }">
           <div class="introduce">
             <div class="introduce-title">鱼小小科技</div>
-            <div class="introduce-desc">千岛湖生活、文旅服务平台</div>
+            <div class="introduce-desc">千岛湖生活、文旅技术服务</div>
           </div>
           <img class="home-illus" src="./images/home/welcome.png" alt="" />
         </div>
       </div>
     </div>
 
-    <div class="highlights" ref="highlights">
+    <div class="app-intro" ref="appIntro">
       <div class="main row">
         <div style="width: 100%" :style="{ zoom }">
-          
+          <Swipe :autoplay="8000">
+            <SwipeItem v-for="(item) in 4" :key="item">
+              <img class="app-intro-banner" :src="require(`./images/app_intro/banner_${item}.png`)" alt="" />
+            </SwipeItem>
+          </Swipe>
         </div>
       </div>
     </div>
@@ -259,9 +263,12 @@
 </template>
 
 <script>
-import _ from "lodash";
+import { Swipe, SwipeItem } from 'vant'
+import debounce from "lodash/debounce";
 
 export default {
+  components: { Swipe, SwipeItem },
+
   data() {
     return {
       zoom: 1,
@@ -364,8 +371,8 @@ export default {
       this.parent = window || document.documentElement || document.body;
       this.containerScrollHeight = this.$refs.container.scrollHeight;
       this.menuHeight = this.$refs.menuTab.getBoundingClientRect().height;
-      this.highlightsTop =
-        this.$refs.highlights.getBoundingClientRect().top - this.menuHeight;
+      this.appIntroTop =
+        this.$refs.appIntro.getBoundingClientRect().top - this.menuHeight;
       this.programmeTop =
         this.$refs.programme.getBoundingClientRect().top - this.menuHeight;
       this.footerHeight = this.$refs.footer.getBoundingClientRect().height;
@@ -386,7 +393,7 @@ export default {
           break;
 
         case 1:
-          this.parent.scrollTo({ top: this.highlightsTop, behavior: "smooth" });
+          this.parent.scrollTo({ top: this.appIntroTop, behavior: "smooth" });
           break;
 
         case 2:
@@ -423,18 +430,18 @@ export default {
       this.scrollHandler(scrollTop);
     },
 
-    scrollHandler: _.debounce(function(scrollTop) {
+    scrollHandler: debounce(function(scrollTop) {
       if (scrollTop > 10 && !this.backTopBtnVisible) {
         this.backTopBtnVisible = true;
       }
       if (scrollTop <= 10 && this.backTopBtnVisible) {
         this.backTopBtnVisible = false;
       }
-      if (scrollTop < this.highlightsTop && this.curMenuIdx !== 0) {
+      if (scrollTop < this.appIntroTop && this.curMenuIdx !== 0) {
         this.curMenuIdx = 0;
       }
       if (
-        scrollTop >= this.highlightsTop - 2 &&
+        scrollTop >= this.appIntroTop - 2 &&
         scrollTop < this.programmeTop - 2 &&
         this.curMenuIdx !== 1
       ) {
@@ -634,7 +641,7 @@ export default {
     &::after
       position: absolute
       left: 0
-      bottom: -2rem
+      bottom: -2.4rem
       width: 488rem
       height: 3.125rem
       content: ''
@@ -653,11 +660,24 @@ export default {
     .home-illus
       margin-top: 1rem
       width: 8rem
-  .highlights
+  .app-intro
     position: relative
-    height: 90vh
+    height: 84vh
     background: #fff
     overflow: hidden
+    &::after
+      position: absolute
+      left: 0
+      bottom: -2.4rem
+      width: 488rem
+      height: 3.125rem
+      content: ''
+      background: url(https://calgee.com/cdn/shop/t/50/assets/lightblue-wave.svg) repeat-x center top
+      background-size: 1900px 204px
+      animation: wave 15s cubic-bezier(0.36, 0.45, 0.63, 0.53) infinite
+    .app-intro-banner
+      width: 100%
+      border-radius: 0.24rem
   .programme
     height: 90vh
     overflow: hidden
