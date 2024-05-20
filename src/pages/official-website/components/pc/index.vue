@@ -3,6 +3,7 @@
     <div class="menu-tab" :class="{ active: menuTabActive }" ref="menuTab">
       <div class="main row between" ref="menuMain">
         <img class="logo" @click="scrollToTop" src="./images/logo.png" alt="" />
+        <img class="logo-desc" @click="scrollToTop" src="./images/logo-desc.png" alt="" />
         <div class="menu row between">
           <div
             class="menu-item"
@@ -67,50 +68,15 @@
       </div>
     </div>
 
-    <div class="introduce">
-      <img class="bg" src="./images/bg_1.png" alt="" />
+    <div class="home">
+      <img class="wave-bg" src="./images/home/wave.png" alt="" />
       <div class="main row">
-        <div :style="{ zoom }">
-          <img
-            class="introduce-content"
-            :class="{ en: language === 'en' }"
-            :src="require(`./images/${language}/introduce-content.png`)"
-            alt=""
-          />
-          <div class="download-btns row">
-            <div
-              class="download-btn-wrap"
-              @mouseover="iosQrCodeVisible = true"
-              @mouseleave="iosQrCodeVisible = false"
-            >
-              <img
-                class="download-btn"
-                :class="{ en: language === 'en' }"
-                :src="require(`./images/${language}/ios-download-btn.png`)"
-                alt=""
-              />
-              <img
-                class="download-qr-code"
-                :class="{ en: language === 'en' }"
-                v-if="iosQrCodeVisible"
-                src="./images/ios_download_qrcode.jpg"
-                alt="下载二维码"
-              />
-            </div>
-            <a
-              href="https://ai-youbo.oss-cn-hangzhou.aliyuncs.com/%E6%A1%83%E7%99%BD%E7%99%BD%E6%95%B0%E5%AD%97%E4%BA%BA-V1.0.rar"
-              download
-            >
-              <div class="download-btn-wrap">
-                <img
-                  class="download-btn"
-                  :class="{ en: language === 'en' }"
-                  :src="require(`./images/${language}/win-download-btn.png`)"
-                  alt=""
-                />
-              </div>
-            </a>
+        <div class="row center" style="width: 100%" :style="{ zoom }">
+          <div class="introduce">
+            <div class="introduce-title">鱼小小科技</div>
+            <div class="introduce-desc">—— 千岛湖生活·文旅服务平台</div>
           </div>
+          <img class="home-illus" src="./images/home/welcome.png" alt="" />
         </div>
       </div>
     </div>
@@ -452,10 +418,10 @@ export default {
         document.documentElement.scrollTop ||
         document.body.scrollTop;
 
-      if (scrollTop >= 10 && !this.menuTabActive) {
+      if (scrollTop >= 100 && !this.menuTabActive) {
         this.menuTabActive = true;
       }
-      if (scrollTop < 10 && this.menuTabActive) {
+      if (scrollTop < 100 && this.menuTabActive) {
         this.menuTabActive = false;
       }
 
@@ -534,22 +500,24 @@ export default {
   height: 10vh
   z-index: 100
   &.active
-    backdrop-filter: blur(10px)
-    box-shadow: 5px 5px 35px 5px rgba(100,100,100,.2)
+    background: #C6E8FA
   .logo
-    width: 1.34rem
+    width: .48rem
     height: .48rem
+    cursor: pointer
+  .logo-desc
+    margin-left: 0.12rem
+    height: .24rem
     cursor: pointer
   .menu
     margin-left: 3.75rem
     flex: 1
     .menu-item
-      color: #4B596B
+      color: #0062A7
       font-size: .18rem
       cursor: pointer
       &.active
         position: relative
-        color: #333
         font-weight: 600
         &::after
           position: absolute
@@ -559,7 +527,7 @@ export default {
           width: .58rem
           height: .04rem
           content: ""
-          background: #4F322D
+          background: #0062A7
           border-radius: .08rem
       &.login
         position: relative
@@ -657,42 +625,38 @@ export default {
     color: #8E8F9B
     font-size: .22rem
     background: #1E0202
-  .introduce
+  .home
     position: relative
-    height: 100vh
-    .introduce-content
-      display: block
-      width: 7.60rem
-      height: 2.77rem
-      &.en
-        width: 10.2rem
-        height: 3.2rem
-    .download-btns
-      margin-top: .70rem
-    .download-btn-wrap
-      position: relative
-      margin-right: 0.3rem
-      font-size: 0
-      cursor: pointer
-      .download-btn
-        width: 2.32rem
-        height: 0.66rem
-        &:hover
-          opacity: 0.6
-        &.en
-          width: 2.62rem
-      .download-qr-code
-        position: absolute
-        top: calc(100% + 0.06rem)
-        left: 0
-        width: 2.32rem
-        height: 2.32rem
-        border-radius: 0.08rem
-        background: #fff
-        box-shadow: 0px 0px 10px 0px rgba(254,140,139,0.2)
-        &.en
-          width: 2.62rem
-          height: 2.62rem
+    height: 90vh
+    background: #C6E8FA
+    overflow-y: hidden 
+    &::after
+      position: absolute
+      left: 0
+      bottom: -2rem
+      width: 488rem
+      height: 3.125rem
+      content: ''
+      background: url(https://calgee.com/cdn/shop/t/50/assets/white-wave.svg?v=88207661338556974601706585120) repeat-x center top
+      background-size: 1900px 204px
+      animation: wave 15s cubic-bezier(0.36, 0.45, 0.63, 0.53) infinite
+    .wave-bg
+      position: absolute
+      top: 0
+      right: -0.5rem
+      width: 6.32rem
+      height: 1.6rem
+    .introduce
+      flex: 1
+      color: #0062A7
+      font-weight: 600
+      .introduce-title
+        font-size: 1rem
+      .introduce-desc
+        font-size: 0.4rem
+    .home-illus
+      margin-top: 1rem
+      width: 8rem
   .highlights
     position: relative
     height: 90vh
@@ -836,4 +800,9 @@ export default {
   height: 0.52rem
   z-index: 100
   cursor: pointer
+@keyframes wave
+  0%
+    margin-left: 0
+  100%
+    margin-left: -1920px
 </style>
