@@ -3,7 +3,12 @@
     <div class="menu-tab" :class="{ active: menuTabActive }" ref="menuTab">
       <div class="main row between" ref="menuMain">
         <img class="logo" @click="scrollToTop" src="./images/logo.png" alt="" />
-        <img class="logo-desc" @click="scrollToTop" src="./images/logo-desc.png" alt="" />
+        <img
+          class="logo-desc"
+          @click="scrollToTop"
+          src="./images/logo-desc.png"
+          alt=""
+        />
         <div class="menu row between">
           <div
             class="menu-item"
@@ -73,8 +78,16 @@
       <div class="main row">
         <div class="row center" style="width: 100%" :style="{ zoom }">
           <div class="introduce">
-            <div class="introduce-title">鱼小小科技</div>
-            <div class="introduce-desc">千岛湖生活、文旅技术服务</div>
+            <div class="introduce-title">
+              {{ language === "zh" ? "鱼小小科技" : "YUXIAOXIAO TECH" }}
+            </div>
+            <div class="introduce-desc">
+              {{
+                language === "zh"
+                  ? "千岛湖生活、文旅技术服务"
+                  : "Qiandaohu Life, Cultural and Tourism Technology Services"
+              }}
+            </div>
           </div>
           <img class="home-illus" src="./images/home/welcome.png" alt="" />
         </div>
@@ -85,8 +98,12 @@
       <div class="main row">
         <div style="width: 100%" :style="{ zoom }">
           <Swipe :autoplay="8000">
-            <SwipeItem v-for="(item) in 4" :key="item">
-              <img class="app-intro-banner" :src="require(`./images/app_intro/banner_${item}.png`)" alt="" />
+            <SwipeItem v-for="item in 4" :key="item">
+              <img
+                class="app-intro-banner"
+                :src="require(`./images/app_intro/banner_${item}.png`)"
+                alt=""
+              />
             </SwipeItem>
           </Swipe>
         </div>
@@ -96,15 +113,30 @@
     <div class="about-us" ref="aboutUs">
       <div class="main row">
         <div style="width: 100%" :style="{ zoom }">
-          <div class="about-us-title">关于我们</div>
+          <div class="about-us-title">
+            {{ language === "zh" ? "关于我们" : "ABOUT US" }}
+          </div>
           <div class="row center">
-            <div class="about-us-content">
+            <div class="about-us-content" v-if="language === 'zh'">
               <p>我们坐落于美丽的千岛湖畔，</p>
               <p>我们是一群年轻、拥有梦想的年轻人，</p>
-              <p>为千岛湖注入新鲜血液、</p>
-              <p>成为千岛湖发展的催化剂，将是我们永远的使命</p>
+              <p>为千岛湖注入科技的血液、</p>
+              <p>成为千岛湖发展的催化剂，</p>
+              <p>将是我们永远的使命</p>
             </div>
-            <img class="about-us-illus" src="https://calgee.com/cdn/shop/files/the_calgee_story_640x.webp?v=1693281072" alt="" >
+            <div class="about-us-content" v-if="language === 'en'">
+              <p>We are located by the beautiful Qiandaohu,</p>
+              <p>We are a group of young people with dreams,</p>
+              <p>Injecting the blood of technology into Qiandaohu,</p>
+              <p>Becoming a catalyst</p>
+              <p>for the development of Qiandaohu</p>
+              <p>will be our eternal mission</p>
+            </div>
+            <img
+              class="about-us-illus"
+              src="https://calgee.com/cdn/shop/files/the_calgee_story_640x.webp?v=1693281072"
+              alt=""
+            />
           </div>
         </div>
       </div>
@@ -115,22 +147,21 @@
         <div class="row center" style="width: 100%" :style="{ zoom }">
           <div class="footer-info row top">
             <div class="brand-introduction">
-              <img class="brand-logo" src="./images/footer/logo.png" alt="" />
+              <img class="brand-logo" src="./images/logo.png" alt="" />
               <div class="brand-desc" v-if="language === 'zh'">
-                <p>坚持探索人工智能的无限可能性</p>
+                <p>以技术驱动千岛湖科技发展</p>
                 <p>不断追求和探索是鱼小小科技的宗旨。</p>
               </div>
               <div class="brand-desc" v-if="language === 'en'">
-                <p>Insist on</p>
-                <p>exploring</p>
-                <p>the infinitepossibilities</p>
-                <p>of</p>
-                <p>artificial intelligence</p>
+                <p>Continuously pursuing</p>
+                <p>and exploring</p>
+                <p>Driving the Technological Development</p>
+                <p>of Qiandaohu with Technology</p>
               </div>
             </div>
             <div class="footer-info-detail">
               <div class="footer-title">
-                {{ language === "zh" ? "网站导航" : "tbbai.cn" }}
+                {{ language === "zh" ? "网站导航" : "tiddler.cn" }}
               </div>
               <div class="footer-title-line">
                 <div class="footer-title-line-inner"></div>
@@ -154,18 +185,20 @@
                 <div class="footer-title-line-inner"></div>
               </div>
               <div class="footer-news-wrap" v-if="language === 'zh'">
+                <div class="footer-news">2024年6月 小鱼游小程序 上线</div>
                 <div class="footer-news">
-                  <p>2023年 鱼小小数字人 上线</p>
-                  <!-- <p>定制数字人请<span class="news-link">点击这里</span></p> -->
+                  <p>2024年4月 鱼小小科技成立</p>
+                  <!-- <p>了解更多详情<span class="news-link">点击这里</span></p> -->
                 </div>
-                <div class="footer-news">2024年 鱼小小AI 上线</div>
               </div>
               <div class="footer-news-wrap" v-if="language === 'en'">
                 <div class="footer-news">
-                  <p>2023Taobaibai META-</p>
-                  <p>Human Product Online</p>
+                  June 2024, Trip Mp Online
                 </div>
-                <div class="footer-news">2024 Taobaib AI Online</div>
+                <div class="footer-news">
+                  <p>April 2024,</p>
+                  <p>Yuxiaoxiao Tech was established</p>
+                </div>
               </div>
             </div>
             <div class="footer-info-detail">
@@ -183,12 +216,13 @@
                     alt=""
                   />
                   <p class="footer-contact" v-if="language === 'zh'">
-                    浙江省杭州市余杭区EFC欧美金融城美国中心-T5
+                    浙江省杭州市淳安县千岛湖镇青溪大道299号513-5室
                   </p>
                   <div class="footer-contact" v-if="language === 'en'">
-                    <p>Euro America Financial City (EFC)</p>
-                    <p>US Center, Tower 5,</p>
-                    <p>Yuhang,Hangzhou,</p>
+                    <p>Room 513-5,</p>
+                    <p>No. 299 Qingxi Avenue,</p>
+                    <p>Qiandaohu Town,</p>
+                    <p>Chun'an County, Hangzhou City,</p>
                     <p>Zhejiang Province, P.R.CNINA</p>
                   </div>
                 </div>
@@ -198,7 +232,7 @@
                     src="./images/footer/email.png"
                     alt=""
                   />
-                  <p class="footer-contact">itaobaibai@163.com</p>
+                  <p class="footer-contact">tiddler_tech@126.com</p>
                 </div>
                 <div class="footer-contact-info row top">
                   <img
@@ -206,7 +240,7 @@
                     src="./images/footer/tel.png"
                     alt=""
                   />
-                  <p class="footer-contact">0571-28834861</p>
+                  <p class="footer-contact">15869035014</p>
                 </div>
                 <div class="footer-contact-info row top">
                   <img
@@ -215,12 +249,12 @@
                     alt=""
                   />
                   <p class="footer-contact">
-                    {{ language === "zh" ? "微信二维码" : "QR CODE" }}
+                    {{ language === "zh" ? "微信公众号" : "Wechat QRcode" }}
                   </p>
                 </div>
                 <img
                   class="wechat-qrcode"
-                  src="./images/footer/qrcode.png"
+                  src="./images/footer/qrcode.jpg"
                   alt=""
                 />
               </div>
@@ -229,9 +263,9 @@
               <span>{{
                 language === "zh"
                   ? "Copyright © 杭州鱼小小科技有限公司 版权所有 免责声明"
-                  : "Copyright © TAOBAIBAI（HangZhou）Technology CO.,LTD  All Rights Reserved. "
+                  : "Copyright © YUXIAOXIAO（HangZhou）Technology CO.,LTD  All Rights Reserved. "
               }}</span>
-              <span class="icp" @click="checkIcp">浙ICP备2023054709号-2</span>
+              <span class="icp" @click="checkIcp">浙ICP备2024096691号-1</span>
             </div>
           </div>
         </div>
@@ -249,7 +283,7 @@
 </template>
 
 <script>
-import { Swipe, SwipeItem } from 'vant'
+import { Swipe, SwipeItem } from "vant";
 import debounce from "lodash/debounce";
 
 export default {
@@ -263,7 +297,7 @@ export default {
       menuList: [
         { zh: "首页", en: "Home" },
         { zh: "应用图谱", en: "Products" },
-        { zh: "关于我们", en: "About us" },
+        { zh: "关于我们", en: "About us" }
       ],
       footerLinkList: [
         { zh: "网站首页", en: "HOME" },
@@ -530,7 +564,7 @@ export default {
           &:first-child
             border-bottom: 1px solid #eee
           &.active
-            color: #FE8C8B
+            color: #0062A7
             font-weight: 500
 .container
   position: relative
@@ -549,7 +583,7 @@ export default {
     position: relative
     height: 90vh
     background: #C6E8FA
-    overflow-y: hidden 
+    overflow-y: hidden
     .wave-bg
       position: absolute
       top: 0
@@ -572,6 +606,8 @@ export default {
       font-weight: 600
       .introduce-title
         font-size: 1rem
+        &.smaller
+          font-size: 0.8rem
       .introduce-desc
         margin-top: 0.12rem
         font-size: 0.32rem
@@ -617,7 +653,7 @@ export default {
   .footer
     height: 50vh
     overflow: hidden
-    background: linear-gradient( 63deg, #468BE0 0%, #8E4CB7 50%, #8E4CB7 100%)
+    background: #0062A7
     .footer-info
       position: relative
       width: 100%
@@ -644,7 +680,7 @@ export default {
           .footer-title-line-inner
             width: .26rem
             height: .02rem
-            background: #FE8C8B
+            background: #fff
         .footer-link-wrap
           margin-top: 0.16rem
           .footer-link
