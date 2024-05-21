@@ -103,7 +103,7 @@
 
 <script>
 import { Popup, Swipe, SwipeItem } from "vant";
-import _ from "lodash";
+import debounce from "lodash/debounce";
 
 export default {
   components: { Popup, Swipe, SwipeItem },
@@ -175,7 +175,7 @@ export default {
       this.scrollHandler(scrollTop);
     },
 
-    scrollHandler: _.debounce(function(scrollTop) {
+    scrollHandler: debounce(function(scrollTop) {
       if (scrollTop < this.appIntroTop && this.curMenuIdx !== 0) {
         this.curMenuIdx = 0;
       }
