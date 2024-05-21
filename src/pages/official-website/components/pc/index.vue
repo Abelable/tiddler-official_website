@@ -570,15 +570,6 @@ export default {
   position: relative
   font-size: 0
   background: #f7f8fa
-  .icp-cover
-    position: absolute
-    left: 0
-    bottom: 0
-    width: 100%
-    height: 1.2rem
-    color: #8E8F9B
-    font-size: .22rem
-    background: #1E0202
   .home
     position: relative
     height: 90vh
