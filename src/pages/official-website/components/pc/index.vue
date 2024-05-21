@@ -2,11 +2,11 @@
   <div class="container" ref="container">
     <div class="menu-tab" :class="{ active: menuTabActive }" ref="menuTab">
       <div class="main row between" ref="menuMain">
-        <img class="logo" @click="scrollToTop" src="./images/logo.png" alt="" />
+        <img class="logo" @click="scrollToTop" src="@/assets/images/logo.png" alt="" />
         <img
           class="logo-desc"
           @click="scrollToTop"
-          src="./images/logo-desc.png"
+          src="@/assets/images/logo-desc.png"
           alt=""
         />
         <div class="menu row between">
@@ -147,7 +147,7 @@
         <div class="row center" style="width: 100%" :style="{ zoom }">
           <div class="footer-info row top">
             <div class="brand-introduction">
-              <img class="brand-logo" src="./images/logo.png" alt="" />
+              <img class="brand-logo" src="@/assets/images/logo.png" alt="" />
               <div class="brand-desc" v-if="language === 'zh'">
                 <p>以技术驱动千岛湖科技发展</p>
                 <p>不断追求和探索是鱼小小科技的宗旨。</p>
@@ -254,7 +254,7 @@
                 </div>
                 <img
                   class="wechat-qrcode"
-                  src="./images/footer/qrcode.jpg"
+                  src="@/assets/images/qrcode.jpg"
                   alt=""
                 />
               </div>

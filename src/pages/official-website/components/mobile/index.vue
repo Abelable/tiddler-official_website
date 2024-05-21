@@ -1,18 +1,23 @@
 <template>
   <div>
-    <div class="header" ref="header">
-      <img class="logo" src="./images/logo.png" alt="" />
+    <div class="header" :class="{ active: menuTabActive }" ref="header">
+      <div class="row center">
+        <img class="logo" src="@/assets/images/logo.png" alt="" />
+        <img class="logo-desc" src="@/assets/images/logo-desc.png" alt="" />
+      </div>
       <img
         class="menu"
         @click="menuPopupVisible = true"
-        src="./images/menu.png"
+        src="https://calgee.com/cdn/shop/t/50/assets/icon-menu.svg"
         alt=""
       />
     </div>
 
     <div class="container" ref="container">
-      <div class="introduce-wrap">
-        <img class="introduce" src="./images/banner_1.png" alt="" />
+      <div class="home">
+        <div class="home-title">聚焦千岛湖</div>
+        <div class="home-desc">技术驱动变革，创新决胜未来</div>
+        <img class="home-illus" src="./images/welcome.png" alt="" />
       </div>
 
       <div class="highlight-wrap" ref="highlight">
@@ -108,28 +113,29 @@ export default {
 
   data() {
     return {
-      menuList: ["首页", "应用图谱", "关于我们", "数字分身"],
+      menuList: ["首页", "应用图谱", "关于我们"],
+      menuTabActive: false,
       curMenuIdx: 0,
       curHighlightIndex: 0,
       programmeList: [
         {
           title: "娱乐行业",
           desc:
-            "真人出镜类素材的优势；持续投放时间是 2D 素材的 3 倍3D 素材的 1.5 倍点击率和有效播放率，高出其他类型素材 20%",
+            "真人出镜类素材的优势；持续投放时间是 2D 素材的 3 倍3D 素材的 1.5 倍点击率和有效播放率，高出其他类型素材 20%"
         },
         {
           title: "教育/公众事业",
           desc:
-            "发展数字人营销的机会，无需真人出镜，规模化生产营销视频的天产能可达200+，在数字化时代更好地与消费者互动，提高市场竞争力",
+            "发展数字人营销的机会，无需真人出镜，规模化生产营销视频的天产能可达200+，在数字化时代更好地与消费者互动，提高市场竞争力"
         },
         {
           title: "电商行业",
           desc:
-            "投资数字人资产营销的回报，快速产出，高效迭代，全面提升 3 倍创意效率，突破营销瓶颈；数字人分身，24h 随时上线，灵活度极高",
-        },
+            "投资数字人资产营销的回报，快速产出，高效迭代，全面提升 3 倍创意效率，突破营销瓶颈；数字人分身，24h 随时上线，灵活度极高"
+        }
       ],
       curProgrammeIdx: 0,
-      menuPopupVisible: false,
+      menuPopupVisible: false
     };
   },
 
@@ -169,7 +175,7 @@ export default {
         case 3:
           this.parent.scrollTo({
             top: this.containerScrollHeight,
-            behavior: "smooth",
+            behavior: "smooth"
           });
           break;
       }
@@ -185,6 +191,13 @@ export default {
         window.pageYOffset ||
         document.documentElement.scrollTop ||
         document.body.scrollTop;
+
+      if (scrollTop >= 100 && !this.menuTabActive) {
+        this.menuTabActive = true;
+      }
+      if (scrollTop < 100 && this.menuTabActive) {
+        this.menuTabActive = false;
+      }
 
       this.scrollHandler(scrollTop);
     },
@@ -217,8 +230,8 @@ export default {
 
     checkIcp() {
       window.location.href = "https://beian.miit.gov.cn";
-    },
-  },
+    }
+  }
 };
 </script>
 
@@ -235,22 +248,60 @@ export default {
   top: 0
   left: 0
   display: flex
-  align-items: flex-end
+  align-items: center
   justify-content: space-between
   padding: .24rem .4rem
   width: 100vw
-  background: #fff
   z-index: 100
+  &.active
+    background: #C6E8FA
   .logo
-    width: 1.54rem
-    height: .5rem
-  .menu
     width: .5rem
     height: .5rem
+  .logo-desc
+    margin-left: 0.12rem
+    height: .32rem
+  .menu
+    width: .4rem
+    height: .3rem
 .container
-  padding-top: 0.98rem
   background: #F7F8FA
   overflow: hidden
+  .home
+    position: relative
+    padding-top: 0.98rem
+    padding-bottom: 0.4rem
+    color: #0062A7
+    font-size: 0
+    font-weight: 600
+    text-align: center
+    background: #C6E8FA
+    &::before
+      position: absolute
+      top: 0
+      right: 0
+      width: 4.2rem
+      height: 100%
+      content: ""
+      background: url(https://calgee.com/cdn/shop/t/50/assets/home-nav-shape2.png) no-repeat left top
+      background-size: auto 1.3rem
+    &::after
+      position: absolute
+      left: 0
+      bottom: 0
+      width: 37.5rem
+      height: 0.625rem
+      content: ""
+      background: url(https://calgee.com/cdn/shop/t/50/assets/white-wave.svg?v=88207661338556974601706585120) repeat-x center top
+      animation: wavesmall 10s cubic-bezier(.36,.45,.63,.53) infinite;
+    .home-title
+      font-size: 0.38rem
+    .home-desc
+      margin-top: 0.12rem
+      font-size: 0.24rem
+    .home-illus
+      margin-top: 0.24rem
+      width: 6rem
   .introduce-wrap
     height: 3.48rem
     font-size: 0
@@ -363,4 +414,9 @@ export default {
     .arrow
       width: .3rem
       height: .3rem
+@keyframes wavesmall
+  0%
+    margin-left: 0
+  100%
+    margin-left: -750px
 </style>
