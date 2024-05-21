@@ -119,15 +119,15 @@
           <div class="row center">
             <div class="about-us-content" v-if="language === 'zh'">
               <p>我们坐落于美丽的千岛湖畔，</p>
-              <p>我们是一群年轻、拥有梦想的年轻人，</p>
-              <p>为千岛湖注入科技的血液、</p>
+              <p>我们是一群朝气蓬勃而富有创新的年轻人，</p>
+              <p>为千岛湖注入新鲜血液、</p>
               <p>成为千岛湖发展的催化剂，</p>
               <p>将是我们永远的使命</p>
             </div>
             <div class="about-us-content" v-if="language === 'en'">
               <p>We are located by the beautiful Qiandaohu,</p>
               <p>We are a group of young people with dreams,</p>
-              <p>Injecting the blood of technology into Qiandaohu,</p>
+              <p>Injecting fresh blood into Qiandaohu,</p>
               <p>Becoming a catalyst</p>
               <p>for the development of Qiandaohu</p>
               <p>will be our eternal mission</p>

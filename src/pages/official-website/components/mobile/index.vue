@@ -20,36 +20,34 @@
         <img class="home-illus" src="./images/welcome.png" alt="" />
       </div>
 
-      <div class="highlight-wrap" ref="highlight">
-        <img class="highlight-bg" src="./images/highlights/bg.png" alt="" />
+      <div class="app-intro" ref="appIntro">
+        <div class="app-intro-title">应用图谱</div>
+        <div class="app-intro-desc">千岛湖小鱼游小程序</div>
+        <Swipe :autoplay="8000">
+          <SwipeItem v-for="item in 4" :key="item">
+            <img
+              class="app-intro-banner"
+              :src="require(`./images/app_intro/banner_${item}.png`)"
+              alt=""
+            />
+          </SwipeItem>
+        </Swipe>
       </div>
 
-      <div class="programme-wrap" ref="programme">
+      <div class="about-us" ref="aboutUs">
+        <div class="about-us-title">关于我们</div>
+        <div class="about-us-content">
+          <p>我们坐落于美丽的千岛湖畔，</p>
+          <p>我们是一群朝气蓬勃而富有创新的年轻人，</p>
+          <p>为千岛湖注入新鲜血液、</p>
+          <p>成为千岛湖发展的催化剂，</p>
+          <p>将是我们永远的使命</p>
+        </div>
         <img
-          class="programme-title"
-          src="./images/programme/programme_title.png"
+          class="about-us-illus"
+          src="https://calgee.com/cdn/shop/files/the_calgee_story_640x.webp?v=1693281072"
           alt=""
         />
-
-        <div class="programme-card-wrap">
-          <div
-            class="programme-card"
-            :class="{ active: curProgrammeIdx === index }"
-            v-for="(item, index) in programmeList"
-            :key="index"
-            @click="curProgrammeIdx = index"
-          >
-            <div class="programme-card-title row">
-              <img
-                class="programme-icon"
-                :src="require(`./images/programme/programme_${index + 1}.png`)"
-                alt=""
-              />
-              <div>{{ item.title }}</div>
-            </div>
-            <div class="programme-desc">{{ item.desc }}</div>
-          </div>
-        </div>
       </div>
 
       <div class="footer" ref="footer">
@@ -60,17 +58,17 @@
           </div>
           <img
             class="service-qr-code"
-            src="./images/service-qr-code.png"
+            src="@/assets/images/qrcode.jpg"
             alt=""
           />
           <div class="service-qr-code-desc">
-            扫描二维码咨询数字人专属定制服务
+            扫描二维码咨询相关服务
           </div>
           <div class="company">杭州鱼小小科技有限公司</div>
           <div class="icp" @click="checkIcp">
-            浙ICP备2023054709号-2 https://tbbai.cn
+            浙ICP备2024096691号-1 https://tiddler.cn
           </div>
-          <div class="tel">投诉电话: 0571-28834861</div>
+          <div class="tel">投诉电话: 15869035014</div>
         </div>
       </div>
     </div>
@@ -78,8 +76,7 @@
     <Popup v-model="menuPopupVisible" position="left">
       <div class="menu-draw">
         <div class="login-btn-wrap row">
-          <div class="login-btn row center">鱼小小登录</div>
-          <div class="login-btn row center">鱼小小代理版</div>
+          <div class="login-btn row center">登录鱼小小</div>
         </div>
         <div
           class="menu-item row between"
@@ -105,35 +102,17 @@
 </template>
 
 <script>
-import { Popup } from "vant";
+import { Popup, Swipe, SwipeItem } from "vant";
 import _ from "lodash";
 
 export default {
-  components: { Popup },
+  components: { Popup, Swipe, SwipeItem },
 
   data() {
     return {
       menuList: ["首页", "应用图谱", "关于我们"],
       menuTabActive: false,
       curMenuIdx: 0,
-      curHighlightIndex: 0,
-      programmeList: [
-        {
-          title: "娱乐行业",
-          desc:
-            "真人出镜类素材的优势；持续投放时间是 2D 素材的 3 倍3D 素材的 1.5 倍点击率和有效播放率，高出其他类型素材 20%"
-        },
-        {
-          title: "教育/公众事业",
-          desc:
-            "发展数字人营销的机会，无需真人出镜，规模化生产营销视频的天产能可达200+，在数字化时代更好地与消费者互动，提高市场竞争力"
-        },
-        {
-          title: "电商行业",
-          desc:
-            "投资数字人资产营销的回报，快速产出，高效迭代，全面提升 3 倍创意效率，突破营销瓶颈；数字人分身，24h 随时上线，灵活度极高"
-        }
-      ],
       curProgrammeIdx: 0,
       menuPopupVisible: false
     };
@@ -145,14 +124,12 @@ export default {
       this.parent = window || document.documentElement || document.body;
       this.containerScrollHeight = this.$refs.container.scrollHeight;
       this.headerHeight = this.$refs.header.getBoundingClientRect().height;
-      this.highlightTop =
-        this.$refs.highlight.getBoundingClientRect().top +
+      this.appIntroTop =
+        this.$refs.appIntro.getBoundingClientRect().top +
         this.headerHeight -
         30;
-      this.programmeTop =
-        this.$refs.programme.getBoundingClientRect().top +
-        this.headerHeight -
-        30;
+      this.aboutUsTop =
+        this.$refs.aboutUs.getBoundingClientRect().top + this.headerHeight - 30;
       this.footerHeight = this.$refs.footer.getBoundingClientRect().height;
     });
   },
@@ -165,11 +142,11 @@ export default {
           break;
 
         case 1:
-          this.parent.scrollTo({ top: this.highlightTop, behavior: "smooth" });
+          this.parent.scrollTo({ top: this.appIntroTop, behavior: "smooth" });
           break;
 
         case 2:
-          this.parent.scrollTo({ top: this.programmeTop, behavior: "smooth" });
+          this.parent.scrollTo({ top: this.aboutUsTop, behavior: "smooth" });
           break;
 
         case 3:
@@ -180,10 +157,6 @@ export default {
           break;
       }
       this.curMenuIdx = index;
-    },
-
-    selectHighlight(index) {
-      this.curHighlightIndex = index;
     },
 
     scroll() {
@@ -203,25 +176,25 @@ export default {
     },
 
     scrollHandler: _.debounce(function(scrollTop) {
-      if (scrollTop < this.highlightTop && this.curMenuIdx !== 0) {
+      if (scrollTop < this.appIntroTop && this.curMenuIdx !== 0) {
         this.curMenuIdx = 0;
       }
       if (
-        scrollTop >= this.highlightTop - 32 &&
+        scrollTop >= this.appIntroTop - 32 &&
         scrollTop < this.pointTop - 32 &&
         this.curMenuIdx !== 1
       ) {
         this.curMenuIdx = 1;
       }
       if (
-        scrollTop >= this.programmeTop - 32 &&
-        scrollTop < this.programmeTop + this.footerHeight - 40 &&
+        scrollTop >= this.aboutUsTop - 32 &&
+        scrollTop < this.aboutUsTop + this.footerHeight - 40 &&
         this.curMenuIdx !== 2
       ) {
         this.curMenuIdx = 2;
       }
       if (
-        scrollTop >= this.programmeTop + this.footerHeight - 200 &&
+        scrollTop >= this.aboutUsTop + this.footerHeight - 200 &&
         this.curMenuIdx !== 3
       ) {
         this.curMenuIdx = 3;
@@ -308,48 +281,53 @@ export default {
     .introduce
       width: 100%
       height: 100%
-  .highlight-wrap
-    height: 19.6rem
+  .app-intro
+    position: relative
+    padding: 0 0.24rem 1rem
     font-size: 0
-    .highlight-bg
-      width: 100%
-      height: 100%
-  .programme-wrap
-    padding: 0 .3rem
+    text-align: center
     background: #fff
+    &::after
+      position: absolute
+      left: 0
+      bottom: 0
+      width: 37.5rem
+      height: 0.625rem
+      content: ""
+      background: url(https://calgee.com/cdn/shop/t/50/assets/blue-wave-newsssss.svg?v=56658232835608197261706585120) repeat-x center top
+      animation: wavesmall 10s cubic-bezier(.36,.45,.63,.53) infinite;
+    .app-intro-title
+      color: #0062A7
+      font-size: 0.32rem
+      font-weight: 600
+    .app-intro-desc
+      margin: 0.08rem 0 0.24rem
+      color: #333
+      font-size: 0.24rem
+    .app-intro-banner
+      width: calc(100% - 0.48rem)
+      border-radius: 0.24rem
+  .about-us
+    padding-bottom: 0.24rem
+    color: #0062A7
+    font-size: 0
+    text-align: center
+    background: #E4F5FD
     overflow: hidden
-    .programme-title
-      display: block
-      margin: .4rem auto 0
-      width: 5.32rem
-      height: 2.02rem
-    .programme-card-wrap
-      margin-top: .3rem
-      .programme-card
-        margin-bottom: .3rem
-        padding: .3rem
-        height: 2.2rem
-        background: #F7F8FA
-        border-radius: .16rem
-        border: 1px solid #F7F8FA
-        &.active
-          background: rgba(255,237,236,0.15)
-          border: 1px solid #FE8C8B
-        .programme-card-title
-          color: #363636
-          font-size: .28rem
-          font-weight: 500
-          .programme-icon
-            margin-right: .12rem
-            width: .4rem
-            height: .4rem
-        .programme-desc
-          margin-top: .2rem
-          color: #6A6A6F
-          font-size: .24rem
+    .about-us-title
+      color: #0062A7
+      font-size: 0.32rem
+      font-weight: 600
+    .about-us-content
+      margin-top: 0.12rem
+      font-size: 0.24rem
+      line-height: 2
+    .about-us-illus
+      margin-top: 0.24rem
+      width: 4rem
   .footer
     padding: 0 .3rem
-    background: #1C2037
+    background: #0062A7
     .footer-content
       flex-direction: column
       &:first-child
@@ -369,7 +347,7 @@ export default {
         .footer-line-inner
           width: .52rem
           height: .04rem
-          background: #FE8C8B
+          background: #fff
       .service-qr-code
         margin-top: 0.5rem
         width: 2rem
@@ -393,7 +371,7 @@ export default {
   .login-btn-wrap
     padding: 1rem .3rem
     width: 60vw
-    background: #E55958
+    background: #0062A7
     .login-btn
       padding: 0.1rem 0
       flex: 1
@@ -401,15 +379,13 @@ export default {
       font-size: 0.24rem
       border: 1px solid #fff
       border-radius: .1rem
-      &:first-child
-        margin-right: .2rem
   .menu-item
     padding: .6rem .3rem
     height: 1rem
     color: #999
     font-size: .32rem
     &.active
-      color: #FE8C8B
+      color: #0062A7
       font-weight: 500
     .arrow
       width: .3rem
