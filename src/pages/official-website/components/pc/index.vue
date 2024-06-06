@@ -2,7 +2,12 @@
   <div class="container" ref="container">
     <div class="menu-tab" :class="{ active: menuTabActive }" ref="menuTab">
       <div class="main row between" ref="menuMain">
-        <img class="logo" @click="scrollToTop" src="@/assets/images/logo.png" alt="" />
+        <img
+          class="logo"
+          @click="scrollToTop"
+          src="@/assets/images/logo.png"
+          alt=""
+        />
         <img
           class="logo-desc"
           @click="scrollToTop"
@@ -266,6 +271,14 @@
                   : "Copyright © YUXIAOXIAO（HangZhou）Technology CO.,LTD  All Rights Reserved. "
               }}</span>
               <span class="icp" @click="checkIcp">浙ICP备2024096691号-1</span>
+              <img
+                class="police-icon"
+                src="@/assets/images/police.png"
+                alt=""
+              />
+              <span class="police-record" @click="checkPoliceRecord">
+                浙公网安备33012702000502号
+              </span>
             </div>
           </div>
         </div>
@@ -416,6 +429,13 @@ export default {
 
     checkIcp() {
       window.open("https://beian.miit.gov.cn", "_blank");
+    },
+
+    checkPoliceRecord() {
+      window.open(
+        "https://beian.mps.gov.cn/#/query/webSearch?recordcode=33012702000502",
+        "_blank"
+      );
     }
   }
 };
@@ -724,7 +744,14 @@ export default {
         color: #fff
         font-size: 0.16rem
         .icp
-          margin-left: 0.3rem
+          margin-left: 0.2rem
+          cursor: pointer
+        .police-icon
+          margin-left: 0.2rem
+          margin-bottom: -0.03rem
+          width: .16rem
+          height: .16rem
+        .police-record
           cursor: pointer
 .back-top-btn
   position: fixed
