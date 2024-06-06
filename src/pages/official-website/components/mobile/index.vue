@@ -65,8 +65,10 @@
             扫描二维码咨询相关服务
           </div>
           <div class="company">杭州鱼小小科技有限公司</div>
-          <div class="icp" @click="checkIcp">
-            浙ICP备2024096691号-1 https://tiddler.cn
+          <div class="icp" @click="checkIcp">浙ICP备2024096691号-1</div>
+          <div class="police" @click="checkPoliceRecord">
+            <img class="police-icon" src="@/assets/images/police.png" alt="" />
+            <span>浙公网安备33012702000502号</span>
           </div>
           <div class="tel">投诉电话: 15869035014</div>
         </div>
@@ -203,6 +205,11 @@ export default {
 
     checkIcp() {
       window.location.href = "https://beian.miit.gov.cn";
+    },
+
+    checkPoliceRecord() {
+      window.location.href =
+        "https://beian.mps.gov.cn/#/query/webSearch?recordcode=33012702000502";
     }
   }
 };
@@ -356,14 +363,17 @@ export default {
         margin-top: 0.3rem
         color: #8E8F9B
         font-size: 0.24rem
-      .company, .icp, .tel
+      .company, .icp, .police, .tel
         margin-top: 0.6rem
         color: #fff
         font-size: 0.24rem
-      .icp
-        margin-top: 0.1rem
-      .tel
-        margin-top: 0.1rem
+      .icp, .tel, .police
+        margin-top: 0.2rem
+      .police-icon
+        margin-bottom: -0.05rem
+        margin-right: 0.05rem
+        width: .24rem
+        height: .24rem
 .menu-draw
   width: 60vw
   height: 100vh
